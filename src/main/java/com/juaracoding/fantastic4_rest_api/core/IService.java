@@ -12,6 +12,5 @@ public interface IService<T> {
     public ResponseEntity<Object> findAll(Pageable pageable, HttpServletRequest request);//031-040
     public ResponseEntity<Object> findById(Long id, HttpServletRequest request);//041-050
     public ResponseEntity<Object> findByParam(Pageable pageable,String columnName,String value, HttpServletRequest request);//051-060
-//    public ResponseEntity<Object> findByParam(Pageable pageable, String columnName, String value, LocalDate from,LocalDate to, HttpServletRequest request);//101-110
 
 }
