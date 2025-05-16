@@ -12,7 +12,7 @@
 	<artifactId>fantastic4-rest-api</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>fantastic4-rest-api</name>
-	<description>Titike Temu Rest API</description>
+	<description>Titik Temu Rest API</description>
 
 	<properties>
 		<java.version>21</java.version>
