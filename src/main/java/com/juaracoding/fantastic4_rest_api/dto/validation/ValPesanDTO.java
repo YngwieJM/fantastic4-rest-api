@@ -1,8 +1,17 @@
 package com.juaracoding.fantastic4_rest_api.dto.validation;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateDeserializer;
+import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateTimeDeserializer;
+import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateSerializer;
+import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
+
 import jakarta.validation.constraints.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import org.springframework.format.annotation.DateTimeFormat;
 
 public class ValPesanDTO {
     @NotNull
@@ -16,6 +25,10 @@ public class ValPesanDTO {
     private String ruanganID;
 
     @NotNull(message = "Tanggal tidak boleh kosong.")
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    @JsonDeserialize(using = LocalDateDeserializer.class)
+    @JsonSerialize(using = LocalDateSerializer.class)
+    @JsonProperty("tanggal")
     private LocalDate tanggal; // Gunakan format ISO: yyyy-MM-dd
 
     @NotNull
@@ -24,9 +37,17 @@ public class ValPesanDTO {
     private String namaPertemuan;
 
     @NotNull(message = "Waktu mulai tidak boleh kosong.")
+    @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
+    @JsonDeserialize(using = LocalDateTimeDeserializer.class)
+    @JsonSerialize(using = LocalDateTimeSerializer.class)
+    @JsonProperty("mulai")
     private LocalDateTime mulai; // Format ISO: yyyy-MM-dd'T'HH:mm:ss
 
     @NotNull(message = "Waktu berakhir tidak boleh kosong.")
+    @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
+    @JsonDeserialize(using = LocalDateTimeDeserializer.class)
+    @JsonSerialize(using = LocalDateTimeSerializer.class)
+    @JsonProperty("berakhir")
     private LocalDateTime berakhir;
 
     @NotNull
