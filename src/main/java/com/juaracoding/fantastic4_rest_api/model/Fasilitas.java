@@ -11,9 +11,9 @@ public class Fasilitas {
     @Column(name = "FasilitasID", length = 50, nullable = false, unique = true)
     private String id;
 
-//    @ManyToOne
-//    @JoinColumn(name = "RuanganID", foreignKey = @ForeignKey(name = "fk-to-ruangan"))
-//    private Ruangan ruanganID;
+    @ManyToOne
+    @JoinColumn(name = "RuanganID", foreignKey = @ForeignKey(name = "fk-fasilitas-to-ruangan"))
+    private Ruangan ruanganID;
 
     @Column(name = "NamaFasilitas", length = 50, nullable = false)
     private String namaFasilitas;
@@ -29,13 +29,13 @@ public class Fasilitas {
         this.id = id;
     }
 
-//    public Ruangan getRuanganID() {
-//        return ruanganID;
-//    }
-//
-//    public void setRuanganID(Ruangan ruanganID) {
-//        this.ruanganID = ruanganID;
-//    }
+    public Ruangan getRuanganID() {
+        return ruanganID;
+    }
+
+    public void setRuanganID(Ruangan ruanganID) {
+        this.ruanganID = ruanganID;
+    }
 
     public String getNamaFasilitas() {
         return namaFasilitas;

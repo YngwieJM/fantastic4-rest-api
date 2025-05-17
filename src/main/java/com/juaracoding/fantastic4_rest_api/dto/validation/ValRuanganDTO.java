@@ -16,12 +16,12 @@ public class ValRuanganDTO {
     private String namaRuangan;
 
     @NotNull
-    @Pattern(regexp = "^([1-9][0-9]?)$",
+    @Pattern(regexp = "^([1-9][0-9]{1,3}?)$",
             message = "Hanya boleh angka tidak diawali angka 0")
     private Long minKapasitas;
 
     @NotNull
-    @Pattern(regexp = "^([1-9][0-9]?)$",
+    @Pattern(regexp = "^([1-9][0-9]{1,3}?)$",
             message = "Hanya boleh angka tidak diawali angka 0")
     private Long maxKapasitas;
 

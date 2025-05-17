@@ -1,16 +1,13 @@
 package com.juaracoding.fantastic4_rest_api.model;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 
 @Entity
 @Table(name = "MstUser")
 public class User {
 
     @Id
-    @Column(name = "AdminID", length = 50, nullable = false, unique = true)
+    @Column(name = "UserID", length = 50, nullable = false, unique = true)
     private String id;
 
     @Column(name = "Nama", length = 50, nullable = false)
@@ -88,6 +85,4 @@ public class User {
         this.password = password;
     }
 
-    }
-
-
+}

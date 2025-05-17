@@ -1,5 +1,7 @@
 package com.juaracoding.fantastic4_rest_api.dto.validation;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.juaracoding.fantastic4_rest_api.model.Ruangan;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 
@@ -10,9 +12,9 @@ public class ValFasilitasDTO {
             message = "Masukan ID fasilitas yang benar ex: LCD1")
     private String id;
 
-//    @NotNull(message = "Relasi Tidak Boleh Kosong")
-//    @JsonProperty("ruangan")
-//    private Ruangan ruanganID;
+    @NotNull(message = "Relasi Tidak Boleh Kosong")
+    @JsonProperty("ruangan")
+    private Ruangan ruanganID;
 
     @NotNull
     @Pattern(regexp = "^[a-zA-Z\\s]{3,50}$",message = "Nama Tidak Valid hanya Alfabet dan spasi Max 50 , ex : LCD, Meja Bundar")
@@ -31,13 +33,13 @@ public class ValFasilitasDTO {
         this.id = id;
     }
 
-//    public Ruangan getRuanganID() {
-//        return ruanganID;
-//    }
-//
-//    public void setRuanganID(Ruangan ruanganID) {
-//        this.ruanganID = ruanganID;
-//    }
+    public Ruangan getRuanganID() {
+        return ruanganID;
+    }
+
+    public void setRuanganID(Ruangan ruanganID) {
+        this.ruanganID = ruanganID;
+    }
 
     public String getNamaFasilitas() {
         return namaFasilitas;

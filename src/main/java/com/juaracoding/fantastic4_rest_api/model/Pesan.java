@@ -9,15 +9,16 @@ import java.time.LocalDateTime;
 @Table(name = "TxnPesan")
 public class Pesan {
     @Id
-    @Column(name = "PesanID", length = 50, nullable = false, unique = true)
-    private String pesanID;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "PesanID")
+    private Long pesanID;
 
     @ManyToOne
-    @JoinColumn(name = "UserID", foreignKey = @ForeignKey(name = "fk-to-user"))
+    @JoinColumn(name = "UserID", foreignKey = @ForeignKey(name = "fk-pesan-to-user"))
     private User userID;
 
     @ManyToOne
-    @JoinColumn(name = "RuanganID", foreignKey = @ForeignKey(name = "fk-to-ruangan"))
+    @JoinColumn(name = "RuanganID", foreignKey = @ForeignKey(name = "fk-pesan-to-ruangan"))
     private Ruangan ruanganID;
 
     @Column(name = "Tanggal", nullable = false)
@@ -38,27 +39,27 @@ public class Pesan {
     @Column(name = "Status", length = 50, nullable = false)
     private String status;
 
-    public String getPesanID() {
+    public Long getPesanID() {
         return pesanID;
     }
 
-    public void setPesanID(String pesanID) {
+    public void setPesanID(Long pesanID) {
         this.pesanID = pesanID;
     }
 
-    public String getUserID() {
+    public User getUserID() {
         return userID;
     }
 
-    public void setUserID(String userID) {
+    public void setUserID(User userID) {
         this.userID = userID;
     }
 
-    public String getRuanganID() {
+    public Ruangan getRuanganID() {
         return ruanganID;
     }
 
-    public void setRuanganID(String ruanganID) {
+    public void setRuanganID(Ruangan ruanganID) {
         this.ruanganID = ruanganID;
     }
 
