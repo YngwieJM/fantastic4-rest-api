@@ -12,11 +12,13 @@ public class Pesan {
     @Column(name = "PesanID", length = 50, nullable = false, unique = true)
     private String pesanID;
 
-    @Column(name = "UserID", length = 50, nullable = false)
-    private String userID;
+    @ManyToOne
+    @JoinColumn(name = "UserID", foreignKey = @ForeignKey(name = "fk-to-user"))
+    private User userID;
 
-    @Column(name = "RuanganID", length = 50, nullable = false)
-    private String ruanganID;
+    @ManyToOne
+    @JoinColumn(name = "RuanganID", foreignKey = @ForeignKey(name = "fk-to-ruangan"))
+    private Ruangan ruanganID;
 
     @Column(name = "Tanggal", nullable = false)
     private LocalDate tanggal;

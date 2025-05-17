@@ -2,6 +2,8 @@ package com.juaracoding.fantastic4_rest_api.dto.validation;
 
 import jakarta.validation.constraints.*;
 import java.math.BigDecimal;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 public class ValPesanDTO {
     @NotNull
@@ -15,7 +17,7 @@ public class ValPesanDTO {
     private String ruanganID;
 
     @NotNull(message = "Tanggal tidak boleh kosong.")
-    private String tanggal; // Gunakan format ISO: yyyy-MM-dd
+    private LocalDate tanggal; // Gunakan format ISO: yyyy-MM-dd
 
     @NotNull
     @Pattern(regexp = "^[A-Za-z0-9\\s]{3,100}$",
@@ -23,10 +25,10 @@ public class ValPesanDTO {
     private String namaPertemuan;
 
     @NotNull(message = "Waktu mulai tidak boleh kosong.")
-    private String mulai; // Format ISO: yyyy-MM-dd'T'HH:mm:ss
+    private LocalDateTime mulai; // Format ISO: yyyy-MM-dd'T'HH:mm:ss
 
     @NotNull(message = "Waktu berakhir tidak boleh kosong.")
-    private String berakhir;
+    private LocalDateTime berakhir;
 
     @NotNull
     @DecimalMin(value = "0.5", inclusive = true, message = "Durasi minimal 0.5 jam.")
@@ -53,11 +55,11 @@ public class ValPesanDTO {
         this.ruanganID = ruanganID;
     }
 
-    public String getTanggal() {
+    public LocalDate getTanggal() {
         return tanggal;
     }
 
-    public void setTanggal(String tanggal) {
+    public void setTanggal(LocalDate tanggal) {
         this.tanggal = tanggal;
     }
 
@@ -69,19 +71,19 @@ public class ValPesanDTO {
         this.namaPertemuan = namaPertemuan;
     }
 
-    public String getMulai() {
+    public LocalDateTime getMulai() {
         return mulai;
     }
 
-    public void setMulai(String mulai) {
+    public void setMulai(LocalDateTime mulai) {
         this.mulai = mulai;
     }
 
-    public String getBerakhir() {
+    public LocalDateTime getBerakhir() {
         return berakhir;
     }
 
-    public void setBerakhir(String berakhir) {
+    public void setBerakhir(LocalDateTime berakhir) {
         this.berakhir = berakhir;
     }
 
