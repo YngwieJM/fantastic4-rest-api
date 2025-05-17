@@ -1,7 +1,6 @@
 package com.juaracoding.fantastic4_rest_api.dto.validation;
 
 import jakarta.validation.constraints.*;
-import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
@@ -31,8 +30,9 @@ public class ValPesanDTO {
     private LocalDateTime berakhir;
 
     @NotNull
-    @DecimalMin(value = "0.5", inclusive = true, message = "Durasi minimal 0.5 jam.")
-    private BigDecimal durasi;
+    @Pattern(regexp = "^(0\\.[5-9]|[1-9]\\d?(\\.\\d{1,2})?)$",
+            message = "Durasi minimal 0.5 dan maksimal 99.99, dengan maksimal 2 digit desimal.")
+    private String durasi;
 
     @NotNull
     @Pattern(regexp = "^(pending|approved|cancelled)$",
@@ -87,11 +87,11 @@ public class ValPesanDTO {
         this.berakhir = berakhir;
     }
 
-    public BigDecimal getDurasi() {
+    public String getDurasi() {
         return durasi;
     }
 
-    public void setDurasi(BigDecimal durasi) {
+    public void setDurasi(String durasi) {
         this.durasi = durasi;
     }
 
