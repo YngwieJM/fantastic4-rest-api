@@ -6,7 +6,7 @@ import jakarta.validation.constraints.Pattern;
 public class ValFasilitasDTO {
 
     @NotNull
-    @Pattern(regexp = "^([A-Z a-z 0-9]{2,20})$",
+    @Pattern(regexp = "^([A-Za-z0-9]{2,20})$",
             message = "Masukan ID fasilitas yang benar ex: LCD1")
     private String id;
 
