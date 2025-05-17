@@ -46,19 +46,19 @@ public class Pesan {
         this.pesanID = pesanID;
     }
 
-    public String getUserID() {
+    public User getUserID() {
         return userID;
     }
 
-    public void setUserID(String userID) {
+    public void setUserID(User userID) {
         this.userID = userID;
     }
 
-    public String getRuanganID() {
+    public Ruangan getRuanganID() {
         return ruanganID;
     }
 
-    public void setRuanganID(String ruanganID) {
+    public void setRuanganID(Ruangan ruanganID) {
         this.ruanganID = ruanganID;
     }
 
