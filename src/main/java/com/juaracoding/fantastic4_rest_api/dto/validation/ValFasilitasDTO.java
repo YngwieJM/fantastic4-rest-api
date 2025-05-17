@@ -6,7 +6,7 @@ import jakarta.validation.constraints.Pattern;
 public class ValFasilitasDTO {
 
     @NotNull
-    @Pattern(regexp = "^([A-Z a-z 0-9]{20})$",
+    @Pattern(regexp = "^([A-Za-z0-9]{2,20})$",
             message = "Masukan ID fasilitas yang benar ex: LCD1")
     private String id;
 
@@ -15,11 +15,11 @@ public class ValFasilitasDTO {
 //    private Ruangan ruanganID;
 
     @NotNull
-    @Pattern(regexp = "^[a-zA-Z\\s]{50}$",message = "Nama Tidak Valid hanya Alfabet dan spasi Max 50 , ex : LCD, Meja Bundar")
+    @Pattern(regexp = "^[a-zA-Z\\s]{3,50}$",message = "Nama Tidak Valid hanya Alfabet dan spasi Max 50 , ex : LCD, Meja Bundar")
     private String namaFasilitas;
 
     @NotNull
-    @Pattern(regexp = "^([0-9]{4})$",
+    @Pattern(regexp = "^([0-9]{1,4})$",
             message = "Hanya boleh memasukan angka max 4 digit")
     private Long jumlah;
 
