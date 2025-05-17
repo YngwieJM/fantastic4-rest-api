@@ -30,8 +30,8 @@ public class ValPesanDTO {
     private LocalDateTime berakhir;
 
     @NotNull
-    @Pattern(regexp = "^(0\\.[5-9]|[1-9]\\d?(\\.\\d{1,2})?)$",
-            message = "Durasi minimal 0.5 dan maksimal 99.99, dengan maksimal 2 digit desimal.")
+    @Pattern(regexp = "^(0\\.[5-9]|[1-3](\\.\\d{1,2})?|4(\\.0{1,2})?)$",
+            message = "Durasi harus antara 0.5 hingga 4.0 jam.")
     private String durasi;
 
     @NotNull
