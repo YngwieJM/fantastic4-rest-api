@@ -37,7 +37,6 @@ public class ValPesanDTO {
             message = "Status harus bernilai: pending, approved, atau cancelled.")
     private String status;
 
-    // Getter dan Setter
     public String getUserID() {
         return userID;
     }
