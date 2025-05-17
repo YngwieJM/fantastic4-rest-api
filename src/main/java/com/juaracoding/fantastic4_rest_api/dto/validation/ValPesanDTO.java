@@ -30,7 +30,7 @@ public class ValPesanDTO {
     private LocalDateTime berakhir;
 
     @NotNull
-    @Pattern(regexp = "^(0\\\\.5|1(\\\\.0)?|1\\\\.5|2(\\\\.0)?|2\\\\.5|3(\\\\.0)?|3\\\\.5|4(\\\\.0)?)$",
+    @Pattern(regexp = "^(0\\.5|1(\\.0)?|1\\.5|2(\\.0)?|2\\.5|3(\\.0)?|3\\.5|4(\\.0)?)$",
             message = "Durasi hanya boleh antara 0.5 hingga 4.0 jam, dalam kelipatan 0.5 atau 1.")
     private String durasi;
 
