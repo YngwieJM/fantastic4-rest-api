@@ -38,12 +38,14 @@ public class ValUserDTO {
 
     /*Departemen user, wajib diisi, min 3 max 100 karakter*/
     @NotNull
-    @Size(min = 3, max = 100, message = "Departemen harus terdiri dari 3-100 karakter. Contoh: Information Technology")
+    @Pattern(regexp = "^[A-Za-z0-9 ]+$", message = "Departemen hanya boleh berisi huruf, angka, dan spasi. Contoh: Information Technology, IT Support")
+    /*@Size(min = 3, max = 100, message = "Departemen harus terdiri dari 3-100 karakter. Contoh: Information Technology")*/
     private String departemen;
 
     /*Jabatan user, wajib diisi, min 3 max 100 karakter*/
     @NotNull
-    @Size(min = 3, max = 100, message = "Jabatan harus terdiri dari 3-100 karakter. Contoh: Manager")
+    /*@Size(min = 3, max = 100, message = "Jabatan harus terdiri dari 3-100 karakter. Contoh: Manager")*/
+    @Pattern(regexp = "^[A-Za-z0-9 ]+$", message = "Jabatan hanya boleh berisi huruf, angka, dan spasi. Contoh: Manager, Supervisor IT, Staff 1")
     private String jabatan;
 
     /*Getter dan Setter UserID*/
