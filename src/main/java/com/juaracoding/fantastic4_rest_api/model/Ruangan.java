@@ -19,7 +19,7 @@ public class Ruangan {
     @Column(name = "MaxKapasitas", nullable = false)
     private Long maxKapasitas;
 
-    @Column(name = "Lokasi", length = 50, nullable = false, unique = true)
+    @Column(name = "Lokasi", length = 50, nullable = false)
     private String lokasi;
 
     public String getRuanganID() {
