@@ -8,21 +8,24 @@ import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateTimeDeserializer;
 import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateSerializer;
 import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.juaracoding.fantastic4_rest_api.model.Ruangan;
+import com.juaracoding.fantastic4_rest_api.model.User;
 import jakarta.validation.constraints.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import org.springframework.format.annotation.DateTimeFormat;
 
 public class ValPesanDTO {
-    @NotNull
-    @Pattern(regexp = "^([A-Z0-9]{5,50})$",
-            message = "UserID harus terdiri dari huruf kapital dan angka, panjang 5–50 karakter.")
-    private String userID;
 
-    @NotNull
-    @Pattern(regexp = "^([A-Z0-9]{5,50})$",
-            message = "RuanganID harus terdiri dari huruf kapital dan angka, panjang 5–50 karakter.")
-    private String ruanganID;
+
+    @NotNull(message = "Relasi Tidak Boleh Kosong")
+    @JsonProperty("user")
+    private User userID;
+
+    @NotNull(message = "Relasi Tidak Boleh Kosong")
+    @JsonProperty("ruangan")
+    private Ruangan ruanganID;
 
     @NotNull(message = "Tanggal tidak boleh kosong.")
     @DateTimeFormat(pattern = "yyyy-MM-dd")
@@ -60,19 +63,19 @@ public class ValPesanDTO {
             message = "Status harus bernilai: pending, approved, atau cancelled.")
     private String status;
 
-    public String getUserID() {
+    public User getUserID() {
         return userID;
     }
 
-    public void setUserID(String userID) {
+    public void setUserID(User userID) {
         this.userID = userID;
     }
 
-    public String getRuanganID() {
+    public Ruangan getRuanganID() {
         return ruanganID;
     }
 
-    public void setRuanganID(String ruanganID) {
+    public void setRuanganID(Ruangan ruanganID) {
         this.ruanganID = ruanganID;
     }
 
