@@ -8,7 +8,6 @@ import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateTimeDeserializer;
 import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateSerializer;
 import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import com.juaracoding.fantastic4_rest_api.model.Ruangan;
 import com.juaracoding.fantastic4_rest_api.model.User;
 import jakarta.validation.constraints.*;
