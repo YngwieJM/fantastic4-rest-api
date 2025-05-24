@@ -28,6 +28,10 @@ public class User {
     @Column(name = "Jabatan", length = 100, nullable = false)
     private String jabatan;
 
+    @ManyToOne
+    @JoinColumn(name = "IDAkses",foreignKey = @ForeignKey(name = "fk-user-to-akses"))
+    private Akses akses;
+
     public String getUserID() {
         return id;
     }

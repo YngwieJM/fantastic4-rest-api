@@ -2,6 +2,7 @@ package com.juaracoding.fantastic4_rest_api.model;
 
 import jakarta.persistence.*;
 import java.math.BigDecimal;
+import java.sql.Time;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
@@ -29,6 +30,8 @@ public class Pesan {
 
     @Column(name = "Mulai", nullable = false)
     private LocalDateTime mulai;
+
+    private Time mulaiX;
 
     @Column(name = "Berakhir", nullable = false)
     private LocalDateTime berakhir;

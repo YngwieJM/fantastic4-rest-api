@@ -14,10 +14,10 @@ public class Ruangan {
     private String namaRuangan;
 
     @Column(name = "MinKapasitas", nullable = false)
-    private Long minKapasitas;
+    private Short minKapasitas;
 
     @Column(name = "MaxKapasitas", nullable = false)
-    private Long maxKapasitas;
+    private Short maxKapasitas;
 
     @Column(name = "Lokasi", length = 50, nullable = false)
     private String lokasi;
@@ -38,19 +38,19 @@ public class Ruangan {
         this.namaRuangan = namaRuangan;
     }
 
-    public Long getMinKapasitas() {
+    public Short getMinKapasitas() {
         return minKapasitas;
     }
 
-    public void setMinKapasitas(Long minKapasitas) {
+    public void setMinKapasitas(Short minKapasitas) {
         this.minKapasitas = minKapasitas;
     }
 
-    public Long getMaxKapasitas() {
+    public Short getMaxKapasitas() {
         return maxKapasitas;
     }
 
-    public void setMaxKapasitas(Long maxKapasitas) {
+    public void setMaxKapasitas(Short maxKapasitas) {
         this.maxKapasitas = maxKapasitas;
     }
 
