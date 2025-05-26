@@ -2,7 +2,7 @@ package com.juaracoding.fantastic4_rest_api.dto.response;
 
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.juarcoding.pcmspringboot3.dto.rel.RelMenuDTO;
+import com.juaracoding.fantastic4_rest_api.dto.rel.RelMenuDTO;
 
 import java.util.List;
 

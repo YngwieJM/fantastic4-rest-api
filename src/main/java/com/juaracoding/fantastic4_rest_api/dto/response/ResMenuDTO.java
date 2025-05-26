@@ -11,7 +11,7 @@ public class ResMenuDTO {
 
     private String deskripsi;
 
-    private ResGroupMenuDTO groupMenu;
+//    private ResGroupMenuDTO groupMenu;
 
     public Long getId() {
         return id;
@@ -45,11 +45,11 @@ public class ResMenuDTO {
         this.deskripsi = deskripsi;
     }
 
-    public ResGroupMenuDTO getGroupMenu() {
-        return groupMenu;
-    }
-
-    public void setGroupMenu(ResGroupMenuDTO groupMenu) {
-        this.groupMenu = groupMenu;
-    }
+//    public ResGroupMenuDTO getGroupMenu() {
+//        return groupMenu;
+//    }
+//
+//    public void setGroupMenu(ResGroupMenuDTO groupMenu) {
+//        this.groupMenu = groupMenu;
+//    }
 }
