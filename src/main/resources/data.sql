@@ -37,7 +37,7 @@ INSERT INTO [corez].[MstMenu] ([CreatedBy], [CreatedDate], [ID], [ModifiedBy], [
 SET IDENTITY_INSERT [corez].[MstMenu] OFF
 ;
 
-    INSERT INTO [corez].[MapAksesMenu] ([IDAkses], [IDMenu]) VALUES (N'1', N'1')
+INSERT INTO [corez].[MapAksesMenu] ([IDAkses], [IDMenu]) VALUES (N'1', N'1')
 ;
 
 INSERT INTO [corez].[MapAksesMenu] ([IDAkses], [IDMenu]) VALUES (N'1', N'2')
@@ -67,5 +67,8 @@ INSERT INTO [corez].[MapAksesMenu] ([IDAkses], [IDMenu]) VALUES (N'2', N'6')
 INSERT INTO [corez].[MapAksesMenu] ([IDAkses], [IDMenu]) VALUES (N'2', N'7')
 ;
 
-INSERT INTO [corez].[MstUser] ([IDAkses], [Email], [Nama], [NoTelp], [UserID], [Password], [Departemen], [Jabatan]) VALUES (N'1', N'cumi@gmail.com', N'cumi', N'628239283', N'paul.cumi', N'Paul@321', N'CumiCumi', N'User')
+INSERT INTO [corez].[MstUser] ([IsRegistered], [CreatedBy], [CreatedDate], [IDAkses], [ModifiedBy], [ModifiedDate], [Email], [Nama], [NoTelp], [UserID], [OTP], [Password], [TokenEstafet], [Departemen], [Jabatan]) VALUES (NULL, N'1', N'2025-05-27 01:15:37.000000', N'1', NULL, NULL, N'cumi@gmail.com', N'cumi', N'628239283', N'paul.cumi', NULL, N'Paul@321', NULL, N'CumiCumi', N'User')
+;
+
+INSERT INTO [corez].[MstUser] ([IsRegistered], [CreatedBy], [CreatedDate], [IDAkses], [ModifiedBy], [ModifiedDate], [Email], [Nama], [NoTelp], [UserID], [OTP], [Password], [TokenEstafet], [Departemen], [Jabatan]) VALUES (NULL, N'1', N'2025-05-27 01:16:04.000000', N'1', NULL, NULL, N'yngwie@gmail.com', N'yngwie', N'+62812342781', N'Yng1998', NULL, N'Yngwie@1234', NULL, N'IT', N'Core')
 ;
