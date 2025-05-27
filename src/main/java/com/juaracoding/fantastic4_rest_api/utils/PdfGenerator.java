@@ -1,0 +1,53 @@
+package com.juaracoding.fantastic4_rest_api.utils;
+
+import com.itextpdf.html2pdf.ConverterProperties;
+import com.itextpdf.html2pdf.HtmlConverter;
+import com.itextpdf.html2pdf.resolver.font.DefaultFontProvider;
+import com.itextpdf.kernel.pdf.PdfWriter;
+import jakarta.servlet.ServletOutputStream;
+import org.springframework.stereotype.Component;
+import jakarta.servlet.http.HttpServletResponse;
+
+import java.io.ByteArrayOutputStream;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
+@Component
+public class PdfGenerator {
+    private String [] strExceptionArr =new String[2];
+    private StringBuilder sBuild = new StringBuilder();
+    private ServletOutputStream os;
+
+
+    public void htmlToPdf(String html, String prefixFile, HttpServletResponse response){
+        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+        PdfWriter pdfWriter =new PdfWriter(byteArrayOutputStream);
+        ConverterProperties converterProperties = new ConverterProperties();
+        DefaultFontProvider defaultFontProvider = new DefaultFontProvider();
+        try {
+            converterProperties.setFontProvider(defaultFontProvider);
+            HtmlConverter.convertToPdf(html, pdfWriter, converterProperties);
+            sBuild.setLength(0);
+            String fileName = sBuild.append(prefixFile).append("_").
+                    append(new SimpleDateFormat("yyyyMMddHHmmssSSS").format(new Date())).
+                    append(".pdf").toString();
+            response.setContentType("application/pdf");
+            response.setHeader("Content-Disposition", "attachment; filename=\""+fileName);
+        }
+        finally {
+            try{
+                os = response.getOutputStream();
+                byteArrayOutputStream.writeTo(os);
+                byteArrayOutputStream.close();
+                byteArrayOutputStream.flush();
+                os.close();
+            }catch (Exception e){
+//                LoggingFile.exceptionStringz("PdfGenerator","htmlToPdf", e, OtherConfig.getFlagLogging());
+            }
+        }
+    }
+}
+
+
+
+
