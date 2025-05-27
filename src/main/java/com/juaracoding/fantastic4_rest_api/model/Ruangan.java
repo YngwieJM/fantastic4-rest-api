@@ -12,7 +12,7 @@ public class Ruangan {
 
     @Id
     @Column(name = "RuanganID", length = 50, nullable = false, unique = true)
-    private String ruanganID;
+    private String id;
 
     @Column(name = "NamaRuangan", length = 50, nullable = false, unique = true)
     private String namaRuangan;
@@ -40,12 +40,12 @@ public class Ruangan {
     @UpdateTimestamp
     private LocalDateTime modifiedDate;
 
-    public String getRuanganID() {
-        return ruanganID;
+    public String getId() {
+        return id;
     }
 
-    public void setRuanganID(String ruanganID) {
-        this.ruanganID = ruanganID;
+    public void setId(String id) {
+        this.id = id;
     }
 
     public String getNamaRuangan() {
