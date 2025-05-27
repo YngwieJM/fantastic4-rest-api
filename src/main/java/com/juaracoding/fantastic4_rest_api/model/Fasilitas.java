@@ -23,7 +23,7 @@ public class Fasilitas {
     private String namaFasilitas;
 
     @Column(name = "Jumlah", nullable = false)
-    private Long jumlah;
+    private Short jumlah;
 
     @Column(name = "CreatedBy",nullable = false,updatable = false)
     private Long createdBy=1L;
@@ -63,11 +63,11 @@ public class Fasilitas {
         this.namaFasilitas = namaFasilitas;
     }
 
-    public Long getJumlah() {
+    public Short getJumlah() {
         return jumlah;
     }
 
-    public void setJumlah(Long jumlah) {
+    public void setJumlah(Short jumlah) {
         this.jumlah = jumlah;
     }
 
