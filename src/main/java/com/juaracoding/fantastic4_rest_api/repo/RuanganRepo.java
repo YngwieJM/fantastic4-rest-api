@@ -11,13 +11,11 @@ import java.util.Optional;
 public interface RuanganRepo extends JpaRepository<Ruangan, String> {
 
     public Page<Ruangan> findByNamaRuanganContainsIgnoreCase(String nama, Pageable pageable);
-    public Page<Ruangan> findByMinKapasitas(Short minKapasitas, Pageable pageable); //min max kapasitas dipisah dulu Hesti
-    public Page<Ruangan> findByMaxKapasitas(Short maxKapasitas, Pageable pageable);  //min max kapasitas dipisah dulu Hesti
+    public Page<Ruangan> findByMinKapasitasAndMaxKapasitas(Short minKapasitas,Short maxKapasitas, Pageable pageable);
     public Page<Ruangan> findByLokasiContainsIgnoreCase(String lokasi, Pageable pageable);
 
     public List<Ruangan> findByNamaRuanganContainsIgnoreCase(String nama);
-    public List<Ruangan> findByMinKapasitas(Short minKapasitas);  //min max kapasitas dipisah dulu Hesti
-    public List<Ruangan> findByMaxKapasitas(Short maxKapasitas);  //min max kapasitas dipisah dulu Hesti
+    public List<Ruangan> findByMinKapasitasAndMaxKapasitas(Short minKapasitas,Short maxKapasitas);
     public List<Ruangan> findByLokasiContainsIgnoreCase(String lokasi);
 
     public Optional<Ruangan> findTop1ByOrderByIdDesc();
