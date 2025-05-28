@@ -7,7 +7,7 @@ import com.juaracoding.fantastic4_rest_api.dto.validation.ValMenuDTO;
 import com.juaracoding.fantastic4_rest_api.handler.ResponseHandler;
 import com.juaracoding.fantastic4_rest_api.model.Menu;
 import com.juaracoding.fantastic4_rest_api.repo.MenuRepo;
-import com.juaracoding.fantastic4_rest_api.utils.GlobalResponse;
+import com.juaracoding.fantastic4_rest_api.utils.GlobalResponseimport com.juaracoding.fantastic4_rest_api.utils.PdfGenerator;
 import com.juaracoding.fantastic4_rest_api.utils.TransformPagination;
 import jakarta.servlet.http.HttpServletRequest;
 import org.modelmapper.ModelMapper;
@@ -31,6 +31,7 @@ import java.util.Optional;
  * Kode Modul : 02
  * Kode Validation / Error  : FV - FE
  */
+
 @Service
 @Transactional
 public class MenuService implements IService<Menu> {
@@ -46,8 +47,8 @@ public class MenuService implements IService<Menu> {
     @Autowired
     private SpringTemplateEngine springTemplateEngine;
 
-//    @Autowired
-//    private PdfGenerator pdfGenerator;
+    @Autowired
+    private PdfGenerator pdfGenerator;
 
     private StringBuilder sBuild = new StringBuilder();
 

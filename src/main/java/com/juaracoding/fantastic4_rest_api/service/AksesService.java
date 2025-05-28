@@ -8,6 +8,7 @@ import com.juaracoding.fantastic4_rest_api.handler.ResponseHandler;
 import com.juaracoding.fantastic4_rest_api.model.Akses;
 import com.juaracoding.fantastic4_rest_api.repo.AksesRepo;
 import com.juaracoding.fantastic4_rest_api.utils.GlobalResponse;
+import com.juaracoding.fantastic4_rest_api.utils.PdfGenerator;
 import com.juaracoding.fantastic4_rest_api.utils.TransformPagination;
 import jakarta.servlet.http.HttpServletRequest;
 import org.modelmapper.ModelMapper;
@@ -25,6 +26,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
+
 @Service
 @Transactional
 public class AksesService implements IService<Akses> {
@@ -41,13 +43,14 @@ public class AksesService implements IService<Akses> {
     @Autowired
     private SpringTemplateEngine springTemplateEngine;
 
-//    @Autowired
-//    private PdfGenerator pdfGenerator;
+    @Autowired
+    private PdfGenerator pdfGenerator;
 
     private StringBuilder sBuild = new StringBuilder();
 
     @Override
     public ResponseEntity<Object> save(Akses akses, HttpServletRequest request) {//001-010
+
         try{
             if(akses == null){
                 return new ResponseHandler().handleResponse("Object Null !!", HttpStatus.BAD_REQUEST,null,"AUT03FV001",request);
@@ -121,7 +124,6 @@ public class AksesService implements IService<Akses> {
         }
         return GlobalResponse.dataDitemukan(listDTO,request);
     }
-
     @Override
     public ResponseEntity<Object> findById(String id, HttpServletRequest request) {//041-050
         ResAksesDTO resAksesDTO = null;
