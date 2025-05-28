@@ -1,0 +1,492 @@
+/*
+ Navicat Premium Data Transfer
+
+ Source Server         : LOCAL_SQLEXPRESS
+ Source Server Type    : SQL Server
+ Source Server Version : 15002130
+ Source Host           : localhost:1433
+ Source Catalog        : TitikTemuDB
+ Source Schema         : corez
+
+ Target Server Type    : SQL Server
+ Target Server Version : 15002130
+ File Encoding         : 65001
+
+ Date: 24/05/2025 20:43:04
+*/
+
+
+-- ----------------------------
+-- Table structure for MapAksesMenu
+-- ----------------------------
+IF EXISTS (SELECT * FROM sys.all_objects WHERE object_id = OBJECT_ID(N'[corez].[MapAksesMenu]') AND type IN ('U'))
+	DROP TABLE [corez].[MapAksesMenu]
+GO
+
+CREATE TABLE [corez].[MapAksesMenu] (
+  [IDAkses] bigint  NOT NULL,
+  [IDMenu] bigint  NOT NULL
+)
+GO
+
+ALTER TABLE [corez].[MapAksesMenu] SET (LOCK_ESCALATION = TABLE)
+GO
+
+
+-- ----------------------------
+-- Records of MapAksesMenu
+-- ----------------------------
+INSERT INTO [corez].[MapAksesMenu] ([IDAkses], [IDMenu]) VALUES (N'1', N'1')
+GO
+
+INSERT INTO [corez].[MapAksesMenu] ([IDAkses], [IDMenu]) VALUES (N'1', N'2')
+GO
+
+INSERT INTO [corez].[MapAksesMenu] ([IDAkses], [IDMenu]) VALUES (N'1', N'3')
+GO
+
+INSERT INTO [corez].[MapAksesMenu] ([IDAkses], [IDMenu]) VALUES (N'1', N'4')
+GO
+
+INSERT INTO [corez].[MapAksesMenu] ([IDAkses], [IDMenu]) VALUES (N'1', N'5')
+GO
+
+INSERT INTO [corez].[MapAksesMenu] ([IDAkses], [IDMenu]) VALUES (N'1', N'6')
+GO
+
+INSERT INTO [corez].[MapAksesMenu] ([IDAkses], [IDMenu]) VALUES (N'1', N'7')
+GO
+
+INSERT INTO [corez].[MapAksesMenu] ([IDAkses], [IDMenu]) VALUES (N'2', N'5')
+GO
+
+INSERT INTO [corez].[MapAksesMenu] ([IDAkses], [IDMenu]) VALUES (N'2', N'6')
+GO
+
+INSERT INTO [corez].[MapAksesMenu] ([IDAkses], [IDMenu]) VALUES (N'2', N'7')
+GO
+
+
+-- ----------------------------
+-- Table structure for MstAdmin
+-- ----------------------------
+IF EXISTS (SELECT * FROM sys.all_objects WHERE object_id = OBJECT_ID(N'[corez].[MstAdmin]') AND type IN ('U'))
+	DROP TABLE [corez].[MstAdmin]
+GO
+
+CREATE TABLE [corez].[MstAdmin] (
+  [AdminID] varchar(50) COLLATE SQL_Latin1_General_CP1_CI_AS  NOT NULL,
+  [Email] varchar(50) COLLATE SQL_Latin1_General_CP1_CI_AS  NOT NULL,
+  [Nama] varchar(50) COLLATE SQL_Latin1_General_CP1_CI_AS  NOT NULL,
+  [NoTelp] varchar(50) COLLATE SQL_Latin1_General_CP1_CI_AS  NOT NULL,
+  [Password] varchar(64) COLLATE SQL_Latin1_General_CP1_CI_AS  NOT NULL
+)
+GO
+
+ALTER TABLE [corez].[MstAdmin] SET (LOCK_ESCALATION = TABLE)
+GO
+
+
+-- ----------------------------
+-- Records of MstAdmin
+-- ----------------------------
+
+-- ----------------------------
+-- Table structure for MstAkses
+-- ----------------------------
+IF EXISTS (SELECT * FROM sys.all_objects WHERE object_id = OBJECT_ID(N'[corez].[MstAkses]') AND type IN ('U'))
+	DROP TABLE [corez].[MstAkses]
+GO
+
+CREATE TABLE [corez].[MstAkses] (
+  [CreatedBy] bigint  NOT NULL,
+  [CreatedDate] datetime2(6)  NULL,
+  [ID] bigint  IDENTITY(1,1) NOT NULL,
+  [ModifiedBy] bigint  NULL,
+  [ModifiedDate] datetime2(6)  NULL,
+  [Nama] varchar(50) COLLATE SQL_Latin1_General_CP1_CI_AS  NOT NULL,
+  [Deskripsi] varchar(255) COLLATE SQL_Latin1_General_CP1_CI_AS  NOT NULL
+)
+GO
+
+ALTER TABLE [corez].[MstAkses] SET (LOCK_ESCALATION = TABLE)
+GO
+
+
+-- ----------------------------
+-- Records of MstAkses
+-- ----------------------------
+SET IDENTITY_INSERT [corez].[MstAkses] ON
+GO
+
+INSERT INTO [corez].[MstAkses] ([CreatedBy], [CreatedDate], [ID], [ModifiedBy], [ModifiedDate], [Nama], [Deskripsi]) VALUES (N'1', N'2025-05-24 20:36:04.000000', N'1', NULL, NULL, N'Admin', N'Administrator')
+GO
+
+INSERT INTO [corez].[MstAkses] ([CreatedBy], [CreatedDate], [ID], [ModifiedBy], [ModifiedDate], [Nama], [Deskripsi]) VALUES (N'1', N'2025-05-24 20:36:04.000000', N'2', NULL, NULL, N'User', N'User Doankz')
+GO
+
+SET IDENTITY_INSERT [corez].[MstAkses] OFF
+GO
+
+
+-- ----------------------------
+-- Table structure for MstFasilitas
+-- ----------------------------
+IF EXISTS (SELECT * FROM sys.all_objects WHERE object_id = OBJECT_ID(N'[corez].[MstFasilitas]') AND type IN ('U'))
+	DROP TABLE [corez].[MstFasilitas]
+GO
+
+CREATE TABLE [corez].[MstFasilitas] (
+  [Jumlah] bigint  NOT NULL,
+  [FasilitasID] varchar(50) COLLATE SQL_Latin1_General_CP1_CI_AS  NOT NULL,
+  [NamaFasilitas] varchar(50) COLLATE SQL_Latin1_General_CP1_CI_AS  NOT NULL,
+  [RuanganID] varchar(50) COLLATE SQL_Latin1_General_CP1_CI_AS  NULL
+)
+GO
+
+ALTER TABLE [corez].[MstFasilitas] SET (LOCK_ESCALATION = TABLE)
+GO
+
+
+-- ----------------------------
+-- Records of MstFasilitas
+-- ----------------------------
+
+-- ----------------------------
+-- Table structure for MstMenu
+-- ----------------------------
+IF EXISTS (SELECT * FROM sys.all_objects WHERE object_id = OBJECT_ID(N'[corez].[MstMenu]') AND type IN ('U'))
+	DROP TABLE [corez].[MstMenu]
+GO
+
+CREATE TABLE [corez].[MstMenu] (
+  [CreatedBy] bigint  NOT NULL,
+  [CreatedDate] datetime2(6)  NULL,
+  [ID] bigint  IDENTITY(1,1) NOT NULL,
+  [ModifiedBy] bigint  NULL,
+  [ModifiedDate] datetime2(6)  NULL,
+  [Nama] varchar(50) COLLATE SQL_Latin1_General_CP1_CI_AS  NOT NULL,
+  [Path] varchar(50) COLLATE SQL_Latin1_General_CP1_CI_AS  NOT NULL,
+  [Deskripsi] varchar(255) COLLATE SQL_Latin1_General_CP1_CI_AS  NOT NULL
+)
+GO
+
+ALTER TABLE [corez].[MstMenu] SET (LOCK_ESCALATION = TABLE)
+GO
+
+
+-- ----------------------------
+-- Records of MstMenu
+-- ----------------------------
+SET IDENTITY_INSERT [corez].[MstMenu] ON
+GO
+
+INSERT INTO [corez].[MstMenu] ([CreatedBy], [CreatedDate], [ID], [ModifiedBy], [ModifiedDate], [Nama], [Path], [Deskripsi]) VALUES (N'1', N'2025-05-24 20:36:04.000000', N'1', NULL, NULL, N'User', N'/user', N'Untuk Melihat Info User')
+GO
+
+INSERT INTO [corez].[MstMenu] ([CreatedBy], [CreatedDate], [ID], [ModifiedBy], [ModifiedDate], [Nama], [Path], [Deskripsi]) VALUES (N'1', N'2025-05-24 20:36:04.000000', N'2', NULL, NULL, N'Facility', N'/facility', N'Untuk Melihat Informasi Facility')
+GO
+
+INSERT INTO [corez].[MstMenu] ([CreatedBy], [CreatedDate], [ID], [ModifiedBy], [ModifiedDate], [Nama], [Path], [Deskripsi]) VALUES (N'1', N'2025-05-24 20:36:04.000000', N'3', NULL, NULL, N'Manage Room', N'/manage-room', N'Untuk Informasi Room')
+GO
+
+INSERT INTO [corez].[MstMenu] ([CreatedBy], [CreatedDate], [ID], [ModifiedBy], [ModifiedDate], [Nama], [Path], [Deskripsi]) VALUES (N'1', N'2025-05-24 20:36:04.000000', N'4', NULL, NULL, N'List Booking Room', N'/list-booking', N'Untuk Lihat Info List Booking Room')
+GO
+
+INSERT INTO [corez].[MstMenu] ([CreatedBy], [CreatedDate], [ID], [ModifiedBy], [ModifiedDate], [Nama], [Path], [Deskripsi]) VALUES (N'1', N'2025-05-24 20:36:04.000000', N'5', NULL, NULL, N'Booking Room', N'/booking-room', N'Untuk Booking Room User')
+GO
+
+INSERT INTO [corez].[MstMenu] ([CreatedBy], [CreatedDate], [ID], [ModifiedBy], [ModifiedDate], [Nama], [Path], [Deskripsi]) VALUES (N'1', N'2025-05-24 20:36:04.000000', N'6', NULL, NULL, N'Activity', N'/activity', N'Untuk Lihat Info Aktifitas')
+GO
+
+INSERT INTO [corez].[MstMenu] ([CreatedBy], [CreatedDate], [ID], [ModifiedBy], [ModifiedDate], [Nama], [Path], [Deskripsi]) VALUES (N'1', N'2025-05-24 20:36:04.000000', N'7', NULL, NULL, N'Change Password', N'/change-password', N'Untuk Ganti Password')
+GO
+
+SET IDENTITY_INSERT [corez].[MstMenu] OFF
+GO
+
+
+-- ----------------------------
+-- Table structure for MstRuangan
+-- ----------------------------
+IF EXISTS (SELECT * FROM sys.all_objects WHERE object_id = OBJECT_ID(N'[corez].[MstRuangan]') AND type IN ('U'))
+	DROP TABLE [corez].[MstRuangan]
+GO
+
+CREATE TABLE [corez].[MstRuangan] (
+  [MaxKapasitas] bigint  NOT NULL,
+  [MinKapasitas] bigint  NOT NULL,
+  [Lokasi] varchar(50) COLLATE SQL_Latin1_General_CP1_CI_AS  NOT NULL,
+  [NamaRuangan] varchar(50) COLLATE SQL_Latin1_General_CP1_CI_AS  NOT NULL,
+  [RuanganID] varchar(50) COLLATE SQL_Latin1_General_CP1_CI_AS  NOT NULL
+)
+GO
+
+ALTER TABLE [corez].[MstRuangan] SET (LOCK_ESCALATION = TABLE)
+GO
+
+
+-- ----------------------------
+-- Records of MstRuangan
+-- ----------------------------
+
+-- ----------------------------
+-- Table structure for MstUser
+-- ----------------------------
+IF EXISTS (SELECT * FROM sys.all_objects WHERE object_id = OBJECT_ID(N'[corez].[MstUser]') AND type IN ('U'))
+	DROP TABLE [corez].[MstUser]
+GO
+
+CREATE TABLE [corez].[MstUser] (
+  [IDAkses] bigint  NULL,
+  [Email] varchar(50) COLLATE SQL_Latin1_General_CP1_CI_AS  NOT NULL,
+  [Nama] varchar(50) COLLATE SQL_Latin1_General_CP1_CI_AS  NOT NULL,
+  [NoTelp] varchar(50) COLLATE SQL_Latin1_General_CP1_CI_AS  NOT NULL,
+  [UserID] varchar(50) COLLATE SQL_Latin1_General_CP1_CI_AS  NOT NULL,
+  [Password] varchar(64) COLLATE SQL_Latin1_General_CP1_CI_AS  NOT NULL,
+  [Departemen] varchar(100) COLLATE SQL_Latin1_General_CP1_CI_AS  NOT NULL,
+  [Jabatan] varchar(100) COLLATE SQL_Latin1_General_CP1_CI_AS  NOT NULL
+)
+GO
+
+ALTER TABLE [corez].[MstUser] SET (LOCK_ESCALATION = TABLE)
+GO
+
+
+-- ----------------------------
+-- Records of MstUser
+-- ----------------------------
+INSERT INTO [corez].[MstUser] ([IDAkses], [Email], [Nama], [NoTelp], [UserID], [Password], [Departemen], [Jabatan]) VALUES (N'1', N'cumi@gmail.com', N'cumi', N'628239283', N'paul.cumi', N'Paul@321', N'CumiCumi', N'User')
+GO
+
+
+-- ----------------------------
+-- Table structure for TxnPesan
+-- ----------------------------
+IF EXISTS (SELECT * FROM sys.all_objects WHERE object_id = OBJECT_ID(N'[corez].[TxnPesan]') AND type IN ('U'))
+	DROP TABLE [corez].[TxnPesan]
+GO
+
+CREATE TABLE [corez].[TxnPesan] (
+  [Durasi] numeric(18,1)  NOT NULL,
+  [Tanggal] date  NOT NULL,
+  [Berakhir] datetime2(6)  NOT NULL,
+  [Mulai] datetime2(6)  NOT NULL,
+  [PesanID] bigint  IDENTITY(1,1) NOT NULL,
+  [RuanganID] varchar(50) COLLATE SQL_Latin1_General_CP1_CI_AS  NULL,
+  [Status] varchar(50) COLLATE SQL_Latin1_General_CP1_CI_AS  NOT NULL,
+  [UserID] varchar(50) COLLATE SQL_Latin1_General_CP1_CI_AS  NULL,
+  [NamaPertemuan] varchar(100) COLLATE SQL_Latin1_General_CP1_CI_AS  NOT NULL
+)
+GO
+
+ALTER TABLE [corez].[TxnPesan] SET (LOCK_ESCALATION = TABLE)
+GO
+
+
+-- ----------------------------
+-- Records of TxnPesan
+-- ----------------------------
+SET IDENTITY_INSERT [corez].[TxnPesan] ON
+GO
+
+SET IDENTITY_INSERT [corez].[TxnPesan] OFF
+GO
+
+
+-- ----------------------------
+-- Uniques structure for table MapAksesMenu
+-- ----------------------------
+ALTER TABLE [corez].[MapAksesMenu] ADD CONSTRAINT [unq-akses-to-menu] UNIQUE NONCLUSTERED ([IDAkses] ASC, [IDMenu] ASC)
+WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON)
+ON [PRIMARY]
+GO
+
+
+-- ----------------------------
+-- Uniques structure for table MstAdmin
+-- ----------------------------
+ALTER TABLE [corez].[MstAdmin] ADD CONSTRAINT [UK6k1epeqqilbrflt3nvglf6ab5] UNIQUE NONCLUSTERED ([Email] ASC)
+WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON)
+ON [PRIMARY]
+GO
+
+ALTER TABLE [corez].[MstAdmin] ADD CONSTRAINT [UKlgangk1hhifcr0anfonjrp90f] UNIQUE NONCLUSTERED ([NoTelp] ASC)
+WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON)
+ON [PRIMARY]
+GO
+
+
+-- ----------------------------
+-- Primary Key structure for table MstAdmin
+-- ----------------------------
+ALTER TABLE [corez].[MstAdmin] ADD CONSTRAINT [PK__MstAdmin__719FE4E8CFDA1005] PRIMARY KEY CLUSTERED ([AdminID])
+WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON)
+ON [PRIMARY]
+GO
+
+
+-- ----------------------------
+-- Auto increment value for MstAkses
+-- ----------------------------
+DBCC CHECKIDENT ('[corez].[MstAkses]', RESEED, 2)
+GO
+
+
+-- ----------------------------
+-- Uniques structure for table MstAkses
+-- ----------------------------
+ALTER TABLE [corez].[MstAkses] ADD CONSTRAINT [UK3aro9h4d5f1iahaoih1depxl8] UNIQUE NONCLUSTERED ([Nama] ASC)
+WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON)
+ON [PRIMARY]
+GO
+
+ALTER TABLE [corez].[MstAkses] ADD CONSTRAINT [UKm66pwjcth0t2mv9dkggxar0p5] UNIQUE NONCLUSTERED ([Deskripsi] ASC)
+WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON)
+ON [PRIMARY]
+GO
+
+
+-- ----------------------------
+-- Primary Key structure for table MstAkses
+-- ----------------------------
+ALTER TABLE [corez].[MstAkses] ADD CONSTRAINT [PK__MstAkses__3214EC27292A4F9C] PRIMARY KEY CLUSTERED ([ID])
+WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON)
+ON [PRIMARY]
+GO
+
+
+-- ----------------------------
+-- Primary Key structure for table MstFasilitas
+-- ----------------------------
+ALTER TABLE [corez].[MstFasilitas] ADD CONSTRAINT [PK__MstFasil__0F28CF39F985D0C6] PRIMARY KEY CLUSTERED ([FasilitasID])
+WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON)
+ON [PRIMARY]
+GO
+
+
+-- ----------------------------
+-- Auto increment value for MstMenu
+-- ----------------------------
+DBCC CHECKIDENT ('[corez].[MstMenu]', RESEED, 7)
+GO
+
+
+-- ----------------------------
+-- Uniques structure for table MstMenu
+-- ----------------------------
+ALTER TABLE [corez].[MstMenu] ADD CONSTRAINT [UK1pmqjgtk7t17sjit03fkmtsxn] UNIQUE NONCLUSTERED ([Path] ASC)
+WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON)
+ON [PRIMARY]
+GO
+
+ALTER TABLE [corez].[MstMenu] ADD CONSTRAINT [UK6qgy8hlewtr4leyxl261l6oyy] UNIQUE NONCLUSTERED ([Deskripsi] ASC)
+WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON)
+ON [PRIMARY]
+GO
+
+ALTER TABLE [corez].[MstMenu] ADD CONSTRAINT [UKhigfmut8rhkknygmdq21gg5kl] UNIQUE NONCLUSTERED ([Nama] ASC)
+WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON)
+ON [PRIMARY]
+GO
+
+
+-- ----------------------------
+-- Primary Key structure for table MstMenu
+-- ----------------------------
+ALTER TABLE [corez].[MstMenu] ADD CONSTRAINT [PK__MstMenu__3214EC277056EECF] PRIMARY KEY CLUSTERED ([ID])
+WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON)
+ON [PRIMARY]
+GO
+
+
+-- ----------------------------
+-- Uniques structure for table MstRuangan
+-- ----------------------------
+ALTER TABLE [corez].[MstRuangan] ADD CONSTRAINT [UKvtt4v07e6yogfeaou1ykmucg] UNIQUE NONCLUSTERED ([NamaRuangan] ASC)
+WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON)
+ON [PRIMARY]
+GO
+
+
+-- ----------------------------
+-- Primary Key structure for table MstRuangan
+-- ----------------------------
+ALTER TABLE [corez].[MstRuangan] ADD CONSTRAINT [PK__MstRuang__098EF5B4D95EEB69] PRIMARY KEY CLUSTERED ([RuanganID])
+WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON)
+ON [PRIMARY]
+GO
+
+
+-- ----------------------------
+-- Uniques structure for table MstUser
+-- ----------------------------
+ALTER TABLE [corez].[MstUser] ADD CONSTRAINT [UKayagwoo978jkw4jf56aqvi40s] UNIQUE NONCLUSTERED ([NoTelp] ASC)
+WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON)
+ON [PRIMARY]
+GO
+
+ALTER TABLE [corez].[MstUser] ADD CONSTRAINT [UKoboap7j0f37yn6as1f4bdg8ge] UNIQUE NONCLUSTERED ([Email] ASC)
+WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON)
+ON [PRIMARY]
+GO
+
+
+-- ----------------------------
+-- Primary Key structure for table MstUser
+-- ----------------------------
+ALTER TABLE [corez].[MstUser] ADD CONSTRAINT [PK__MstUser__1788CCAC4435894F] PRIMARY KEY CLUSTERED ([UserID])
+WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON)
+ON [PRIMARY]
+GO
+
+
+-- ----------------------------
+-- Auto increment value for TxnPesan
+-- ----------------------------
+DBCC CHECKIDENT ('[corez].[TxnPesan]', RESEED, 1)
+GO
+
+
+-- ----------------------------
+-- Primary Key structure for table TxnPesan
+-- ----------------------------
+ALTER TABLE [corez].[TxnPesan] ADD CONSTRAINT [PK__TxnPesan__8A404D3F5CAC9AC7] PRIMARY KEY CLUSTERED ([PesanID])
+WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON)
+ON [PRIMARY]
+GO
+
+
+-- ----------------------------
+-- Foreign Keys structure for table MapAksesMenu
+-- ----------------------------
+ALTER TABLE [corez].[MapAksesMenu] ADD CONSTRAINT [fk-toMenu] FOREIGN KEY ([IDMenu]) REFERENCES [corez].[MstMenu] ([ID]) ON DELETE NO ACTION ON UPDATE NO ACTION
+GO
+
+ALTER TABLE [corez].[MapAksesMenu] ADD CONSTRAINT [fk-toAkses] FOREIGN KEY ([IDAkses]) REFERENCES [corez].[MstAkses] ([ID]) ON DELETE NO ACTION ON UPDATE NO ACTION
+GO
+
+
+-- ----------------------------
+-- Foreign Keys structure for table MstFasilitas
+-- ----------------------------
+ALTER TABLE [corez].[MstFasilitas] ADD CONSTRAINT [fk-fasilitas-to-ruangan] FOREIGN KEY ([RuanganID]) REFERENCES [corez].[MstRuangan] ([RuanganID]) ON DELETE NO ACTION ON UPDATE NO ACTION
+GO
+
+
+-- ----------------------------
+-- Foreign Keys structure for table MstUser
+-- ----------------------------
+ALTER TABLE [corez].[MstUser] ADD CONSTRAINT [fk-user-to-akses] FOREIGN KEY ([IDAkses]) REFERENCES [corez].[MstAkses] ([ID]) ON DELETE NO ACTION ON UPDATE NO ACTION
+GO
+
+
+-- ----------------------------
+-- Foreign Keys structure for table TxnPesan
+-- ----------------------------
+ALTER TABLE [corez].[TxnPesan] ADD CONSTRAINT [fk-pesan-to-ruangan] FOREIGN KEY ([RuanganID]) REFERENCES [corez].[MstRuangan] ([RuanganID]) ON DELETE NO ACTION ON UPDATE NO ACTION
+GO
+
+ALTER TABLE [corez].[TxnPesan] ADD CONSTRAINT [fk-pesan-to-user] FOREIGN KEY ([UserID]) REFERENCES [corez].[MstUser] ([UserID]) ON DELETE NO ACTION ON UPDATE NO ACTION
+GO
+

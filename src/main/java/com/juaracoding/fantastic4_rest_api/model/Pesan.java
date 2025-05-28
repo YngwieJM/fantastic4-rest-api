@@ -1,7 +1,10 @@
 package com.juaracoding.fantastic4_rest_api.model;
 
 import jakarta.persistence.*;
+import org.hibernate.annotations.UpdateTimestamp;
+
 import java.math.BigDecimal;
+import java.sql.Time;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
@@ -21,23 +24,36 @@ public class Pesan {
     @JoinColumn(name = "RuanganID", foreignKey = @ForeignKey(name = "fk-pesan-to-ruangan"))
     private Ruangan ruanganID;
 
-    @Column(name = "Tanggal", nullable = false)
-    private LocalDate tanggal;
+    @Column(name = "TanggalPemesanan", nullable = false, updatable = false)
+    private LocalDateTime tanggalPemesanan;
 
     @Column(name = "NamaPertemuan", length = 100, nullable = false)
     private String namaPertemuan;
 
+    @Column(name = "TanggalPertemuan", nullable = false)
+    private LocalDate tanggalPertemuan;
+
     @Column(name = "Mulai", nullable = false)
-    private LocalDateTime mulai;
+    private Time mulai;
+
+//    private Time mulaiX;
 
     @Column(name = "Berakhir", nullable = false)
-    private LocalDateTime berakhir;
+    private Time berakhir;
 
     @Column(name = "Durasi", precision = 18, scale = 1, nullable = false)
     private BigDecimal durasi;
 
     @Column(name = "Status", length = 50, nullable = false)
     private String status;
+
+    @Column(name = "ModifiedBy",insertable = false)
+    private Long modifiedBy;
+
+    @Column(name = "ModifiedDate",insertable = false)
+    @UpdateTimestamp
+    private LocalDateTime modifiedDate;
+
 
     public Long getPesanID() {
         return pesanID;
@@ -63,12 +79,20 @@ public class Pesan {
         this.ruanganID = ruanganID;
     }
 
-    public LocalDate getTanggal() {
-        return tanggal;
+    public LocalDateTime getTanggalPemesanan() {
+        return tanggalPemesanan;
     }
 
-    public void setTanggal(LocalDate tanggal) {
-        this.tanggal = tanggal;
+    public void setTanggalPemesanan(LocalDateTime tanggalPemesanan) {
+        this.tanggalPemesanan = tanggalPemesanan;
+    }
+
+    public LocalDate getTanggalPertemuan() {
+        return tanggalPertemuan;
+    }
+
+    public void setTanggalPertemuan(LocalDate tanggalPertemuan) {
+        this.tanggalPertemuan = tanggalPertemuan;
     }
 
     public String getNamaPertemuan() {
@@ -79,19 +103,19 @@ public class Pesan {
         this.namaPertemuan = namaPertemuan;
     }
 
-    public LocalDateTime getMulai() {
+    public Time getMulai() {
         return mulai;
     }
 
-    public void setMulai(LocalDateTime mulai) {
+    public void setMulai(Time mulai) {
         this.mulai = mulai;
     }
 
-    public LocalDateTime getBerakhir() {
+    public Time getBerakhir() {
         return berakhir;
     }
 
-    public void setBerakhir(LocalDateTime berakhir) {
+    public void setBerakhir(Time berakhir) {
         this.berakhir = berakhir;
     }
 
@@ -109,5 +133,21 @@ public class Pesan {
 
     public void setStatus(String status) {
         this.status = status;
+    }
+
+    public Long getModifiedBy() {
+        return modifiedBy;
+    }
+
+    public void setModifiedBy(Long modifiedBy) {
+        this.modifiedBy = modifiedBy;
+    }
+
+    public LocalDateTime getModifiedDate() {
+        return modifiedDate;
+    }
+
+    public void setModifiedDate(LocalDateTime modifiedDate) {
+        this.modifiedDate = modifiedDate;
     }
 }

@@ -8,22 +8,23 @@ import org.hibernate.annotations.UpdateTimestamp;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "MstFasilitas")
-public class Fasilitas {
+@Table(name = "MstMenu")
+public class Menu {
 
     @Id
-    @Column(name = "FasilitasID", length = 50, nullable = false, unique = true)
-    private String id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "ID")
+    private Long id;
 
-    @ManyToOne
-    @JoinColumn(name = "RuanganID", foreignKey = @ForeignKey(name = "fk-fasilitas-to-ruangan"))
-    private Ruangan ruanganID;
+    @Column(name = "Nama", nullable = false,unique = true, length = 50)
+    private String nama;
 
-    @Column(name = "NamaFasilitas", length = 50, nullable = false)
-    private String namaFasilitas;
+    @Column(name = "Path", nullable = false,unique = true, length = 50)
+    private String path;
 
-    @Column(name = "Jumlah", nullable = false)
-    private Short jumlah;
+    @Column(name = "Deskripsi", nullable = false, length = 255,unique = true)
+    private String deskripsi;
+
 
     @Column(name = "CreatedBy",nullable = false,updatable = false)
     private Long createdBy=1L;
@@ -39,36 +40,36 @@ public class Fasilitas {
     @UpdateTimestamp
     private LocalDateTime modifiedDate;
 
-    public String getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
-    public Ruangan getRuanganID() {
-        return ruanganID;
+    public String getNama() {
+        return nama;
     }
 
-    public void setRuanganID(Ruangan ruanganID) {
-        this.ruanganID = ruanganID;
+    public void setNama(String nama) {
+        this.nama = nama;
     }
 
-    public String getNamaFasilitas() {
-        return namaFasilitas;
+    public String getPath() {
+        return path;
     }
 
-    public void setNamaFasilitas(String namaFasilitas) {
-        this.namaFasilitas = namaFasilitas;
+    public void setPath(String path) {
+        this.path = path;
     }
 
-    public Short getJumlah() {
-        return jumlah;
+    public String getDeskripsi() {
+        return deskripsi;
     }
 
-    public void setJumlah(Short jumlah) {
-        this.jumlah = jumlah;
+    public void setDeskripsi(String deskripsi) {
+        this.deskripsi = deskripsi;
     }
 
     public Long getCreatedBy() {

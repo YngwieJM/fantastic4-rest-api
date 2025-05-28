@@ -1,6 +1,10 @@
 package com.juaracoding.fantastic4_rest_api.model;
 
 import jakarta.persistence.*;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
+
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "MstRuangan")
@@ -8,26 +12,40 @@ public class Ruangan {
 
     @Id
     @Column(name = "RuanganID", length = 50, nullable = false, unique = true)
-    private String ruanganID;
+    private String id;
 
     @Column(name = "NamaRuangan", length = 50, nullable = false, unique = true)
     private String namaRuangan;
 
     @Column(name = "MinKapasitas", nullable = false)
-    private Long minKapasitas;
+    private Short minKapasitas;
 
     @Column(name = "MaxKapasitas", nullable = false)
-    private Long maxKapasitas;
+    private Short maxKapasitas;
 
     @Column(name = "Lokasi", length = 50, nullable = false)
     private String lokasi;
 
-    public String getRuanganID() {
-        return ruanganID;
+    @Column(name = "CreatedBy",nullable = false,updatable = false)
+    private Long createdBy=1L;
+
+    @Column(name = "CreatedDate",updatable = false)
+    @CreationTimestamp
+    private LocalDateTime createdDate;
+
+    @Column(name = "ModifiedBy",insertable = false)
+    private Long modifiedBy;
+
+    @Column(name = "ModifiedDate",insertable = false)
+    @UpdateTimestamp
+    private LocalDateTime modifiedDate;
+
+    public String getId() {
+        return id;
     }
 
-    public void setRuanganID(String ruanganID) {
-        this.ruanganID = ruanganID;
+    public void setId(String id) {
+        this.id = id;
     }
 
     public String getNamaRuangan() {
@@ -38,19 +56,19 @@ public class Ruangan {
         this.namaRuangan = namaRuangan;
     }
 
-    public Long getMinKapasitas() {
+    public Short getMinKapasitas() {
         return minKapasitas;
     }
 
-    public void setMinKapasitas(Long minKapasitas) {
+    public void setMinKapasitas(Short minKapasitas) {
         this.minKapasitas = minKapasitas;
     }
 
-    public Long getMaxKapasitas() {
+    public Short getMaxKapasitas() {
         return maxKapasitas;
     }
 
-    public void setMaxKapasitas(Long maxKapasitas) {
+    public void setMaxKapasitas(Short maxKapasitas) {
         this.maxKapasitas = maxKapasitas;
     }
 
@@ -60,5 +78,37 @@ public class Ruangan {
 
     public void setLokasi(String lokasi) {
         this.lokasi = lokasi;
+    }
+
+    public Long getCreatedBy() {
+        return createdBy;
+    }
+
+    public void setCreatedBy(Long createdBy) {
+        this.createdBy = createdBy;
+    }
+
+    public LocalDateTime getCreatedDate() {
+        return createdDate;
+    }
+
+    public void setCreatedDate(LocalDateTime createdDate) {
+        this.createdDate = createdDate;
+    }
+
+    public Long getModifiedBy() {
+        return modifiedBy;
+    }
+
+    public void setModifiedBy(Long modifiedBy) {
+        this.modifiedBy = modifiedBy;
+    }
+
+    public LocalDateTime getModifiedDate() {
+        return modifiedDate;
+    }
+
+    public void setModifiedDate(LocalDateTime modifiedDate) {
+        this.modifiedDate = modifiedDate;
     }
 }
