@@ -1,6 +1,8 @@
 package com.juaracoding.fantastic4_rest_api.controller;
 
+import com.juaracoding.fantastic4_rest_api.dto.validation.ValFasilitasDTO;
 import com.juaracoding.fantastic4_rest_api.dto.validation.ValRuanganDTO;
+import com.juaracoding.fantastic4_rest_api.service.FasilitasService;
 import com.juaracoding.fantastic4_rest_api.service.RuanganService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
@@ -19,22 +21,20 @@ public class ManageRoomController {
 
     @Autowired
     private RuanganService ruanganService;
-
-
     @Qualifier("resourceHandlerMapping")
     @Autowired
     private HandlerMapping resourcehandlerMapping;
 
     @PostMapping
     public ResponseEntity<Object> save(@Valid @RequestBody ValRuanganDTO valRuanganDTO,
-                                       HttpServletRequest request) {
+                                       HttpServletRequest request){
         return ruanganService.save(ruanganService.mapToRuangan(valRuanganDTO), request);
     }
 
     @PutMapping("/{id}")
     public ResponseEntity<Object> update(@Valid @RequestBody ValRuanganDTO valRuanganDTO,
                                          @PathVariable String id,
-                                         HttpServletRequest request) {
+                                         HttpServletRequest request){
         return ruanganService.update(id, ruanganService.mapToRuangan(valRuanganDTO), request);
     }
 
@@ -56,7 +56,7 @@ public class ManageRoomController {
         return ruanganService.findById(id, request);
     }
 
-    @GetMapping("/find-by-param/{sort}/{sort-by}/{page}")
+    @GetMapping("{sort}/{sort-by}/{page}")
     public ResponseEntity<Object> findByParam(
             @PathVariable String sort,
             @PathVariable(value = "sort-by") String sortBy,

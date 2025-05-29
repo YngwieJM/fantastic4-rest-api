@@ -1,11 +1,12 @@
 package com.juaracoding.fantastic4_rest_api.service;
 
-
 import com.juaracoding.fantastic4_rest_api.core.IService;
 import com.juaracoding.fantastic4_rest_api.dto.report.RepRuanganDTO;
 import com.juaracoding.fantastic4_rest_api.dto.response.ResRuanganDTO;
+import com.juaracoding.fantastic4_rest_api.dto.validation.ValFasilitasDTO;
 import com.juaracoding.fantastic4_rest_api.dto.validation.ValRuanganDTO;
 import com.juaracoding.fantastic4_rest_api.handler.ResponseHandler;
+import com.juaracoding.fantastic4_rest_api.model.Fasilitas;
 import com.juaracoding.fantastic4_rest_api.model.Ruangan;
 import com.juaracoding.fantastic4_rest_api.repo.RuanganRepo;
 import com.juaracoding.fantastic4_rest_api.utils.*;
@@ -19,14 +20,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.thymeleaf.spring6.SpringTemplateEngine;
 
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * Kode Platform / Aplikasi : AUT
@@ -37,7 +34,6 @@ import org.slf4j.LoggerFactory;
 @Service
 @Transactional
 public class RuanganService implements IService<Ruangan>{
-    private static final Logger log = LoggerFactory.getLogger(RuanganService.class);
 
     @Autowired
     private RuanganRepo ruanganRepo;
@@ -47,9 +43,6 @@ public class RuanganService implements IService<Ruangan>{
 
     @Autowired
     private TransformPagination tp;
-
-    @Autowired
-    private SpringTemplateEngine springTemplateEngine;
 
     @Autowired
     private PdfGenerator pdfGenerator;
@@ -70,7 +63,6 @@ public class RuanganService implements IService<Ruangan>{
         }
         return GlobalResponse.dataBerhasilDisimpan(request);
     }
-
 
     @Override
     public ResponseEntity<Object> update(String id, Ruangan ruangan, HttpServletRequest request) {
@@ -96,7 +88,6 @@ public class RuanganService implements IService<Ruangan>{
         }
         return GlobalResponse.dataBerhasilDiubah(request);
 }
-
 
     @Override
     public ResponseEntity<Object> delete(String id, HttpServletRequest request) {

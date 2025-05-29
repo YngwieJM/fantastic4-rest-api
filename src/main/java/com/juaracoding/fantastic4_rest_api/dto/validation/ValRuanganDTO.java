@@ -1,5 +1,7 @@
 package com.juaracoding.fantastic4_rest_api.dto.validation;
 
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 
@@ -16,13 +18,14 @@ public class ValRuanganDTO {
     private String namaRuangan;
 
     @NotNull
-    @Pattern(regexp = "^([1-9][0-9]{1,3})$",
-            message = "Hanya boleh angka tidak diawali angka 0")
+    @Min(value = 1, message = "Minimal kapasitas 1")
+    @Max(value = 9999, message = "Maksimal kapasitas 9999")
     private Short minKapasitas;
 
+
     @NotNull
-    @Pattern(regexp = "^([1-9][0-9]{1,3})$",
-            message = "Hanya boleh angka tidak diawali angka 0")
+    @Min(value = 1, message = "Minimal kapasitas 1")
+    @Max(value = 9999, message = "Maksimal kapasitas 9999")
     private Short maxKapasitas;
 
     @NotNull
@@ -31,12 +34,12 @@ public class ValRuanganDTO {
     private String lokasi;
 
 
-    public String getRuanganID() {
+    public String getId() {
         return id;
     }
 
-    public void setRuanganID(String ruanganID) {
-        this.id = ruanganID;
+    public void setId(String id) {
+        this.id = id;
     }
 
     public String getNamaRuangan() {

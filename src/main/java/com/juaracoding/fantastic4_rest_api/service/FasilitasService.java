@@ -96,6 +96,7 @@ public class FasilitasService implements IService<Fasilitas> {
         }
         return GlobalResponse.dataBerhasilDihapus(request);
     }
+
     @Override
     public ResponseEntity<Object> findAll(Pageable pageable, HttpServletRequest request) {//31 - 40
         Page<Fasilitas> page = null;
