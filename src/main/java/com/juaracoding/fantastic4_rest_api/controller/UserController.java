@@ -24,7 +24,7 @@ public class UserController {
     @Autowired
     private HandlerMapping resourceHandlerMapping;
 
-    @RequestMapping
+    @PostMapping
     public ResponseEntity<Object> save(@Valid @RequestBody ValUserDTO valUserDTO,
                                        HttpServletRequest request){
         return userService.save(userService.mapToUser(valUserDTO),request);
