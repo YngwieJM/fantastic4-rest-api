@@ -1,7 +1,6 @@
 package com.juaracoding.fantastic4_rest_api.model;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotEmpty;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
@@ -40,15 +39,14 @@ public class User {
     private Boolean isRegistered;
 
     @Column(name = "CreatedBy",nullable = false,updatable = false)
-    @NotEmpty
-    private Long createdBy=1L;
+    private String createdBy= String.valueOf(1L);
 
     @Column(name = "CreatedDate",updatable = false)
     @CreationTimestamp
     private LocalDateTime createdDate;
 
     @Column(name = "ModifiedBy",insertable = false)
-    private Long modifiedBy;
+    private String modifiedBy;
 
     @Column(name = "ModifiedDate",insertable = false)
     @UpdateTimestamp
@@ -133,11 +131,11 @@ public class User {
         isRegistered = registered;
     }
 
-    public Long getCreatedBy() {
+    public String getCreatedBy() {
         return createdBy;
     }
 
-    public void setCreatedBy(Long createdBy) {
+    public void setCreatedBy(String createdBy) {
         this.createdBy = createdBy;
     }
 
@@ -149,11 +147,11 @@ public class User {
         this.createdDate = createdDate;
     }
 
-    public Long getModifiedBy() {
+    public String getModifiedBy() {
         return modifiedBy;
     }
 
-    public void setModifiedBy(Long modifiedBy) {
+    public void setModifiedBy(String modifiedBy) {
         this.modifiedBy = modifiedBy;
     }
 
