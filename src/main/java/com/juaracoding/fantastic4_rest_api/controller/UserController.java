@@ -37,23 +37,27 @@ public class UserController {
         return userService.update(id, userService.mapToUser(valUserDTO), request);
     }
 
-    private ResponseEntity<Object> delete(@PathVariable String id,
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Object> delete(@PathVariable String id,
                                           HttpServletRequest request) {
         return userService.delete(id, request);
     }
 
     /** default page for user */
 
+    @GetMapping
     public ResponseEntity<Object> findAll(HttpServletRequest request) {
         Pageable pageable = PageRequest.of(0, 10, Sort.by("id"));
         return userService.findAll(pageable, request);
     }
 
+    @GetMapping("/{id}")
     public ResponseEntity<Object> findById(@PathVariable String id,
                                            HttpServletRequest request) {
         return userService.findById(id, request);
     }
 
+    @GetMapping("/find-by-param/{sort}/{sort-by}/{page}")
     public ResponseEntity<Object> findByParam(@PathVariable String sort,
                                               @PathVariable(value = "sort-by") String sortBy,
                                               @PathVariable Integer page,
