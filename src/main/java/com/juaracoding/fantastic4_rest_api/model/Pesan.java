@@ -47,6 +47,9 @@ public class Pesan {
     @Column(name = "Status", length = 50, nullable = false)
     private String status;
 
+    @Column(name = "CreatedBy",nullable = false,updatable = false)
+    private Long createdBy=1L;
+
     @Column(name = "ModifiedBy",insertable = false)
     private Long modifiedBy;
 
@@ -133,6 +136,14 @@ public class Pesan {
 
     public void setStatus(String status) {
         this.status = status;
+    }
+
+    public Long getCreatedBy() {
+        return createdBy;
+    }
+
+    public void setCreatedBy(Long createdBy) {
+        this.createdBy = createdBy;
     }
 
     public Long getModifiedBy() {

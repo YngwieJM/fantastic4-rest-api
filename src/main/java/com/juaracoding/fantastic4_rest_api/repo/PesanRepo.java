@@ -13,7 +13,7 @@ public interface PesanRepo extends  JpaRepository<Pesan, Long> {
     public Page<Pesan> findByNamaPertemuanContainsIgnoreCase(String nama, Pageable pageable);
     public Page<Pesan> findByStatusIgnoreCase(String status, Pageable pageable);
 
-    public List<Pesan> findByTanggal(LocalDate tanggal);
-    public List<Pesan> findByUserIDUserID(Long userID);
-    public List<Pesan> findByRuanganIDRuanganID(Long ruanganID);
+    public List<Pesan> findByTanggalPertemuan(LocalDate tanggal);
+//    public List<Pesan> findByUserIDUserID(String userID);
+//    public List<Pesan> findByRuanganIDRuanganID(String ruanganID);
 }
