@@ -11,18 +11,17 @@ import java.util.Optional;
 public interface UserRepo extends JpaRepository<User, String> {
 
     Optional<User> findByEmail(String email);
+    Optional<User> findByNoTelp(String noTelp);
 
     public Page<User> findByNamaContainsIgnoreCase(String nama, Pageable pageable);
-    public Page<User> findByEmailContainIgnoreCase(String email, Pageable pageable);
-    public Page<User> findByNoTelpContainIgnoreCase(String noTelp, Pageable pageable);
-    public Page<User> findByDepartemenContainIgnoreCase(String departemen, Pageable pageable);
-    public Page<User> findByJabatanContainIgnoreCase(String jabatan, Pageable pageable);
+    public Page<User> findByEmailContainsIgnoreCase(String email, Pageable pageable);
+    public Page<User> findByNoTelpContainsIgnoreCase(String noTelp, Pageable pageable);
+    public Page<User> findByDepartemenContainsIgnoreCase(String departemen, Pageable pageable);
+    public Page<User> findByJabatanContainsIgnoreCase(String jabatan, Pageable pageable);
 
     public List<User> findByNamaContainsIgnoreCase(String nama);
-    public List<User> findByEmailContainIgnoreCase(String email);
-    public List<User> findByNoTelpContainIgnoreCase(String noTelp);
-    public List<User> findByDepartemenContainIgnoreCase(String departemen);
-    public List<User> findByJabatanContainIgnoreCase(String jabatan);
-
-    public Optional<User> findTop1ByOrderByIdDesc();
+    public List<User> findByEmailContainsIgnoreCase(String email);
+    public List<User> findByNoTelpContainsIgnoreCase(String noTelp);
+    public List<User> findByDepartemenContainsIgnoreCase(String departemen);
+    public List<User> findByJabatanContainsIgnoreCase(String jabatan);
 }
