@@ -59,6 +59,7 @@ public class DataFacilityController {
         return fasilitasService.findById(id, request);
     }
 
+    @GetMapping("/find-by-param/{sort}/{sort-by}/{page}")
     public ResponseEntity<Object> findByParam(
             @PathVariable String sort,
             @PathVariable(value = "sort-by") String sortBy,
