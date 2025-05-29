@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.juaracoding.fantastic4_rest_api.model.Ruangan;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
+import jakarta.validation.constraints.Size;
 
 public class ValFasilitasDTO {
 
@@ -23,7 +24,7 @@ public class ValFasilitasDTO {
     @NotNull
     @Pattern(regexp = "^([0-9]{1,4})$",
             message = "Hanya boleh memasukan angka max 4 digit")
-    private Long jumlah;
+    private String jumlah;
 
     public String getId() {
         return id;
@@ -49,11 +50,11 @@ public class ValFasilitasDTO {
         this.namaFasilitas = namaFasilitas;
     }
 
-    public Long getJumlah() {
+    public String getJumlah() {
         return jumlah;
     }
 
-    public void setJumlah(Long jumlah) {
+    public void setJumlah(String jumlah) {
         this.jumlah = jumlah;
     }
 }

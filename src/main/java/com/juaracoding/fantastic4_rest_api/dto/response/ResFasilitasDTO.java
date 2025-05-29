@@ -1,6 +1,5 @@
 package com.juaracoding.fantastic4_rest_api.dto.response;
 
-import com.juaracoding.fantastic4_rest_api.dto.rel.RelFasilitasDTO;
 import com.juaracoding.fantastic4_rest_api.dto.rel.RelRuanganDTO;
 
 public class ResFasilitasDTO {
