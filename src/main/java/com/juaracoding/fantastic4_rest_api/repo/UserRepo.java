@@ -12,6 +12,7 @@ public interface UserRepo extends JpaRepository<User, String> {
 
     Optional<User> findByEmail(String email);
     Optional<User> findByNoTelp(String noTelp);
+    Optional<User> findByidOrEmailOrNoTelp(String id, String email, String noTelp);
 
     public Page<User> findByNamaContainsIgnoreCase(String nama, Pageable pageable);
     public Page<User> findByEmailContainsIgnoreCase(String email, Pageable pageable);
@@ -24,4 +25,6 @@ public interface UserRepo extends JpaRepository<User, String> {
     public List<User> findByNoTelpContainsIgnoreCase(String noTelp);
     public List<User> findByDepartemenContainsIgnoreCase(String departemen);
     public List<User> findByJabatanContainsIgnoreCase(String jabatan);
+
+
 }
