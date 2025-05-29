@@ -25,6 +25,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Kode Platform / Aplikasi : AUT
@@ -35,6 +37,7 @@ import java.util.Optional;
 @Service
 @Transactional
 public class RuanganService implements IService<Ruangan>{
+    private static final Logger log = LoggerFactory.getLogger(RuanganService.class);
 
     @Autowired
     private RuanganRepo ruanganRepo;
@@ -56,16 +59,18 @@ public class RuanganService implements IService<Ruangan>{
     @Override
     public ResponseEntity<Object> save(Ruangan ruangan, HttpServletRequest request) {
         try {
-            if(ruangan == null){
-                return new ResponseHandler().handleResponse("Object Null !!", HttpStatus.BAD_REQUEST,null,"OBJECT NULL",request);
-            }
-            ruangan.setCreatedBy(1L);
+            if (ruangan == null) {
+                return new ResponseHandler().handleResponse("Object Null !!", HttpStatus.BAD_REQUEST, null, "OBJECT NULL", request
+                );
+            }ruangan.setCreatedBy(1L);
             ruanganRepo.save(ruangan);
-        }catch (Exception e){
-            return GlobalResponse.dataGagalDisimpan("AUT05FE001",request);
+
+        } catch (Exception e) {
+            return GlobalResponse.dataGagalDisimpan("AUT05FE001", request);
         }
         return GlobalResponse.dataBerhasilDisimpan(request);
     }
+
 
     @Override
     public ResponseEntity<Object> update(String id, Ruangan ruangan, HttpServletRequest request) {
@@ -116,6 +121,7 @@ public class RuanganService implements IService<Ruangan>{
         List<Ruangan> list = null;
         List<RepRuanganDTO> listDTO = null;
         Map<String,Object> data = null;
+
         try {
             page = ruanganRepo.findAll(pageable);
             if(page.isEmpty()){

@@ -2,10 +2,9 @@ package com.juaracoding.fantastic4_rest_api.dto.rel;
 
 public class RelRuanganDTO {
 
-    private  String id;
+    private String id;
 
     private String nama;
-
 
     public String getId() {
         return id;
