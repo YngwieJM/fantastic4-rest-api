@@ -38,7 +38,7 @@ public class UserService {
             if (user == null) {
                 return new ResponseHandler().handleResponse("Object Null !!", HttpStatus.BAD_REQUEST, null, "USR01FV001", request);
             }
-            user.setCreatedBy(1L);
+            user.setCreatedBy("1");
             userRepo.save(user);
             return GlobalResponse.dataBerhasilDisimpan(request);
         } catch (Exception e) {
@@ -61,7 +61,7 @@ public class UserService {
             userDB.setNoTelp(user.getNoTelp());
             userDB.setDepartemen(user.getDepartemen());
             userDB.setJabatan(user.getJabatan());
-            userDB.setModifiedBy(1L);
+            userDB.setModifiedBy("1");
             userRepo.save(userDB);
             return GlobalResponse.dataBerhasilDiubah(request);
         } catch (Exception e) {
