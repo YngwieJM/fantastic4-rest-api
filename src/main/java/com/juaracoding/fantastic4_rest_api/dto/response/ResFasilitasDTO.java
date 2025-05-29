@@ -1,5 +1,8 @@
 package com.juaracoding.fantastic4_rest_api.dto.response;
 
+import com.juaracoding.fantastic4_rest_api.dto.rel.RelFasilitasDTO;
+import com.juaracoding.fantastic4_rest_api.dto.rel.RelRuanganDTO;
+
 public class ResFasilitasDTO {
 
     private String id;
@@ -7,6 +10,16 @@ public class ResFasilitasDTO {
     private String namaFasilitas;
 
     private Short jumlah;
+
+    private RelRuanganDTO ruangan;
+
+    public RelRuanganDTO getRuangan() {
+        return ruangan;
+    }
+
+    public void setRuangan(RelRuanganDTO ruangan) {
+        this.ruangan = ruangan;
+    }
 
     public String getId() {
         return id;

@@ -8,6 +8,16 @@ public class RepFasilitasDTO {
 
     private Short jumlah;
 
+    private String namaRuangan;
+
+    public String getNamaRuangan() {
+        return namaRuangan;
+    }
+
+    public void setNamaRuangan(String namaRuangan) {
+        this.namaRuangan = namaRuangan;
+    }
+
     public String getId() {
         return id;
     }
