@@ -123,16 +123,16 @@ public class UserService {
                     page = userRepo.findByNamaContainsIgnoreCase(value, pageable);
                     break;
                 case "email":
-                    page = userRepo.findByEmailContainIgnoreCase(value, pageable);
+                    page = userRepo.findByEmailContainsIgnoreCase(value, pageable);
                     break;
                 case "noTelp":
-                    page = userRepo.findByNoTelpContainIgnoreCase(value, pageable);
+                    page = userRepo.findByNoTelpContainsIgnoreCase(value, pageable);
                     break;
                 case "departemen":
-                    page = userRepo.findByDepartemenContainIgnoreCase(value, pageable);
+                    page = userRepo.findByDepartemenContainsIgnoreCase(value, pageable);
                     break;
                 case "jabatan":
-                    page = userRepo.findByJabatanContainIgnoreCase(value, pageable);
+                    page = userRepo.findByJabatanContainsIgnoreCase(value, pageable);
                     break;
                 default:
                     page = userRepo.findAll(pageable);
