@@ -6,7 +6,6 @@ import com.juaracoding.fantastic4_rest_api.dto.report.RepRuanganDTO;
 import com.juaracoding.fantastic4_rest_api.dto.response.ResRuanganDTO;
 import com.juaracoding.fantastic4_rest_api.dto.validation.ValRuanganDTO;
 import com.juaracoding.fantastic4_rest_api.handler.ResponseHandler;
-import com.juaracoding.fantastic4_rest_api.model.Fasilitas;
 import com.juaracoding.fantastic4_rest_api.model.Ruangan;
 import com.juaracoding.fantastic4_rest_api.repo.RuanganRepo;
 import com.juaracoding.fantastic4_rest_api.utils.*;
@@ -29,7 +28,7 @@ import java.util.Optional;
 
 /**
  * Kode Platform / Aplikasi : AUT
- * Kode Modul : 04
+ * Kode Modul : 05
  * Kode Validation / Error  : FV - FE
  */
 
@@ -63,7 +62,7 @@ public class RuanganService implements IService<Ruangan>{
             ruangan.setCreatedBy(1L);
             ruanganRepo.save(ruangan);
         }catch (Exception e){
-            return GlobalResponse.dataGagalDisimpan("AUT04FE001",request);
+            return GlobalResponse.dataGagalDisimpan("AUT05FE001",request);
         }
         return GlobalResponse.dataBerhasilDisimpan(request);
     }
@@ -79,7 +78,7 @@ public class RuanganService implements IService<Ruangan>{
             }
             Optional<Ruangan> opRuangan = ruanganRepo.findById(id);
             if(!opRuangan.isPresent()){
-                return GlobalResponse.dataTidakDitemukan("AUT04FV011",request);
+                return GlobalResponse.dataTidakDitemukan("AUT05FV011",request);
         }
         Ruangan ruanganDB = opRuangan.get();
         ruanganDB.setNamaRuangan(ruangan.getNamaRuangan());
@@ -88,7 +87,7 @@ public class RuanganService implements IService<Ruangan>{
         ruanganDB.setLokasi(ruangan.getLokasi());
         ruanganDB.setModifiedBy(1L);
     } catch (Exception e){
-            return GlobalResponse.dataGagalDiubah("AUT04FE012",request);
+            return GlobalResponse.dataGagalDiubah("AUT05FE012",request);
         }
         return GlobalResponse.dataBerhasilDiubah(request);
 }
@@ -98,15 +97,15 @@ public class RuanganService implements IService<Ruangan>{
     public ResponseEntity<Object> delete(String id, HttpServletRequest request) {
         try {
             if (id==null) {
-                return GlobalResponse.objectIsNull("AUT04FV021", request);
+                return GlobalResponse.objectIsNull("AUT05FV021", request);
             }
             Optional<Ruangan> opRuangan = ruanganRepo.findById(String.valueOf(id));
             if(!opRuangan.isPresent()){
-                    return GlobalResponse.dataTidakDitemukan("AUT04FV022",request);
+                    return GlobalResponse.dataTidakDitemukan("AUT05FV022",request);
                 }
             ruanganRepo.findById(id);
             }catch (Exception e){
-                return GlobalResponse.dataGagalDihapus("AUT04FE021",request);
+                return GlobalResponse.dataGagalDihapus("AUT05FE021",request);
             }
                 return GlobalResponse.dataBerhasilDihapus(request);
     }
@@ -120,12 +119,12 @@ public class RuanganService implements IService<Ruangan>{
         try {
             page = ruanganRepo.findAll(pageable);
             if(page.isEmpty()){
-                return GlobalResponse.dataTidakDitemukan("AUT04FV031",request);
+                return GlobalResponse.dataTidakDitemukan("AUT05FV031",request);
             }
             listDTO = mapToDTO(page.getContent());
             data = tp.transformPagination(listDTO,page,"id","");
             } catch (Exception e) {
-            return GlobalResponse.terjadiKesalahan("AUT04FE031", request);
+            return GlobalResponse.terjadiKesalahan("AUT05FE031", request);
         }
         return GlobalResponse.dataDitemukan(listDTO, request);
         }
@@ -135,16 +134,16 @@ public class RuanganService implements IService<Ruangan>{
         ResRuanganDTO resRuanganDTO = null;
         try {
             if (id == null) {
-                return GlobalResponse.objectIsNull("AUT04FV041", request);
+                return GlobalResponse.objectIsNull("AUT05FV041", request);
             }
             Optional<Ruangan> opRuangan = ruanganRepo.findById(String.valueOf(id));
             if (!opRuangan.isPresent()) {
-                return GlobalResponse.dataTidakDitemukan("AUT04FV042", request);
+                return GlobalResponse.dataTidakDitemukan("AUT05FV042", request);
             }
             Ruangan ruanganDB = opRuangan.get();
             resRuanganDTO = mapToDTO(ruanganDB);
         } catch (Exception e) {
-            return GlobalResponse.terjadiKesalahan("AUT04FE041", request);
+            return GlobalResponse.terjadiKesalahan("AUT05wFE041", request);
         }
         return GlobalResponse.dataDitemukan(resRuanganDTO, request);
     }
