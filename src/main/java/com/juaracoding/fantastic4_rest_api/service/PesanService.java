@@ -52,11 +52,11 @@ public class PesanService {
         return pesanRepo.findByTanggal(tanggal);
     }
 
-    public List<Pesan> findByUser(Long userId) {
+    public List<Pesan> findByUser(String userId) {
         return pesanRepo.findByUserIDUserID(userId);
     }
 
-    public List<Pesan> findByRuangan(Long ruanganId) {
+    public List<Pesan> findByRuangan(String ruanganId) {
         return pesanRepo.findByRuanganIDRuanganID(ruanganId);
     }
 }
