@@ -142,7 +142,7 @@ public class FasilitasService implements IService<Fasilitas> {
         try {
             switch (columnName){
                 case"namaFasilitas": page = fasilitasRepo.findByNamaFasilitasContainsIgnoreCase(value, pageable);break;
-//                case "ruanganID": page = fasilitasRepo.findByRuanganIDContainsIgnorCase(value, pageable);break;
+                case "ruanganID": page = fasilitasRepo.cariRuangan(value, pageable);break;
                 default:page = fasilitasRepo.findAll(pageable);break;
             }
             if (page.isEmpty()){

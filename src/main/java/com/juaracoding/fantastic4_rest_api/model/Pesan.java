@@ -14,7 +14,7 @@ public class Pesan {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "PesanID")
-    private Long pesanID;
+    private Long id;
 
     @ManyToOne
     @JoinColumn(name = "UserID", foreignKey = @ForeignKey(name = "fk-pesan-to-user"))
@@ -59,11 +59,11 @@ public class Pesan {
 
 
     public Long getPesanID() {
-        return pesanID;
+        return id;
     }
 
     public void setPesanID(Long pesanID) {
-        this.pesanID = pesanID;
+        this.id = pesanID;
     }
 
     public User getUserID() {

@@ -58,7 +58,7 @@ public class FacilityController {
         return fasilitasService.findById(id, request);
     }
 
-    @GetMapping("/find-by-param/{sort}/{sort-by}/{page}")
+    @GetMapping("{sort}/{sort-by}/{page}")
     public ResponseEntity<Object> findByParam(
             @PathVariable String sort,
             @PathVariable(value = "sort-by") String sortBy,
@@ -78,8 +78,8 @@ public class FacilityController {
 
     private String sortColumn(String column){
         switch (column){
-            case "namaFasilitas":column="nama";break;
-            case "jumlah":column="jumlah";break;
+            case "namaFasilitas":column="namaFasilitas";break;
+            case "ruanganID":column="nuanganID";break;
             default:column="id";break;
         }
         return column;

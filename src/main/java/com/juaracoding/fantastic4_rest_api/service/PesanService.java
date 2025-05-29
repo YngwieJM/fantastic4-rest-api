@@ -154,6 +154,8 @@ public class PesanService implements IService<Pesan> {
         try{
             switch (columnName){
                 case "namaPertemuan":page = pesanRepo.findByNamaPertemuanContainsIgnoreCase(value, pageable);break;
+                case "idUser":page = pesanRepo.cariUser(value, pageable);break;
+                case "idRuangan":page = pesanRepo.cariRuangan(value, pageable);break;
                 case "status":page = pesanRepo.findByStatusIgnoreCase(value, pageable);break;
                 case "tanggalPertemuan":
                 try {
