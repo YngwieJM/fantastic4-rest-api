@@ -155,8 +155,31 @@ public class PesanService implements IService<Pesan> {
             switch (columnName){
                 case "namaPertemuan":page = pesanRepo.findByNamaPertemuanContainsIgnoreCase(value, pageable);break;
                 case "status":page = pesanRepo.findByStatusIgnoreCase(value, pageable);break;
-                default:page = pesanRepo.findAll(pageable);
+                case "tanggalPertemuan":
+                try {
+                    LocalDate tanggal = LocalDate.parse(value); // Format: yyyy-MM-dd
+                    page = pesanRepo.findByTanggalPertemuan(tanggal, pageable);
+                } catch (Exception e) {
+                    return new ResponseHandler().handleResponse(
+                            "Format tanggal salah. Gunakan format yyyy-MM-dd",
+                            HttpStatus.BAD_REQUEST,
+                            null,
+                            "PES53",
+                            request
+                    );
+                }
+                break;
+
+                default:
+                    return new ResponseHandler().handleResponse(
+                            "Kolom tidak dikenali.",
+                            HttpStatus.BAD_REQUEST,
+                            null,
+                            "PES54",
+                            request
+                    );
             }
+
             if (page.isEmpty()){
                 return GlobalResponse.dataTidakDitemukan("PES51", request);
             }
