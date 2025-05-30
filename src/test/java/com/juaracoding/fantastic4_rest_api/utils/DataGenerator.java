@@ -41,8 +41,9 @@ public class DataGenerator {
         String noTelp = "";
         while(!isValid){
             try{
-                noTelp = faker.phoneNumber().phoneNumber();
-                matcher = Pattern.compile("^(\\+62)8[0-9]{9,13}$").matcher(noTelp);
+                // Generate a valid Indonesian phone number
+                noTelp = "+628" + faker.number().numberBetween(10000000L, 999999999999L);
+                matcher = Pattern.compile("^\\+628[1-9][0-9]{7,12}$").matcher(noTelp);
                 isValid = matcher.find();
                 if(intLoop==250){
                     System.out.println("SUDAH MENCOBA MEMBUAT DATA No Telp SEBANYAK 250 KALI DAN GAGAL !!");
@@ -161,6 +162,33 @@ public class DataGenerator {
         return namaLengkap;
     }
 
+    public String dataId() {
+        isValid = false;
+        intLoop = 0;
+        String id = "";
+        while (!isValid) {
+            try {
+                id = faker.bothify("??????????#####").replaceAll("[^A-Za-z0-9]", "");
+                // Ensure length between 5 and 50
+                if (id.length() < 5) {
+                    id += faker.bothify("?????").replaceAll("[^A-Za-z0-9]", "");
+                }
+                if (id.length() > 50) {
+                    id = id.substring(0, 50);
+                }
+                matcher = Pattern.compile("^([A-Za-z0-9]{5,50})$").matcher(id);
+                isValid = matcher.find();
+                if (intLoop == 250) {
+                    System.out.println("Tried 250 times to generate ID and failed!");
+                    System.exit(1);
+                }
+                intLoop++;
+            } catch (Exception e) {
+                isValid = false;
+            }
+        }
+        return id;
+    }
 
     public String dataPassword() {
         isValid = false;
@@ -183,13 +211,16 @@ public class DataGenerator {
         return password;
     }
     public String dataDepartement() {
-        boolean isValid = false;
-        int intLoop = 0;
+        isValid = false;
+        intLoop = 0;
         String departement = "";
         while (!isValid) {
             try {
-                departement = faker.name().name();
-                matcher = Pattern.compile("^[A-Za-z0-9 ]+$").matcher(departement);
+                departement = faker.company().profession().replaceAll("[^A-Za-z0-9 ]", "");
+                if (departement.length() < 3) {
+                    departement += " IT";
+                }
+                matcher = Pattern.compile("^[A-Za-z0-9 ]{3,100}$").matcher(departement);
                 isValid = matcher.find();
                 if (intLoop == 250){
                     System.out.println("SUDAH MENCOBA MEMBUAT DATA Departemen SEBANYAK 250 KALI DAN GAGAL !!");
@@ -204,13 +235,16 @@ public class DataGenerator {
     }
 
     public String dataJabatan() {
-        boolean isValid = false;
-        int intLoop = 0;
+        isValid = false;
+        intLoop = 0;
         String jabatan = "";
         while (!isValid) {
             try {
-                jabatan = faker.name().name();
-                matcher = Pattern.compile("^[A-Za-z0-9 ]+$").matcher(jabatan);
+                jabatan = faker.job().title().replaceAll("[^A-Za-z0-9 ]", "");
+                if (jabatan.length() < 3) {
+                    jabatan += " IT";
+                }
+                matcher = Pattern.compile("^[A-Za-z0-9 ]{3,100}$").matcher(jabatan);
                 isValid = matcher.find();
                 if (intLoop == 250){
                     System.out.println("SUDAH MENCOBA MEMBUAT DATA Jabatan SEBANYAK 250 KALI DAN GAGAL !!");

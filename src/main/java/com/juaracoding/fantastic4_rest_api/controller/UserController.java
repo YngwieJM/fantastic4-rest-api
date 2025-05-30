@@ -1,5 +1,6 @@
 package com.juaracoding.fantastic4_rest_api.controller;
 
+import com.juaracoding.fantastic4_rest_api.config.OtherConfig;
 import com.juaracoding.fantastic4_rest_api.dto.validation.ValUserDTO;
 import com.juaracoding.fantastic4_rest_api.service.UserService;
 import jakarta.servlet.http.HttpServletRequest;
@@ -45,7 +46,7 @@ public class UserController {
 
     @GetMapping
     public ResponseEntity<Object> findAll(HttpServletRequest request) {
-        Pageable pageable = PageRequest.of(0, 10, Sort.by("id"));
+        Pageable pageable = PageRequest.of(0, OtherConfig.getDefaultPaginationSize(), Sort.by("id"));
         return userService.findAll(pageable, request);
     }
 

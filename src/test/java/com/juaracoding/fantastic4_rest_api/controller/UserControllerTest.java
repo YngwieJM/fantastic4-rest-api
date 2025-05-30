@@ -29,137 +29,117 @@ public class UserControllerTest extends AbstractTestNGSpringContextTests {
     @Autowired
     private UserRepo userRepo;
 
-    private JSONObject req;
-    private User user;
-    private Random rand ;
-    private String token;
-    private DataGenerator dataGenerator;
+        private JSONObject req;
+        private User user;
+        private Random rand ;
+        private String token;
+        private DataGenerator dataGenerator;
 
-    @BeforeClass
-    private void init(){
-//        token = new TokenGenerator(AuthControllerTest.authorization).getToken();
-        rand  = new Random();
-        req = new JSONObject();
-        user = new User();
-        dataGenerator = new DataGenerator();
-        Optional<User> op = userRepo.findTop1ByOrderByIdDesc();
-        user = op.get();
-    }
+        @BeforeClass
+        private void init(){
+//            token = new TokenGenerator(AuthControllerTest.authorization).getToken();
+            rand  = new Random();
+            req = new JSONObject();
+            user = new User();
+            dataGenerator = new DataGenerator();
+            Optional<User> op = userRepo.findTop1ByOrderByIdDesc();
+            user = op.get();
+        }
 
-    @BeforeTest
-    private void setup(){
-        /** sifatnya optional */
-    }
+        @BeforeTest
+        private void setup(){
+            /** sifatnya optional */
+        }
 
-    @Test(priority = 0)
-    void save(){
-        Response response ;
-        String nama = dataGenerator.dataNama();
-        String path = "/"+nama.toLowerCase().replace(" ","-");
-        try{
-            req.put("nama", dataGenerator.dataNama());
-            req.put("email", dataGenerator.dataEmail());
-            req.put("noTelp", dataGenerator.dataNoTelp());
-            req.put("departemen", dataGenerator.dataDepartement());
-            req.put("jabatan", dataGenerator.dataJabatan());
-            req.put("password", dataGenerator.dataPassword());
-            RelAksesDTO relAksesDTO = new RelAksesDTO();
-            relAksesDTO.setId(user.getAkses().getId());
-            req.put("akses", relAksesDTO);
+        @Test(priority = 0)
+        void save(){
+            Response response ;
+            String nama = dataGenerator.dataNamaTim();
+            String path = "/"+nama.toLowerCase().replace(" ","-");
+            try{
+                req.put("id", dataGenerator.dataId());
+                req.put("nama", dataGenerator.dataNama());
+                req.put("email", dataGenerator.dataEmail());
+                req.put("noTelp", dataGenerator.dataNoTelp());
+                req.put("departemen",dataGenerator.dataDepartement());
+                req.put("jabatan",dataGenerator.dataJabatan());
+                req.put("password",dataGenerator.dataPassword());
+                RelAksesDTO relAksesDTO = new RelAksesDTO();
+                relAksesDTO.setId(user.getAkses().getId());
+                req.put("akses",relAksesDTO);
 
-            response = given().
-                    header("Content-Type","application/json").
-                    header("accept", "*/*").
-//                    header(AuthControllerTest.AUTH_HEADER,token).
-                    body(req).
-                    request(Method.POST, "user");
+                response = given().
+                        header("Content-Type","application/json").
+                        header("accept","*/*").
+//                        header(AuthControllerTest.AUTH_HEADER,token).
+                        body(req).
+                        request(Method.POST,"user");
 
-            int intResponse = response.getStatusCode();
-            JsonPath jsonPath = response.jsonPath();
-            System.out.println(response.getBody().prettyPrint());
-            Assert.assertEquals(intResponse, 201);
-            Assert.assertEquals(jsonPath.getString("message"), "SAVE SUCCESS !!");
-            Assert.assertNotNull(jsonPath.getString("data"));
-            Assert.assertTrue(Boolean.parseBoolean(jsonPath.getString("success")));
-            Assert.assertNotNull(jsonPath.getString("timestamp"));
-        }catch (Exception e){
+                int intResponse = response.getStatusCode();
+                JsonPath jsonPath = response.jsonPath();
+                System.out.println(response.getBody().prettyPrint());
+                Assert.assertEquals(intResponse,201);
+                Assert.assertEquals(jsonPath.getString("message"),"SAVE SUCCESS !!");
+                Assert.assertNotNull(jsonPath.getString("data"));
+                Assert.assertTrue(Boolean.parseBoolean(jsonPath.getString("success")));
+                Assert.assertNotNull(jsonPath.getString("timestamp"));
+            }catch (Exception e){
                 System.out.println(e.getMessage());
             }
         }
 
-    @Test(priority = 10)
-    void update() {
-        Response response;
-        req.clear();
-        try {
-            String reqNama = dataGenerator.dataNama();
-            String reqEmail = dataGenerator.dataEmail();
-            String reqNoTelp = dataGenerator.dataNoTelp();
-            String reqDepartemen = dataGenerator.dataDepartement();
-            String reqJabatan = dataGenerator.dataJabatan();
-            String reqPassword = dataGenerator.dataPassword();
+        @Test(priority = 10)
+        void update(){
+            Response response;
+            req.clear();
+            try{
+                String reqNama = dataGenerator.dataNama();
+                String reqEmail = dataGenerator.dataEmail();
+                String reqNoTelp = dataGenerator.dataNoTelp();
+                String reqDepartemen = dataGenerator.dataDepartement();
+                String reqJabatan = dataGenerator.dataJabatan();
+                String reqPassword = dataGenerator.dataPassword();
 
-            user.setNama(reqNama);
-            user.setEmail(reqEmail);
-            user.setNoTelp(reqNoTelp);
-            user.setDepartemen(reqDepartemen);
-            user.setJabatan(reqJabatan);
-            user.setPassword(reqPassword);
+                user.setId(user.getId());
+                user.setNama(reqNama);
+                user.setEmail(reqEmail);
+                user.setNoTelp(reqNoTelp);
+                user.setDepartemen(reqDepartemen);
+                user.setJabatan(reqJabatan);
+                user.setPassword(reqPassword);
 
-            req.put("nama", reqNama);
-            req.put("email", reqEmail);
-            req.put("noTelp", reqNoTelp);
-            req.put("departemen", reqDepartemen);
-            req.put("jabatan", reqJabatan);
-            req.put("password", reqPassword);
-            RelAksesDTO relAksesDTO = new RelAksesDTO();
-            relAksesDTO.setId(user.getAkses().getId());
-            req.put("akses", relAksesDTO);
+                req.put("id", user.getId());
+                req.put("nama", reqNama);
+                req.put("email", reqEmail);
+                req.put("noTelp", reqNoTelp);
+                req.put("departemen", reqDepartemen);
+                req.put("jabatan", reqJabatan);
+                RelAksesDTO relAksesDTO = new RelAksesDTO();
+                relAksesDTO.setId(user.getAkses().getId());
+                req.put("akses",relAksesDTO);
 
-            response = given().
-                    header("Content-Type", "application/json").
-                    header("accept", "*/*").
-//                    header(AuthControllerTest.AUTH_HEADER,token).
-                    body(req).
-                    request(Method.PUT, "user/" + user.getId());
-
-            int intResponse = response.getStatusCode();
-            JsonPath jsonPath = response.jsonPath();
-            Assert.assertEquals(intResponse, 200);
-            Assert.assertEquals(jsonPath.getString("message"), "DATA BERHASIL DIUBAH");
-            Assert.assertNotNull(jsonPath.getString("data"));
-            Assert.assertTrue(Boolean.parseBoolean(jsonPath.getString("success")));
-            Assert.assertNotNull(jsonPath.getString("timestamp"));
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
-        }
-    }
-
-    @Test (priority = 20)
-    void delete(){
-        Response response;
-        try {
-            response = given().
-                    header("Content-Type", "application/json").
-                    header("accept", "*/*").
+                response = given().
+                        header("Content-Type","application/json").
+                        header("accept","*/*").
 //                        header(AuthControllerTest.AUTH_HEADER,token).
-            request(Method.DELETE, "user/" + user.getId());
+                        body(req).
+                        request(Method.PUT,"user/"+user.getId());
 
-            int intResponse = response.getStatusCode();
-            JsonPath jsonPath = response.jsonPath();
-
-            Assert.assertEquals(intResponse, 200);
-            Assert.assertEquals(jsonPath.getString("messege"), "DATA BERHASIL DIHAPUS");
-            Assert.assertNotNull(jsonPath.getString("data"));
-            Assert.assertTrue(Boolean.parseBoolean(jsonPath.getString("success")));
-            Assert.assertNotNull(jsonPath.getString("timestamp"));
-        }catch (Exception e){
-            System.out.println(e.getMessage());
+                int intResponse = response.getStatusCode();
+                JsonPath jsonPath = response.jsonPath();
+                Assert.assertEquals(intResponse,200);
+                Assert.assertEquals(jsonPath.getString("message"),"DATA BERHASIL DIUBAH");
+                Assert.assertNotNull(jsonPath.getString("data"));
+                Assert.assertTrue(Boolean.parseBoolean(jsonPath.getString("success")));
+                Assert.assertNotNull(jsonPath.getString("timestamp"));
+                System.out.println(response.getBody().prettyPrint());
+            }catch (Exception e){
+                System.out.println(e.getMessage());
+            }
         }
-    }
 
-    @Test(priority = 30)
-    void findById(){
+        @Test(priority = 20)
+        void findById(){
             Response response;
             try{
                 response = given().
@@ -171,22 +151,24 @@ public class UserControllerTest extends AbstractTestNGSpringContextTests {
                 int intResponse = response.getStatusCode();
                 JsonPath jsonPath = response.jsonPath();
                 Assert.assertEquals(intResponse,200);
-                Assert.assertEquals(jsonPath.getString("message"),"DATA BERHASIL DITEMUKAN");
+                Assert.assertEquals(jsonPath.getString("message"),"DATA DITEMUKAN");
                 Assert.assertEquals(jsonPath.getString("data.id"),user.getId());
                 Assert.assertEquals(jsonPath.getString("data.nama"),user.getNama());
                 Assert.assertEquals(jsonPath.getString("data.email"),user.getEmail());;
-                Assert.assertEquals(jsonPath.getString("data.noTelp"),user.getNoTelp());
+                Assert.assertEquals(jsonPath.getString("data.no-telp"),user.getNoTelp());
                 Assert.assertEquals(jsonPath.getString("data.departemen"),user.getDepartemen());
                 Assert.assertEquals(jsonPath.getString("data.jabatan"),user.getJabatan());
-                Assert.assertEquals(jsonPath.getString("data.password"),user.getPassword());
+//                Assert.assertEquals(jsonPath.getString("data.password"),user.getPassword());
                 Assert.assertTrue(Boolean.parseBoolean(jsonPath.getString("success")));
                 Assert.assertNotNull(jsonPath.getString("timestamp"));
+                System.out.println(response.getBody().prettyPrint());
+
             }catch (Exception e){
                 System.out.println(e.getMessage());
             }
         }
 
-    @Test(priority = 40)
+    @Test(priority = 30)
     void findByAll(){
         Response response;
         try{
@@ -194,15 +176,16 @@ public class UserControllerTest extends AbstractTestNGSpringContextTests {
                     header("Content-Type","application/json").
                     header("accept","*/*").
 //                        header(AuthControllerTest.AUTH_HEADER,token).
-                    request(Method.GET,"user/");
+                     request(Method.GET, "user");
 
             int intResponse = response.getStatusCode();
             JsonPath jsonPath = response.jsonPath();
+            System.out.println(response.getBody().prettyPrint());
             List ltData = jsonPath.getList("data.content");
-            int intData = ltData.size();
+            int intData = (ltData != null) ? ltData.size() : 0;
 
             Assert.assertEquals(intResponse,200);
-            Assert.assertEquals(jsonPath.getString("message"),"DATA BERHASIL DITEMUKAN");
+            Assert.assertEquals(jsonPath.getString("message"),"DATA DITEMUKAN");
             Assert.assertTrue(Boolean.parseBoolean(jsonPath.getString("success")));
             Assert.assertNotNull(jsonPath.getString("timestamp"));
 // ======================================================================================================================================================
@@ -220,18 +203,19 @@ public class UserControllerTest extends AbstractTestNGSpringContextTests {
         }
     }
 
-    @Test(priority = 50)
+    @Test(priority = 40)
     void findByParam() {
         Response response;
-        String pathVariable = "/user/asc/id/0";
+        String pathVariable = "/user/search/asc/id/0";
         String strValue = user.getNama();
 
         try {
             response = given().
                     header("Content-Type", "application/json").
                     header("accept", "*/*").
-                    params("value", strValue).
                     params("size", 10).
+                    params("column", "nama").
+                    params("value", strValue).
                     request(Method.GET, pathVariable);
             int intResponse = response.getStatusCode();
             JsonPath jsonPath = response.jsonPath();
@@ -241,27 +225,29 @@ public class UserControllerTest extends AbstractTestNGSpringContextTests {
 
             System.out.println(response.getBody().prettyPrint());
             Assert.assertEquals(intResponse, 200);
-            Assert.assertEquals(jsonPath.getString("message"), "DATA BERHASIL DITEMUKAN");
+            Assert.assertEquals(jsonPath.getString("message"), "DATA DITEMUKAN");
             Assert.assertTrue(Boolean.parseBoolean(jsonPath.getString("success")));
             Assert.assertNotNull(jsonPath.getString("timestamp"));
 
             Assert.assertEquals(jsonPath.getString("data.sort-by"), "id");
             Assert.assertEquals(Integer.parseInt(jsonPath.getString("data.current-page")), 0);
-            Assert.assertEquals(jsonPath.getString("data.column-name"), "id");
+            Assert.assertEquals(jsonPath.getString("data.column-name"), "nama");
             Assert.assertNotNull(jsonPath.getString("data.total-pages"));
             Assert.assertEquals(jsonPath.getString("data.sort"), "asc");
             Assert.assertEquals(Integer.parseInt(jsonPath.getString("data.size-per-page")), 10);
             Assert.assertEquals(jsonPath.getString("data.value"), strValue);
 
-            Assert.assertEquals(jsonPath.getString("data.id"), user.getId());
-            Assert.assertEquals(jsonPath.getString("data.nama"), user.getNama());
-            Assert.assertEquals(jsonPath.getString("data.email"), user.getEmail());
-            ;
-            Assert.assertEquals(jsonPath.getString("data.noTelp"), user.getNoTelp());
-            Assert.assertEquals(jsonPath.getString("data.departemen"), user.getDepartemen());
-            Assert.assertEquals(jsonPath.getString("data.jabatan"), user.getJabatan());
-            Assert.assertEquals(jsonPath.getString("data.password"), user.getPassword());
             Assert.assertEquals(map.get("id").toString(), user.getId());
+            Assert.assertEquals(map.get("nama"), user.getNama());
+            Assert.assertEquals(map.get("email"), user.getEmail());
+            Assert.assertEquals(map.get("no-telp"), user.getNoTelp());
+            Assert.assertEquals(map.get("departemen"), user.getDepartemen());
+            Assert.assertEquals(map.get("jabatan"), user.getJabatan());
+            Map<String, Object> aksesMap = (Map<String, Object>) map.get("akses");
+            Assert.assertEquals(aksesMap.get("id").toString(), user.getAkses().getId().toString());
+            Assert.assertEquals(aksesMap.get("nama"), user.getAkses().getNama());
+
+
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }

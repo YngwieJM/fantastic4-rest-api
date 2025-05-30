@@ -5,7 +5,7 @@ import com.juaracoding.fantastic4_rest_api.dto.rel.RelAksesDTO;
 
 public class ResUserDTO {
 
-//    private String id;
+    private String id;
 
     private String email;
 
@@ -22,13 +22,13 @@ public class ResUserDTO {
 
     private RelAksesDTO akses;
 
-//    public String getId() {
-//        return id;
-//    }
-//
-//    public void setId(String id) {
-//        this.id = id;
-//    }
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
 
     public String getEmail() {
         return email;
