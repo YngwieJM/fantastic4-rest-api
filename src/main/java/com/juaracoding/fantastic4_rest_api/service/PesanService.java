@@ -54,6 +54,7 @@ public class PesanService implements IService<Pesan> {
                 return new ResponseHandler().handleResponse("Object Null !!", HttpStatus.BAD_REQUEST, null, "PES01", request);
             }
             pesan.setCreatedBy(1L);
+            pesan.setTanggalPemesanan(LocalDate.now());
             pesan.setStatus("pending");
             pesanRepo.save(pesan);// Assuming 1L is the ID of the user creating the record
         } catch (Exception e) {

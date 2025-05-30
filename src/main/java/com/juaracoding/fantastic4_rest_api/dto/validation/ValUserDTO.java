@@ -27,8 +27,10 @@ public class ValUserDTO {
 
     /*Nomor telepon user, format harus +628xxxxxxxxxx*/
     @NotNull
-    @Pattern(regexp = "^(\\+62)8[0-9]{9,13}$",
-            message = "Nomor telepon tidak boleh kosong. Contoh yang benar: +62812341567 ")
+    @Pattern(
+            regexp = "^\\+628[1-9][0-9]{7,12}$",
+            message = "Nomor telepon harus diawali +628 dan diikuti 8-13 digit. Contoh: +6281234567890"
+    )
     private String noTelp;
 
     /*Password user, wajib memenuhi syarat kombinasi karakter*/
