@@ -18,6 +18,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -42,6 +43,8 @@ public class UserService implements IService<User> {
                 return new ResponseHandler().handleResponse("Object Null !!", HttpStatus.BAD_REQUEST, null, "OBJECT NULL", request
                 );
             }user.setCreatedBy(String.valueOf(1L));
+            user.setCreatedDate(LocalDateTime.now());
+            user.setRegistered(false);
             userRepo.save(user);
         } catch (Exception e) {
             return GlobalResponse.dataGagalDisimpan("AUT05FE001", request);
@@ -65,7 +68,8 @@ public class UserService implements IService<User> {
             userDB.setNoTelp(user.getNoTelp());
             userDB.setDepartemen(user.getDepartemen());
             userDB.setJabatan(user.getJabatan());
-            userDB.setModifiedBy("1");
+            userDB.setModifiedBy(String.valueOf(1L));
+            userDB.setModifiedDate(LocalDateTime.now());
             userRepo.save(userDB);
             return GlobalResponse.dataBerhasilDiubah(request);
         } catch (Exception e) {

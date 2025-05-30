@@ -21,6 +21,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -56,6 +57,7 @@ public class RuanganService implements IService<Ruangan>{
                 return new ResponseHandler().handleResponse("Object Null !!", HttpStatus.BAD_REQUEST, null, "OBJECT NULL", request
                 );
             }ruangan.setCreatedBy(1L);
+            ruangan.setCreatedDate(LocalDateTime.now());
             ruanganRepo.save(ruangan);
 
         } catch (Exception e) {
@@ -83,6 +85,7 @@ public class RuanganService implements IService<Ruangan>{
         ruanganDB.setMaxKapasitas(ruangan.getMaxKapasitas());
         ruanganDB.setLokasi(ruangan.getLokasi());
         ruanganDB.setModifiedBy(1L);
+        ruanganDB.setModifiedDate(LocalDateTime.now());
     } catch (Exception e){
             return GlobalResponse.dataGagalDiubah("AUT05FE012",request);
         }
