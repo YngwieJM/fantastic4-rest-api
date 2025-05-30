@@ -22,4 +22,3 @@ public class FacilityControllerTest extends AbstractTestNGSpringContextTests {
 
 
     }
-}
