@@ -34,7 +34,7 @@ public class ValUserDTO {
     private String noTelp;
 
     /*Password user, wajib memenuhi syarat kombinasi karakter*/
-    @NotNull
+//    @NotNull
     @Pattern(regexp = "^(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9])(?=.*[@_#\\-$])[\\w@#\\-\\$]{9,16}$",
             message = "Password harus terdiri dari 9-16 karakter dan minimal mengandung 1 huruf besar, 1 huruf kecil, 1 angka, dan 1 spesial karakter (_ - # $ @). Contoh: aB4$12345")
     private String password;

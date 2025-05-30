@@ -15,11 +15,11 @@ public class LoginDTO {
             message = "Format Password Tidak Valid")
     private String password;
 
-    public String getUsername() {
+    public String getId() {
         return username;
     }
 
-    public void setUsername(String username) {
+    public void setId(String username) {
         this.username = username;
     }
 
