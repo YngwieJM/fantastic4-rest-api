@@ -31,4 +31,5 @@ public interface UserRepo extends JpaRepository<User, String> {
     public List<User> findByJabatanContainsIgnoreCase(String jabatan);
 
 
+    Optional<User> findTop1ByOrderByIdDesc();
 }
