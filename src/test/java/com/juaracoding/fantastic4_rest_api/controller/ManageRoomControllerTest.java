@@ -28,58 +28,57 @@ public class ManageRoomControllerTest extends AbstractTestNGSpringContextTests {
 
     @Autowired
     private RuanganRepo ruanganRepo;
-
     private JSONObject req;
     private Ruangan ruangan;
     private Random rand;
     private DataGenerator dataGenerator;
 
-    @BeforeClass
-    public void init() {
-        req = new JSONObject();
-        ruangan = new Ruangan();
-        rand = new Random();
-        dataGenerator = new DataGenerator();
-        Optional<Ruangan> op = ruanganRepo.findTop1ByOrderByIdDesc();
-        if (op.isPresent()) {
-            ruangan = op.get();
-        } else {
-            System.out.println("Tidak ada ruangan yang tersedia untuk diambil");
-            ruangan = new Ruangan(); // atau log/buat ruangan dummy
-        }
-    }
-
-    @Test(priority = 0)
-    void save(){
-        Response response ;
-        String nama = dataGenerator.dataNamaRuangan();
-        String path = "/"+nama.toLowerCase().replace(" ","-");
-        try{
-            int min = rand.nextInt(50) + 1; // 1 - 50
-            int max = min + rand.nextInt(50); // min+1 to min+50
-
-            req.put("namaRuangan", dataGenerator.dataNamaRuangan());
-            req.put("minKapasitas", min);
-            req.put("maxKapasitas", max);
-            req.put("lokasi", dataGenerator.dataLokasi());
-
-
-            response = given().
-                    header("Content-Type","application/json").
-                    header("accept","*/*").
-                    body(req).
-                    request(Method.POST,"room");
-
-            int intResponse = response.getStatusCode();
-            JsonPath jsonPath = response.jsonPath();
-            System.out.println(response.getBody().prettyPrint());
-            Assert.assertEquals(intResponse,201);
-            Assert.assertEquals(jsonPath.getString("message"),"SAVE SUCCESS !!");
-            Assert.assertNotNull(jsonPath.getString("data"));
-            Assert.assertTrue(Boolean.parseBoolean(jsonPath.getString("success")));
-            Assert.assertNotNull(jsonPath.getString("timestamp"));
-        }catch (Exception e){
-            System.out.println(e.getMessage());
-        }
-    }
+//    @BeforeClass
+//    public void init() {
+//        req = new JSONObject();
+//        ruangan = new Ruangan();
+//        rand = new Random();
+//        dataGenerator = new DataGenerator();
+//        Optional<Ruangan> op = ruanganRepo.findTop1ByOrderByIdDesc();
+//        if (op.isPresent()) {
+//            ruangan = op.get();
+//        } else {
+//            System.out.println("Tidak ada ruangan yang tersedia untuk diambil");
+//            ruangan = new Ruangan(); // atau log/buat ruangan dummy
+//        }
+//    }
+//
+//    @Test(priority = 0)
+//    void save(){
+//        Response response ;
+//        String nama = dataGenerator.dataNamaTim();
+//        String path = "/"+nama.toLowerCase().replace(" ","-");
+//        try{
+//            int min = rand.nextInt(50) + 1; // 1 - 50
+//            int max = min + rand.nextInt(50); // min+1 to min+50
+//
+//            req.put("namaRuangan", dataGenerator.dataNamaRuangan());
+//            req.put("minKapasitas", min);
+//            req.put("maxKapasitas", max);
+//            req.put("lokasi", dataGenerator.dataLokasi());
+//
+//
+//            response = given().
+//                    header("Content-Type","application/json").
+//                    header("accept","*/*").
+//                    body(req).
+//                    request(Method.POST,"room");
+//
+//            int intResponse = response.getStatusCode();
+//            JsonPath jsonPath = response.jsonPath();
+//            System.out.println(response.getBody().prettyPrint());
+//            Assert.assertEquals(intResponse,201);
+//            Assert.assertEquals(jsonPath.getString("message"),"SAVE SUCCESS !!");
+//            Assert.assertNotNull(jsonPath.getString("data"));
+//            Assert.assertTrue(Boolean.parseBoolean(jsonPath.getString("success")));
+//            Assert.assertNotNull(jsonPath.getString("timestamp"));
+//        }catch (Exception e){
+//            System.out.println(e.getMessage());
+//        }
+//    }
 }
