@@ -27,4 +27,6 @@ public interface PesanRepo extends  JpaRepository<Pesan, Long> {
     public Page<Pesan> findByTanggalPertemuan(LocalDate tanggal, Pageable pageable);
 
     public List<Pesan> findByTanggalPertemuan(LocalDate tanggal);
+
+    Optional<Pesan> findTop1ByOrderByIdDesc();
 }

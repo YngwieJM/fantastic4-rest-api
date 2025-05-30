@@ -2,6 +2,7 @@ package com.juaracoding.fantastic4_rest_api.utils;
 
 import com.github.javafaker.Faker;
 
+import java.text.SimpleDateFormat;
 import java.util.Locale;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -289,6 +290,75 @@ public class DataGenerator {
         return namaFasilitas;
     }
 
+    public String dataNamaPertemuan() {
+        boolean isValid = false;
+        int intLoop = 0;
+        String namaPertemuan = "";
+        while (!isValid) {
+            try {
+                namaPertemuan = faker.name().name();
+                // Validasi pola: 3-50 karakter, huruf/angka/spasi
+                matcher = Pattern.compile("^[A-Za-z0-9\\s]{3,100}$").matcher(namaPertemuan);
+                isValid = matcher.find();
+                if (intLoop == 250){
+                    System.out.println("SUDAH MENCOBA MEMBUAT DATA Nama Pertemuan SEBANYAK 250 KALI DAN GAGAL !!");
+                    System.exit(1);
+                }
+                intLoop++;
+            } catch (Exception e) {
+                isValid = false;
+            }
+        }
+        return namaPertemuan;
+    }
+
+    public String dataTanggalPemesanan() {
+        isValid = false;
+        intLoop = 0;
+        String tanggalPemesanan = "";
+        while(!isValid){
+            try{
+                tanggalPemesanan = new SimpleDateFormat("yyyy-MM-dd").format(faker.date());
+                isValid = matcher.find();
+                if(intLoop==250){
+                    System.out.println("SUDAH MENCOBA MEMBUAT DATA Tanggal Pemesanan SEBANYAK 15 KALI DAN GAGAL !!");
+                    System.exit(1);
+                }
+                intLoop++;
+            }catch (Exception e){
+                isValid = false;
+            }
+        }
+        return tanggalPemesanan;
+    }
+
+    public String dataTanggalPertemuan() {
+        isValid = false;
+        intLoop = 0;
+        String tanggalPertemuan = "";
+        while(!isValid){
+            try{
+                tanggalPertemuan = new SimpleDateFormat("yyyy-MM-dd").format(faker.date());
+                isValid = matcher.find();
+                if(intLoop==250){
+                    System.out.println("SUDAH MENCOBA MEMBUAT DATA Tanggal Pertemuan SEBANYAK 15 KALI DAN GAGAL !!");
+                    System.exit(1);
+                }
+                intLoop++;
+            }catch (Exception e){
+                isValid = false;
+            }
+        }
+        return tanggalPertemuan;
+    }
+
+    public String dataNamaTim() {
+        isValid = false;
+        intLoop = 0;
+        String namaKota   = "";
+        namaKota = faker.team().name();
+        return namaKota;
+    }
 
 //    public short[] dataKapasitas() {
 //        isValid = false;
