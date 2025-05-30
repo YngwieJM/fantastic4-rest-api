@@ -54,6 +54,27 @@ public class DataGenerator {
         return noTelp;
     }
 
+    public String dataNama() {
+        isValid = false;
+        intLoop = 0;
+        String nama = "";
+        while(!isValid){
+            try{
+                nama = faker.name().name();
+                matcher = Pattern.compile("^[a-zA-Z\\s?]{4,50}$").matcher(nama);
+                isValid = matcher.find();
+                if(intLoop==250){
+                    System.out.println("SUDAH MENCOBA MEMBUAT DATA Nama SEBANYAK 250 KALI DAN GAGAL !!");
+                    System.exit(1);
+                }
+                intLoop++;
+            }catch (Exception e){
+                isValid = false;
+            }
+        }
+        return nama;
+    }
+
     public String dataNamaDepan() {
         isValid = false;
         intLoop = 0;

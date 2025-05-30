@@ -19,6 +19,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -46,6 +47,7 @@ public class FasilitasService implements IService<Fasilitas> {
                 return new ResponseHandler().handleResponse("OBJECT NULL !!", HttpStatus.BAD_REQUEST,null,"OBJECT_NULL",request);
             }
             fasilitas.setCreatedBy(1L); // Assuming 1L is the ID of the user creating the record
+            fasilitas.setCreatedDate(LocalDateTime.now());
             fasilitasRepo.save(fasilitas);
 
         } catch (Exception e) {
@@ -72,6 +74,7 @@ public class FasilitasService implements IService<Fasilitas> {
             fasilitasDB.setNamaFasilitas(fasilitas.getNamaFasilitas());
             fasilitasDB.setJumlah(fasilitas.getJumlah());
             fasilitasDB.setModifiedBy(1L); // Assuming 1L is the ID of the user updating the record
+            fasilitasDB.setModifiedDate(LocalDateTime.now());
 
         } catch (Exception e) {
             return GlobalResponse.dataGagalDiubah("FAC012", request);
