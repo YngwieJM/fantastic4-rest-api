@@ -8,6 +8,8 @@ import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateTimeDeserializer;
 import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateSerializer;
 import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
 
+import com.juaracoding.fantastic4_rest_api.dto.rel.RelRuanganDTO;
+import com.juaracoding.fantastic4_rest_api.dto.rel.RelUserDTO;
 import com.juaracoding.fantastic4_rest_api.model.Ruangan;
 import com.juaracoding.fantastic4_rest_api.model.User;
 import jakarta.validation.constraints.*;
@@ -25,11 +27,11 @@ public class ValPesanDTO {
 
     @NotNull(message = "Relasi Tidak Boleh Kosong")
     @JsonProperty("user")
-    private User user;
+    private RelUserDTO user;
 
     @NotNull(message = "Relasi Tidak Boleh Kosong")
     @JsonProperty("ruangan")
-    private Ruangan ruangan;
+    private RelRuanganDTO ruangan;
 
     @NotNull(message = "Tanggal tidak boleh kosong.")
     @DateTimeFormat(pattern = "yyyy-MM-dd")
@@ -83,19 +85,19 @@ public class ValPesanDTO {
         this.id = id;
     }
 
-    public User getUser() {
+    public RelUserDTO getUser() {
         return user;
     }
 
-    public void setUser(User user) {
+    public void setUser(RelUserDTO user) {
         this.user = user;
     }
 
-    public Ruangan getRuangan() {
+    public RelRuanganDTO getRuangan() {
         return ruangan;
     }
 
-    public void setRuangan(Ruangan ruangan) {
+    public void setRuangan(RelRuanganDTO ruangan) {
         this.ruangan = ruangan;
     }
 

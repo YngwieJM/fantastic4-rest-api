@@ -1,5 +1,6 @@
 package com.juaracoding.fantastic4_rest_api.dto.validation;
 
+import com.juaracoding.fantastic4_rest_api.dto.rel.RelAksesDTO;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
@@ -47,6 +48,9 @@ public class ValUserDTO {
     /*@Size(min = 3, max = 100, message = "Jabatan harus terdiri dari 3-100 karakter. Contoh: Manager")*/
     @Pattern(regexp = "^[A-Za-z0-9 ]+$", message = "Jabatan hanya boleh berisi huruf, angka, dan spasi. Contoh: Manager, Supervisor IT, Staff 1")
     private String jabatan;
+
+    @NotNull(message = "Akses Wajib Dipilih")
+    private RelAksesDTO akses;
 
     /*Getter dan Setter UserID*/
 
@@ -105,5 +109,13 @@ public class ValUserDTO {
 
     public void setJabatan(String jabatan) {
         this.jabatan = jabatan;
+    }
+
+    public RelAksesDTO getAkses() {
+        return akses;
+    }
+
+    public void setAkses(RelAksesDTO akses) {
+        this.akses = akses;
     }
 }
