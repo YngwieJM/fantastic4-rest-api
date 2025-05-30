@@ -7,6 +7,8 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.HandlerMapping;
@@ -24,36 +26,39 @@ public class PesanController {
     private HandlerMapping resourceHandlerMapping;
 
     @PostMapping("/save")
-    public ResponseEntity<Object> savePesan(@Valid @RequestBody ValPesanDTO valPesanDTO, HttpServletRequest request) {
-        Pesan pesan = pesanService.mapToPesan(valPesanDTO); // Assuming mapToPesan is a method to map DTO to model
-        return pesanService.save(pesan, request);
+    public ResponseEntity<Object> save(@Valid @RequestBody ValPesanDTO valPesanDTO,
+                                       HttpServletRequest request) {
+        return pesanService.save(pesanService.mapToPesan(valPesanDTO), request);
     }
 
-    @PutMapping("/update/{id}")
-    public ResponseEntity<Object> updatePesan(@Valid @RequestBody ValPesanDTO valPesanDTO,
-                                              @PathVariable("id") String id, HttpServletRequest request) {
-        Pesan pesan = pesanService.mapToPesan(valPesanDTO);
-        return pesanService.update(id, pesan, request);
+    @PutMapping("/{id}")
+    public ResponseEntity<Object> update(@Valid @RequestBody ValPesanDTO valPesanDTO,
+                                         @PathVariable String id,
+                                         HttpServletRequest request) {
+        return pesanService.update(id, pesanService.mapToPesan(valPesanDTO), request);
     }
 
-    @DeleteMapping("/delete/{id}")
-    public ResponseEntity<Object> deletePesan(@PathVariable("id") String id, HttpServletRequest request) {
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Object> delete(@PathVariable String id,
+                                         HttpServletRequest request) {
         return pesanService.delete(id, request);
     }
 
     @GetMapping("/all")
-    public ResponseEntity<Object> findAllPesan(Pageable pageable, HttpServletRequest request) {
+    public ResponseEntity<Object> findAll(HttpServletRequest request) {
+        Pageable pageable = PageRequest.of(0, 10, Sort.by("id"));
         return pesanService.findAll(pageable, request);
     }
 
-    @GetMapping("/find/{id}")
-    public ResponseEntity<Object> findPesanById(@PathVariable("id") String id, HttpServletRequest request) {
+    @GetMapping("/{id}")
+    public ResponseEntity<Object> findById(@PathVariable String id,
+                                           HttpServletRequest request) {
         return pesanService.findById(id, request);
     }
 
     @GetMapping("/find")
-    public ResponseEntity<Object> findPesanByParam(@RequestParam String columnName, @RequestParam String value,
-                                                   Pageable pageable, HttpServletRequest request) {
+    public ResponseEntity<Object> findByParam(@RequestParam String columnName, @RequestParam String value,
+                                              Pageable pageable, HttpServletRequest request) {
         return pesanService.findByParam(pageable, columnName, value, request);
     }
 }
