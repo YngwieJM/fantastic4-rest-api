@@ -10,7 +10,7 @@ public class ValUserDTO {
     @NotNull
     @Pattern(regexp = "^([A-Z a-z 0-9]{5,50})$",
             message = "User ID tidak boleh kosong. Contoh yang benar : LWF1997")
-    private String userID;
+    private String id;
 
     /*Nama lengkap user, hanya huruf dan spasi, 4-50 karakter*/
     @NotNull
@@ -49,13 +49,15 @@ public class ValUserDTO {
     private String jabatan;
 
     /*Getter dan Setter UserID*/
-    public String getUserID() {
-        return userID;
+
+    public String getId() {
+        return id;
     }
 
-    public void setUserID(String userID) {
-        this.userID = userID;
+    public void setId(String id) {
+        this.id = id;
     }
+
     /*Getter dan Setter Nama*/
     public String getNama() {
         return nama;
