@@ -22,7 +22,6 @@ public class ValRuanganDTO {
     @Max(value = 9999, message = "Maksimal kapasitas 9999")
     private Short minKapasitas;
 
-
     @NotNull
     @Min(value = 1, message = "Minimal kapasitas 1")
     @Max(value = 9999, message = "Maksimal kapasitas 9999")

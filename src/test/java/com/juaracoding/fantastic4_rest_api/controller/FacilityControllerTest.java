@@ -53,7 +53,7 @@ public class FacilityControllerTest extends AbstractTestNGSpringContextTests {
     @Test(priority = 0)
     void save(){
         Response response ;
-        String nama = dataGenerator.dataNamaTim();
+        String nama = dataGenerator.dataNamaFasilitas();
         String path = "/"+nama.toLowerCase().replace(" ","-");
         try{
             req.put("namaFasilitas", dataGenerator.dataNamaFasilitas());

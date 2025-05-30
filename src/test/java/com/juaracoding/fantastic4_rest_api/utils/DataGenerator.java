@@ -6,6 +6,7 @@ import java.util.Locale;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+
 public class DataGenerator {
         private Faker faker = new Faker(new Locale("in_ID","ID"));
         private boolean isValid = false;
@@ -287,20 +288,29 @@ public class DataGenerator {
         }
         return namaFasilitas;
     }
-    public String dataKota() {
-        isValid = false;
-        intLoop = 0;
-        String namaKota   = "";
-        namaKota = faker.address().cityName();
-        return namaKota;
-    }
 
-    public String dataNamaTim() {
-        isValid = false;
-        intLoop = 0;
-        String namaKota   = "";
-        namaKota = faker.team().name();
-        return namaKota;
-    }
 
+//    public short[] dataKapasitas() {
+//        isValid = false;
+//        intLoop = 0;
+//        short minKapasitas = 1;
+//        short maxKapasitas = 9999;
+//
+//        while (!isValid) {
+//            try {
+//                minKapasitas = (short) (faker.number().numberBetween(1, 9999));
+//                maxKapasitas = (short) (faker.number().numberBetween(minKapasitas, 10000)); // max >= min
+//                isValid = minKapasitas >= 1 && maxKapasitas >= minKapasitas && maxKapasitas <= 9999;
+//
+//                if (intLoop == 250) {
+//                    System.out.println("SUDAH MENCOBA MEMBUAT DATA Kapasitas SEBANYAK 250 KALI DAN GAGAL !!");
+//                    System.exit(1);
+//                }
+//                intLoop++;
+//            } catch (Exception e) {
+//                isValid = false;
+//            }
+//        }
+//        return new short[]{minKapasitas, maxKapasitas};
+//    }
 }

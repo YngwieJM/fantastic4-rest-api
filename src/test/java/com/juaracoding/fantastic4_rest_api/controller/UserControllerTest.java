@@ -54,7 +54,7 @@ public class UserControllerTest extends AbstractTestNGSpringContextTests {
     @Test(priority = 0)
     void save(){
         Response response ;
-        String nama = dataGenerator.dataNamaTim();
+        String nama = dataGenerator.dataNama();
         String path = "/"+nama.toLowerCase().replace(" ","-");
         try{
             req.put("nama", dataGenerator.dataNama());
