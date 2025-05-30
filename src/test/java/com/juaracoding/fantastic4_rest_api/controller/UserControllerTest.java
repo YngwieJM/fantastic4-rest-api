@@ -244,4 +244,26 @@ public class UserControllerTest extends AbstractTestNGSpringContextTests {
         }
     }
 
+    @Test (priority = 50)
+    void delete(){
+        Response response;
+        try {
+            response = given().
+                    header("Content-Type", "application/json").
+                    header("accept", "*/*").
+//                        header(AuthControllerTest.AUTH_HEADER,token).
+        request(Method.DELETE, "user/" + user.getId());
+
+            int intResponse = response.getStatusCode();
+            JsonPath jsonPath = response.jsonPath();
+
+            Assert.assertEquals(intResponse, 200);
+            Assert.assertEquals(jsonPath.getString("messege"), "DATA BERHASIL DIHAPUS");
+            Assert.assertNotNull(jsonPath.getString("data"));
+            Assert.assertTrue(Boolean.parseBoolean(jsonPath.getString("success")));
+            Assert.assertNotNull(jsonPath.getString("timestamp"));
+        }catch (Exception e){
+            System.out.println(e.getMessage());
+        }
+    }
 }

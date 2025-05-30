@@ -10,9 +10,8 @@ import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
 
 import java.util.Random;
 
-public class FacilityControllerTest {
-    @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
-    public class ManageRoomControllerTest extends AbstractTestNGSpringContextTests {
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
+public class FacilityControllerTest extends AbstractTestNGSpringContextTests {
 
         @Autowired
         private FasilitasRepo fasilitasRepo;
@@ -20,5 +19,6 @@ public class FacilityControllerTest {
         private Fasilitas fasilitas;
         private Random rand;
         private DataGenerator dataGenerator;
+
+
     }
-}
