@@ -20,5 +20,7 @@ public class FacilityControllerTest {
         private Fasilitas fasilitas;
         private Random rand;
         private DataGenerator dataGenerator;
+
+
     }
 }

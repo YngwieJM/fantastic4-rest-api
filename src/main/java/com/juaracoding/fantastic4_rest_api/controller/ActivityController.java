@@ -41,7 +41,4 @@ public class ActivityController {
         return pesanService.delete(id, request);
     }
 
-
-
-
 }
