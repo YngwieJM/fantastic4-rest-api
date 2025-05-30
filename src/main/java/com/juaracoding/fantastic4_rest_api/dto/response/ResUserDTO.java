@@ -5,14 +5,14 @@ import com.juaracoding.fantastic4_rest_api.dto.rel.RelAksesDTO;
 
 public class ResUserDTO {
 
-    private String id;
+//    private String id;
 
     private String email;
 
     @JsonProperty("no-telp")
     private String noTelp;
 
-    private String password;
+//    private String password;
 
     private String nama;
 
@@ -22,13 +22,13 @@ public class ResUserDTO {
 
     private RelAksesDTO akses;
 
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
+//    public String getId() {
+//        return id;
+//    }
+//
+//    public void setId(String id) {
+//        this.id = id;
+//    }
 
     public String getEmail() {
         return email;
@@ -46,13 +46,13 @@ public class ResUserDTO {
         this.noTelp = noTelp;
     }
 
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
+//    public String getPassword() {
+//        return password;
+//    }
+//
+//    public void setPassword(String password) {
+//        this.password = password;
+//    }
 
     public String getNama() {
         return nama;

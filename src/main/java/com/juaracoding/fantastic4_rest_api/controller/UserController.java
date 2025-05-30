@@ -5,11 +5,13 @@ import com.juaracoding.fantastic4_rest_api.service.UserService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.HandlerMapping;
 
 @RestController
 @RequestMapping("user")
@@ -17,6 +19,10 @@ public class UserController {
 
     @Autowired
     private UserService userService;
+
+    @Qualifier("resourceHandlerMapping")
+    @Autowired
+    private HandlerMapping resourcehandlerMapping;
 
     @PostMapping
     public ResponseEntity<Object> save(@Valid @RequestBody ValUserDTO valUserDTO,

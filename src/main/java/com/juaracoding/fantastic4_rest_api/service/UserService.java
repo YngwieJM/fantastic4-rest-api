@@ -1,5 +1,6 @@
 package com.juaracoding.fantastic4_rest_api.service;
 
+import com.juaracoding.fantastic4_rest_api.core.IService;
 import com.juaracoding.fantastic4_rest_api.dto.response.ResUserDTO;
 import com.juaracoding.fantastic4_rest_api.dto.validation.ValUserDTO;
 import com.juaracoding.fantastic4_rest_api.handler.ResponseHandler;
@@ -22,7 +23,7 @@ import java.util.Map;
 import java.util.Optional;
 
 @Service
-public class UserService {
+public class UserService implements IService<User> {
 
     @Autowired
     private UserRepo userRepo;
@@ -33,19 +34,22 @@ public class UserService {
     @Autowired
     private TransformPagination tp;
 
+
+    @Override
     public ResponseEntity<Object> save(User user, HttpServletRequest request) {
         try {
             if (user == null) {
-                return new ResponseHandler().handleResponse("Object Null !!", HttpStatus.BAD_REQUEST, null, "USR01FV001", request);
-            }
-            user.setCreatedBy("1");
+                return new ResponseHandler().handleResponse("Object Null !!", HttpStatus.BAD_REQUEST, null, "OBJECT NULL", request
+                );
+            }user.setCreatedBy(String.valueOf(1L));
             userRepo.save(user);
-            return GlobalResponse.dataBerhasilDisimpan(request);
         } catch (Exception e) {
-            return GlobalResponse.dataGagalDisimpan("USR01FE001", request);
+            return GlobalResponse.dataGagalDisimpan("AUT05FE001", request);
         }
+        return GlobalResponse.dataBerhasilDisimpan(request);
     }
 
+    @Override
     public ResponseEntity<Object> update(String id, User user, HttpServletRequest request) {
         try {
             if (id == null || user == null) {
@@ -69,6 +73,7 @@ public class UserService {
         }
     }
 
+    @Override
     public ResponseEntity<Object> delete(String id, HttpServletRequest request) {
         try {
             if (id == null) {
@@ -85,6 +90,7 @@ public class UserService {
         }
     }
 
+    @Override
     public ResponseEntity<Object> findAll(Pageable pageable, HttpServletRequest request) {
         try {
             Page<User> page = userRepo.findAll(pageable);
@@ -99,6 +105,7 @@ public class UserService {
         }
     }
 
+    @Override
     public ResponseEntity<Object> findById(String id, HttpServletRequest request) {
         try {
             if (id == null) {
@@ -115,6 +122,7 @@ public class UserService {
         }
     }
 
+    @Override
     public ResponseEntity<Object> findByParam(Pageable pageable, String columnName, String value, HttpServletRequest request) {
         try {
             Page<User> page;

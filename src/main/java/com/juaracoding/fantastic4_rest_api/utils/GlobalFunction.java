@@ -1,5 +1,6 @@
 package com.juaracoding.fantastic4_rest_api.utils;
 
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.stereotype.Component;
 
 import java.lang.reflect.Field;
@@ -39,6 +40,8 @@ public class GlobalFunction {
         }
         return sb.toString();
     }
+
+
 
 
 //    @Async

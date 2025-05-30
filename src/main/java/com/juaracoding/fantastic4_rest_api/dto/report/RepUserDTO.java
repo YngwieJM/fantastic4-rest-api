@@ -19,7 +19,7 @@ public class RepUserDTO {
 
     private String jabatan;
 
-    private String namaAkses;
+    private String akses;
 
     public String getId() {
         return id;
@@ -77,11 +77,11 @@ public class RepUserDTO {
         this.jabatan = jabatan;
     }
 
-    public String getNamaAkses() {
-        return namaAkses;
+    public String getAkses() {
+        return akses;
     }
 
-    public void setNamaAkses(String namaAkses) {
-        this.namaAkses = namaAkses;
+    public void setAkses(String akses) {
+        this.akses = akses;
     }
 }
