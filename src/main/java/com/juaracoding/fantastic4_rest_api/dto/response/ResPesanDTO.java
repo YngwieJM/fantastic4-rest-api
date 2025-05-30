@@ -1,5 +1,6 @@
 package com.juaracoding.fantastic4_rest_api.dto.response;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.juaracoding.fantastic4_rest_api.dto.rel.RelRuanganDTO;
 
 import java.math.BigDecimal;
@@ -10,17 +11,21 @@ public class ResPesanDTO {
 
     private Long id;
 
+    @JsonProperty("ruangan")
     private RelRuanganDTO ruangan;
 
+    @JsonProperty("tanggal-pemesanan")
     private LocalDate tanggalPemesanan;
 
+    @JsonProperty("nama-pertemuan")
     private String namaPertemuan;
 
+    @JsonProperty("tanggal-pertemuan")
     private LocalDate tanggalPertemuan;
 
-    private LocalTime mulai;
+    private String mulai;
 
-    private LocalTime berakhir;
+    private String berakhir;
 
     private BigDecimal durasi;
 
@@ -66,19 +71,19 @@ public class ResPesanDTO {
         this.tanggalPertemuan = tanggalPertemuan;
     }
 
-    public LocalTime getMulai() {
+    public String getMulai() {
         return mulai;
     }
 
-    public void setMulai(LocalTime mulai) {
+    public void setMulai(String mulai) {
         this.mulai = mulai;
     }
 
-    public LocalTime getBerakhir() {
+    public String getBerakhir() {
         return berakhir;
     }
 
-    public void setBerakhir(LocalTime berakhir) {
+    public void setBerakhir(String berakhir) {
         this.berakhir = berakhir;
     }
 

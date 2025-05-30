@@ -54,6 +54,7 @@ public class PesanService implements IService<Pesan> {
                 return new ResponseHandler().handleResponse("Object Null !!", HttpStatus.BAD_REQUEST, null, "PES01", request);
             }
             pesan.setCreatedBy(1L);
+            pesan.setStatus("pending");
             pesanRepo.save(pesan);// Assuming 1L is the ID of the user creating the record
         } catch (Exception e) {
             return GlobalResponse.dataGagalDisimpan("PES002", request);
@@ -126,6 +127,8 @@ public class PesanService implements IService<Pesan> {
         return GlobalResponse.dataDitemukan(listDTO, request);
     }
 
+
+
     @Override
     public ResponseEntity<Object> findById(String id, HttpServletRequest request) {// 041-050
         ResPesanDTO resPesanDTO = null;
@@ -191,6 +194,24 @@ public class PesanService implements IService<Pesan> {
             GlobalResponse.terjadiKesalahan("PES52", request);
         }
         return GlobalResponse.dataDitemukan(listDTO, request);
+    }
+
+    public ResponseEntity<Object> findPesananUser(String idUser, HttpServletRequest request){
+        ResPesanDTO resPesanDTO = null;
+        try{
+            if (idUser == null){
+                return GlobalResponse.objectIsNull("PES61", request);
+            }
+            Optional<Pesan> opPesan = pesanRepo.cariUser(idUser);
+            if (!opPesan.isPresent()){
+                return GlobalResponse.dataTidakDitemukan("PES62", request);
+            }
+            Pesan pesanDB = opPesan.get();
+            resPesanDTO = mapToDTO(pesanDB);
+        } catch (Exception e) {
+            return GlobalResponse.terjadiKesalahan("PES63", request);
+        }
+        return GlobalResponse.dataDitemukan(resPesanDTO, request);
     }
 
     /** aditonal function */
