@@ -1,6 +1,8 @@
 package com.juaracoding.fantastic4_rest_api.dto.report;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.juaracoding.fantastic4_rest_api.dto.rel.RelRuanganDTO;
+import com.juaracoding.fantastic4_rest_api.dto.rel.RelUserDTO;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -10,15 +12,18 @@ public class RepPesanDTO {
 
     private Long id;
 
-    private RelRuanganDTO namaRuangan;
+    private RelRuanganDTO ruangan;
 
+    private RelUserDTO idUser;
+
+    @JsonProperty("nama-pertemuan")
     private String namaPertemuan;
 
     private LocalDate tanggalPertemuan;
 
-    private LocalTime mulai;
+    private String mulai;
 
-    private LocalTime berakhir;
+    private String berakhir;
 
     private BigDecimal durasi;
 
@@ -33,11 +38,28 @@ public class RepPesanDTO {
     }
 
     public RelRuanganDTO getNamaRuangan() {
-        return namaRuangan;
+        return ruangan;
     }
 
     public void setNamaRuangan(RelRuanganDTO namaRuangan) {
-        this.namaRuangan = namaRuangan;
+        this.ruangan = namaRuangan;
+    }
+
+
+    public RelRuanganDTO getRuangan() {
+        return ruangan;
+    }
+
+    public void setRuangan(RelRuanganDTO ruangan) {
+        this.ruangan = ruangan;
+    }
+
+    public RelUserDTO getIdUser() {
+        return idUser;
+    }
+
+    public void setIdUser(RelUserDTO idUser) {
+        this.idUser = idUser;
     }
 
     public String getNamaPertemuan() {
@@ -56,19 +78,19 @@ public class RepPesanDTO {
         this.tanggalPertemuan = tanggalPertemuan;
     }
 
-    public LocalTime getMulai() {
+    public String getMulai() {
         return mulai;
     }
 
-    public void setMulai(LocalTime mulai) {
+    public void setMulai(String mulai) {
         this.mulai = mulai;
     }
 
-    public LocalTime getBerakhir() {
+    public String getBerakhir() {
         return berakhir;
     }
 
-    public void setBerakhir(LocalTime berakhir) {
+    public void setBerakhir(String berakhir) {
         this.berakhir = berakhir;
     }
 

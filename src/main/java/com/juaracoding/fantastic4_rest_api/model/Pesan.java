@@ -12,20 +12,19 @@ import java.time.LocalDateTime;
 @Table(name = "TxnPesan")
 public class Pesan {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "PesanID")
+    @Column(name = "PesanID", length = 50, nullable = false, unique = true)
     private Long id;
 
     @ManyToOne
     @JoinColumn(name = "UserID", foreignKey = @ForeignKey(name = "fk-pesan-to-user"))
-    private User userID;
+    private User user;
 
     @ManyToOne
     @JoinColumn(name = "RuanganID", foreignKey = @ForeignKey(name = "fk-pesan-to-ruangan"))
-    private Ruangan ruanganID;
+    private Ruangan ruangan;
 
     @Column(name = "TanggalPemesanan", nullable = false, updatable = false)
-    private LocalDateTime tanggalPemesanan;
+    private LocalDate tanggalPemesanan;
 
     @Column(name = "NamaPertemuan", length = 100, nullable = false)
     private String namaPertemuan;
@@ -66,27 +65,27 @@ public class Pesan {
         this.id = pesanID;
     }
 
-    public User getUserID() {
-        return userID;
+    public User getUser() {
+        return user;
     }
 
-    public void setUserID(User userID) {
-        this.userID = userID;
+    public void setUser(User user) {
+        this.user = user;
     }
 
-    public Ruangan getRuanganID() {
-        return ruanganID;
+    public Ruangan getRuangan() {
+        return ruangan;
     }
 
-    public void setRuanganID(Ruangan ruanganID) {
-        this.ruanganID = ruanganID;
+    public void setRuangan(Ruangan ruangan) {
+        this.ruangan = ruangan;
     }
 
-    public LocalDateTime getTanggalPemesanan() {
+    public LocalDate getTanggalPemesanan() {
         return tanggalPemesanan;
     }
 
-    public void setTanggalPemesanan(LocalDateTime tanggalPemesanan) {
+    public void setTanggalPemesanan(LocalDate tanggalPemesanan) {
         this.tanggalPemesanan = tanggalPemesanan;
     }
 

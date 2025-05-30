@@ -5,24 +5,30 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateDeserializer;
 import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateTimeDeserializer;
+import com.fasterxml.jackson.datatype.jsr310.deser.LocalTimeDeserializer;
 import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateSerializer;
 import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
 
+import com.fasterxml.jackson.datatype.jsr310.ser.LocalTimeSerializer;
 import com.juaracoding.fantastic4_rest_api.dto.rel.RelRuanganDTO;
 import com.juaracoding.fantastic4_rest_api.dto.rel.RelUserDTO;
 import com.juaracoding.fantastic4_rest_api.model.Ruangan;
 import com.juaracoding.fantastic4_rest_api.model.User;
 import jakarta.validation.constraints.*;
+
+import java.sql.Time;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
+
 import org.springframework.format.annotation.DateTimeFormat;
 
 public class ValPesanDTO {
 
 
     @NotNull
-    @Pattern(regexp = "^([0-9]{1,5})$",
-            message = "Masukan ID booking yang benar")
+    @Min(value = 1, message = "ID must be at least 1")
+    @Max(value = 99999, message = "ID must be at most 99999")
     private Long id;
 
     @NotNull(message = "Relasi Tidak Boleh Kosong")
@@ -54,18 +60,14 @@ public class ValPesanDTO {
     private LocalDate tanggalPertemuan; // Gunakan format ISO: yyyy-MM-dd
 
     @NotNull(message = "Waktu mulai tidak boleh kosong.")
-    @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
-    @JsonDeserialize(using = LocalDateTimeDeserializer.class)
-    @JsonSerialize(using = LocalDateTimeSerializer.class)
+    @Pattern(regexp = "^([01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d$", message = "Format waktu harus HH:mm:ss (contoh: 09:00:00)")
     @JsonProperty("mulai")
-    private LocalDateTime mulai; // Format ISO: yyyy-MM-dd'T'HH:mm:ss
+    private String mulai;
 
     @NotNull(message = "Waktu berakhir tidak boleh kosong.")
-    @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
-    @JsonDeserialize(using = LocalDateTimeDeserializer.class)
-    @JsonSerialize(using = LocalDateTimeSerializer.class)
+    @Pattern(regexp = "^([01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d$", message = "Format waktu harus HH:mm:ss (contoh: 10:00:00)")
     @JsonProperty("berakhir")
-    private LocalDateTime berakhir;
+    private String berakhir;
 
     @NotNull
     @Pattern(regexp = "^(0\\.5|1(\\.0)?|1\\.5|2(\\.0)?|2\\.5|3(\\.0)?|3\\.5|4(\\.0)?)$",
@@ -125,19 +127,19 @@ public class ValPesanDTO {
         this.tanggalPertemuan = tanggalPertemuan;
     }
 
-    public LocalDateTime getMulai() {
+    public String getMulai() {
         return mulai;
     }
 
-    public void setMulai(LocalDateTime mulai) {
+    public void setMulai(String mulai) {
         this.mulai = mulai;
     }
 
-    public LocalDateTime getBerakhir() {
+    public String getBerakhir() {
         return berakhir;
     }
 
-    public void setBerakhir(LocalDateTime berakhir) {
+    public void setBerakhir(String berakhir) {
         this.berakhir = berakhir;
     }
 

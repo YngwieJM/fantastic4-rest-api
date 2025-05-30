@@ -12,13 +12,13 @@ import java.util.Optional;
 
 public interface PesanRepo extends  JpaRepository<Pesan, Long> {
 
-    @Query("SELECT p FROM Pesan p WHERE p.userID.id = ?1")
+    @Query("SELECT p FROM Pesan p WHERE p.user.id = ?1")
     Optional<Pesan> cariUser(String id);
-    @Query("SELECT p FROM Pesan p WHERE p.userID.id = ?1")
+    @Query("SELECT p FROM Pesan p WHERE p.user.id = ?1")
     Page<Pesan> cariUser(String id, Pageable pageable);
-    @Query("SELECT p FROM Pesan p WHERE p.ruanganID.id = ?1")
+    @Query("SELECT p FROM Pesan p WHERE p.ruangan.id = ?1")
     Optional<Pesan> cariRuangan(String id);
-    @Query("SELECT p FROM Pesan p WHERE p.ruanganID.id = ?1")
+    @Query("SELECT p FROM Pesan p WHERE p.ruangan.id = ?1")
     Page<Pesan> cariRuangan(String id, Pageable pageable);
 
 
