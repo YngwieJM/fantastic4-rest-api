@@ -145,6 +145,24 @@ public class RuanganService implements IService<Ruangan>{
         return GlobalResponse.dataDitemukan(resRuanganDTO, request);
     }
 
+    public ResponseEntity<Object> findByNamaRuangan(String namaRuangan, HttpServletRequest request) {
+        List<Ruangan> list = null;
+        List<RepRuanganDTO> listDTO = null;
+        try {
+            if (namaRuangan == null) {
+                return GlobalResponse.objectIsNull("AUT05FV061", request);
+            }
+            list = ruanganRepo.findByNamaRuanganContainsIgnoreCase(namaRuangan);
+            if (list.isEmpty()) {
+                return GlobalResponse.dataTidakDitemukan("AUT05FV062", request);
+            }
+            listDTO = mapToDTO(list);
+        } catch (Exception e) {
+            return GlobalResponse.terjadiKesalahan("AUT05FE061", request);
+        }
+        return GlobalResponse.dataDitemukan(listDTO, request);
+    }
+
 
     @Override
     public ResponseEntity<Object> findByParam(Pageable pageable, String columnName, String value, HttpServletRequest request) {
@@ -157,7 +175,10 @@ public class RuanganService implements IService<Ruangan>{
                     page = ruanganRepo.findByNamaRuanganContainsIgnoreCase(value, pageable);
                     break;
                 case "minKapasitas":
-                    page = ruanganRepo.findByMinKapasitasAndMaxKapasitas(Short.valueOf(value),Short.valueOf(value), pageable);
+                    page = ruanganRepo.findByMinKapasitas(Short.valueOf(value), pageable);
+                    break;
+                case "maxKapasitas":
+                    page = ruanganRepo.findByMaxKapasitas(Short.valueOf(value), pageable);
                     break;
                 case "lokasi":
                     page = ruanganRepo.findByLokasiContainsIgnoreCase(value, pageable);
@@ -178,9 +199,11 @@ public class RuanganService implements IService<Ruangan>{
     }
 
 
+
     /** additional function */
 
     public Ruangan mapToRuangan(ValRuanganDTO valRuanganDTO){
+
         return modelMapper.map(valRuanganDTO, Ruangan.class);
     }
 

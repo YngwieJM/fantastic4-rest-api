@@ -16,11 +16,12 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.HandlerMapping;
 
 @RestController
-@RequestMapping ("/room")
+@RequestMapping ("manage-room")
 public class ManageRoomController {
 
     @Autowired
     private RuanganService ruanganService;
+
     @Qualifier("resourceHandlerMapping")
     @Autowired
     private HandlerMapping resourcehandlerMapping;

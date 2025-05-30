@@ -13,10 +13,14 @@ public interface RuanganRepo extends JpaRepository<Ruangan, String> {
     public Page<Ruangan> findByNamaRuanganContainsIgnoreCase(String namaRuangan, Pageable pageable);
     public Page<Ruangan> findByMinKapasitasAndMaxKapasitas(Short minKapasitas,Short maxKapasitas, Pageable pageable);
     public Page<Ruangan> findByLokasiContainsIgnoreCase(String lokasi, Pageable pageable);
+    public Page<Ruangan> findByMinKapasitas(Short minKapasitas, Pageable pageable);
+    public Page<Ruangan> findByMaxKapasitas(Short maxKapasitas, Pageable pageable);
 
     public List<Ruangan> findByNamaRuanganContainsIgnoreCase(String namaRuangan);
     public List<Ruangan> findByMinKapasitasAndMaxKapasitas(Short minKapasitas,Short maxKapasitas);
     public List<Ruangan> findByLokasiContainsIgnoreCase(String lokasi);
+    public List<Ruangan> findByMinKapasitas(Short minKapasitas);
+    public List<Ruangan> findByMaxKapasitas(Short maxKapasitas);
 
     public Optional<Ruangan> findTop1ByOrderByIdDesc();
 }

@@ -1,9 +1,17 @@
 package com.juaracoding.fantastic4_rest_api.dto.response;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 public class ResRuanganDTO {
     private String id;
+
+    @JsonProperty("nama-ruangan")
     private String namaRuangan;
+
+    @JsonProperty("minimal-kapasitas")
     private Short minKapasitas;
+
+    @JsonProperty("maksimal-kapasitas")
     private Short maxKapasitas;
     private String lokasi;
 
