@@ -258,6 +258,37 @@ public class DataGenerator {
         return jabatan;
     }
 
+    public String dataIdRuangan() {
+        isValid = false;
+        intLoop = 0;
+        String idRuangan = "";
+        while (!isValid) {
+            try {
+                // Prefix with R or RM, then random uppercase letters and digits
+                String prefix = faker.bool().bool() ? "R" : "RM";
+                String randomPart = faker.bothify("##########").replaceAll("[^0-9]", "");
+                idRuangan = prefix + randomPart;
+                // Ensure length between 5 and 50
+                if (idRuangan.length() < 5) {
+                    idRuangan += faker.bothify("########").replaceAll("[^0-9]", "");
+                }
+                if (idRuangan.length() > 50) {
+                    idRuangan = idRuangan.substring(0, 50);
+                }
+                matcher = Pattern.compile("^([A-Z0-9]{5,50})$").matcher(idRuangan);
+                isValid = matcher.find();
+                if (intLoop == 250) {
+                    System.out.println("Tried 250 times to generate dataIdRuangan and failed!");
+                    System.exit(1);
+                }
+                intLoop++;
+            } catch (Exception e) {
+                isValid = false;
+            }
+        }
+        return idRuangan;
+    }
+
     public String dataNamaRuangan() {
         boolean isValid = false;
         int intLoop = 0;
@@ -265,8 +296,11 @@ public class DataGenerator {
 
         while (!isValid) {
             try {
-                namaRuangan = faker.name().name();
-                matcher = Pattern.compile("(\"^([a-zA-Z0-9\\\\s]{5,50})$\");").matcher(namaRuangan);
+                String[] types = {"Meeting", "Diskusi", "Presentasi", "Kelas", "Workshop"};
+                String type = types[faker.random().nextInt(types.length)];
+                int number = faker.number().numberBetween(1, 100);
+                namaRuangan = "Ruang " + type + " " + number;
+                matcher = Pattern.compile("^([a-zA-Z0-9\\s]{5,50})$").matcher(namaRuangan);
                 isValid = matcher.find();
                 if (intLoop == 250) {
                     System.out.println("SUDAH MENCOBA MEMBUAT DATA Nama Ruangan SEBANYAK 250 KALI DAN GAGAL !!");
@@ -302,13 +336,37 @@ public class DataGenerator {
         return dataLokasi;
     }
 
+    public short[] dataKapasitas() {
+        boolean isValid = false;
+        int intLoop = 0;
+        short minKapasitas = 1;
+        short maxKapasitas = 9999;
+
+        while (!isValid) {
+            try {
+                minKapasitas = (short) faker.number().numberBetween(1, 9999);
+                maxKapasitas = (short) faker.number().numberBetween(minKapasitas, 10000); // max >= min
+                isValid = minKapasitas >= 1 && maxKapasitas >= minKapasitas && maxKapasitas <= 9999;
+
+                if (intLoop == 250) {
+                    System.out.println("Tried 250 times to generate kapasitas and failed!");
+                    System.exit(1);
+                }
+                intLoop++;
+            } catch (Exception e) {
+                isValid = false;
+            }
+        }
+        return new short[]{minKapasitas, maxKapasitas};
+    }
+
     public String dataIdFasilitas() {
         boolean isValid = false;
         int intLoop = 0;
         String idFasilitas = "";
         while (!isValid) {
             try {
-                idFasilitas = "FAS" + faker.bothify("##########").replaceAll("[^A-Za-z0-9]", "");
+                idFasilitas = "FS" + faker.bothify("##########").replaceAll("[^A-Za-z0-9]", "");
                 // Ensure length between 5 and 50
                 if (idFasilitas.length() < 5) {
                     idFasilitas += faker.bothify("?????").replaceAll("[^A-Za-z0-9]", "");

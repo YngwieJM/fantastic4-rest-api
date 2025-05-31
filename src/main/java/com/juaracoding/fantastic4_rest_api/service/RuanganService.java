@@ -1,5 +1,6 @@
 package com.juaracoding.fantastic4_rest_api.service;
 
+import com.juaracoding.fantastic4_rest_api.config.OtherConfig;
 import com.juaracoding.fantastic4_rest_api.core.IService;
 import com.juaracoding.fantastic4_rest_api.dto.report.RepRuanganDTO;
 import com.juaracoding.fantastic4_rest_api.dto.response.ResRuanganDTO;
@@ -197,6 +198,15 @@ public class RuanganService implements IService<Ruangan>{
             data = tp.transformPagination(listDTO, page, columnName, value);
         } catch (Exception e) {
             return GlobalResponse.terjadiKesalahan("AUT04FE051", request);
+        }
+        if(OtherConfig.getEnableAutomationTesting().equalsIgnoreCase("y")){
+            sBuilder.append("RuanganService.findByParam(Pageable pageable, String columnName, String value, HttpServletRequest request) : ")
+                    .append("Page : ").append(page.getNumber()).append(" | ")
+                    .append("Size : ").append(page.getSize()).append(" | ")
+                    .append("Total Page : ").append(page.getTotalPages()).append(" | ")
+                    .append("Total Data : ").append(page.getTotalElements());
+            System.out.println(sBuilder);
+            return GlobalResponse.dataDitemukan(data, request);
         }
         return GlobalResponse.dataDitemukan(listDTO, request);
     }
