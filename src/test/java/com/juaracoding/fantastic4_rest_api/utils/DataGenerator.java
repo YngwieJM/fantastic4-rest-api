@@ -287,7 +287,7 @@ public class DataGenerator {
         String dataLokasi = "";
         while (!isValid) {
             try {
-                dataLokasi = faker.name().name();
+                dataLokasi = "Lantai ".concat(faker.random().nextInt(1,20).toString());
                 matcher = Pattern.compile("^([a-zA-Z0-9\\s]{2,50})$").matcher(dataLokasi);
                 isValid = matcher.find();
                 if (intLoop == 250){
@@ -302,13 +302,42 @@ public class DataGenerator {
         return dataLokasi;
     }
 
+    public String dataIdFasilitas() {
+        boolean isValid = false;
+        int intLoop = 0;
+        String idFasilitas = "";
+        while (!isValid) {
+            try {
+                idFasilitas = "FAS" + faker.bothify("##########").replaceAll("[^A-Za-z0-9]", "");
+                // Ensure length between 5 and 50
+                if (idFasilitas.length() < 5) {
+                    idFasilitas += faker.bothify("?????").replaceAll("[^A-Za-z0-9]", "");
+                }
+                if (idFasilitas.length() > 50) {
+                    idFasilitas = idFasilitas.substring(0, 50);
+                }
+                matcher = Pattern.compile("^([A-Za-z0-9]{5,50})$").matcher(idFasilitas);
+                isValid = matcher.find();
+                if (intLoop == 250) {
+                    System.out.println("Tried 250 times to generate dataIdFasilitas and failed!");
+                    System.exit(1);
+                }
+                intLoop++;
+            } catch (Exception e) {
+                isValid = false;
+            }
+        }
+        return idFasilitas;
+    }
+
     public String dataNamaFasilitas() {
         boolean isValid = false;
         int intLoop = 0;
         String namaFasilitas = "";
         while (!isValid) {
             try {
-                namaFasilitas = faker.name().name();
+                String[] fasilitasList = {"LCD", "Papan Tulis", "AC", "Speaker", "Microphone", "WiFi", "Kursi", "Meja"};
+                namaFasilitas = fasilitasList[faker.random().nextInt(fasilitasList.length)];
                 // Validasi pola: 3-50 karakter, huruf/angka/spasi
                 matcher = Pattern.compile("^[a-zA-Z\\s]{3,50}$").matcher(namaFasilitas);
                 isValid = matcher.find();
@@ -330,7 +359,7 @@ public class DataGenerator {
         String namaPertemuan = "";
         while (!isValid) {
             try {
-                namaPertemuan = faker.name().name();
+                namaPertemuan = "Pertemuan".concat(faker.programmingLanguage().name());
                 // Validasi pola: 3-50 karakter, huruf/angka/spasi
                 matcher = Pattern.compile("^[A-Za-z0-9\\s]{3,100}$").matcher(namaPertemuan);
                 isValid = matcher.find();
@@ -392,6 +421,28 @@ public class DataGenerator {
         String namaKota   = "";
         namaKota = faker.team().name();
         return namaKota;
+    }
+
+    public Short dataJumlahFasilitas() {
+        isValid = false;
+        intLoop = 0;
+        short jumlahFasilitas = 0;
+
+        while (!isValid) {
+            try {
+                jumlahFasilitas = (short) faker.number().numberBetween(1, 100);
+                isValid = jumlahFasilitas >= 1 && jumlahFasilitas <= 100;
+
+                if (intLoop == 250) {
+                    System.out.println("SUDAH MENCOBA MEMBUAT DATA Jumlah Fasilitas SEBANYAK 250 KALI DAN GAGAL !!");
+                    System.exit(1);
+                }
+                intLoop++;
+            } catch (Exception e) {
+                isValid = false;
+            }
+        }
+        return jumlahFasilitas;
     }
 
 //    public short[] dataKapasitas() {

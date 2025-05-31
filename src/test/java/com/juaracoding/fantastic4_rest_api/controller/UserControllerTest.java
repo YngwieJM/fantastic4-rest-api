@@ -34,6 +34,7 @@ public class UserControllerTest extends AbstractTestNGSpringContextTests {
         private Random rand ;
         private String token;
         private DataGenerator dataGenerator;
+        private String forDeleteId;
 
         @BeforeClass
         private void init(){
@@ -44,6 +45,7 @@ public class UserControllerTest extends AbstractTestNGSpringContextTests {
             dataGenerator = new DataGenerator();
             Optional<User> op = userRepo.findTop1ByOrderByIdDesc();
             user = op.get();
+
         }
 
         @BeforeTest
@@ -54,10 +56,11 @@ public class UserControllerTest extends AbstractTestNGSpringContextTests {
         @Test(priority = 0)
         void save(){
             Response response ;
+            forDeleteId = dataGenerator.dataId();
             String nama = dataGenerator.dataNamaTim();
             String path = "/"+nama.toLowerCase().replace(" ","-");
             try{
-                req.put("id", dataGenerator.dataId());
+                req.put("id", forDeleteId);
                 req.put("nama", dataGenerator.dataNama());
                 req.put("email", dataGenerator.dataEmail());
                 req.put("noTelp", dataGenerator.dataNoTelp());
@@ -249,6 +252,31 @@ public class UserControllerTest extends AbstractTestNGSpringContextTests {
 
 
         } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
+    @Test (priority = 50)
+    void delete(){
+        Response response;
+        try {
+
+            response = given().
+                    header("Content-Type", "application/json").
+                    header("accept", "*/*").
+//                        header(AuthControllerTest.AUTH_HEADER,token).
+        request(Method.DELETE, "user/" + forDeleteId);
+
+            int intResponse = response.getStatusCode();
+            JsonPath jsonPath = response.jsonPath();
+
+            System.out.println(response.getBody().prettyPrint());
+            Assert.assertEquals(intResponse, 200);
+            Assert.assertEquals(jsonPath.getString("message"), "DATA BERHASIL DIHAPUS");
+            Assert.assertNotNull(jsonPath.getString("data"));
+            Assert.assertTrue(Boolean.parseBoolean(jsonPath.getString("success")));
+            Assert.assertNotNull(jsonPath.getString("timestamp"));
+        }catch (Exception e){
             System.out.println(e.getMessage());
         }
     }
