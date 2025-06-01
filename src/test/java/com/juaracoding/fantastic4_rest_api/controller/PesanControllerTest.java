@@ -67,6 +67,8 @@ public class PesanControllerTest extends AbstractTestNGSpringContextTests {
                 req.put("nama-pertemuan", dataGenerator.dataNamaPertemuan());
                 req.put("tanggal-pertemuan", dataGenerator.dataTanggalPertemuan());
                 req.put("mulai", dataGenerator.dataMulai());
+                req.put("berakhir", dataGenerator.dataBerakhir());
+                req.put("durasi", dataGenerator.dataDurasi());
                 req.put("status", dataGenerator.dataStatus());
                 RelUserDTO relUserDTO = new RelUserDTO();
                 relUserDTO.setId(pesan.getUser().getId());
