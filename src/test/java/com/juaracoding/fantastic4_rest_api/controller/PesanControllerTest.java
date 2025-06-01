@@ -111,7 +111,7 @@ public class PesanControllerTest extends AbstractTestNGSpringContextTests {
         Response response;
         req.clear();
         try {
-            String reqId = String.valueOf(dataGenerator.dataIdPesan());
+            String reqId = String.valueOf(idPesanTest);
             LocalDate reqTanggalPemesanan = LocalDate.parse(dataGenerator.dataTanggalPemesanan());
             String reqNamaPertemuan = dataGenerator.dataNamaPertemuan();
             LocalDate reqTanggalPertemuan = LocalDate.parse(dataGenerator.dataTanggalPertemuan());
@@ -133,7 +133,7 @@ public class PesanControllerTest extends AbstractTestNGSpringContextTests {
             RelRuanganDTO relRuanganDTO = new RelRuanganDTO();
             relRuanganDTO.setId(pesan.getRuangan().getId());
 
-            req.put("id", reqId);
+            req.put("id", idPesanTest);
             req.put("tanggal-pemesanan", reqTanggalPemesanan);
             req.put("namaPertemuan", reqNamaPertemuan);
             req.put("tanggal-pertemuan", reqTanggalPertemuan);
