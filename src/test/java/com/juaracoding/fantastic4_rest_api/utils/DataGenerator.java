@@ -2,8 +2,14 @@ package com.juaracoding.fantastic4_rest_api.utils;
 
 import com.github.javafaker.Faker;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Locale;
+import java.util.Random;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -139,27 +145,6 @@ public class DataGenerator {
             }
         }
         return namaBelakang;
-    }
-
-    public String dataNamaLengkap() {
-        isValid = false;
-        intLoop = 0;
-        String namaLengkap = "";
-        while(!isValid){
-            try{
-                namaLengkap = faker.name().fullName();
-                matcher = Pattern.compile("^[a-zA-Z\\s?]{4,50}$").matcher(namaLengkap);
-                isValid = matcher.find();
-                if(intLoop==250){
-                    System.out.println("SUDAH MENCOBA MEMBUAT DATA Nama Lengkap SEBANYAK 15 KALI DAN GAGAL !!");
-                    System.exit(1);
-                }
-                intLoop++;
-            }catch (Exception e){
-                isValid = false;
-            }
-        }
-        return namaLengkap;
     }
 
     public String dataId() {
@@ -441,6 +426,7 @@ public class DataGenerator {
             try{
                 tanggalPemesanan = new SimpleDateFormat("yyyy-MM-dd").format(faker.date());
                 isValid = matcher.find();
+
                 if(intLoop==250){
                     System.out.println("SUDAH MENCOBA MEMBUAT DATA Tanggal Pemesanan SEBANYAK 15 KALI DAN GAGAL !!");
                     System.exit(1);
@@ -476,9 +462,9 @@ public class DataGenerator {
     public String dataNamaTim() {
         isValid = false;
         intLoop = 0;
-        String namaKota   = "";
-        namaKota = faker.team().name();
-        return namaKota;
+        String namaTim   = "";
+        namaTim = faker.team().name();
+        return namaTim;
     }
 
     public Short dataJumlahFasilitas() {
@@ -503,27 +489,109 @@ public class DataGenerator {
         return jumlahFasilitas;
     }
 
-//    public short[] dataKapasitas() {
-//        isValid = false;
-//        intLoop = 0;
-//        short minKapasitas = 1;
-//        short maxKapasitas = 9999;
-//
-//        while (!isValid) {
-//            try {
-//                minKapasitas = (short) (faker.number().numberBetween(1, 9999));
-//                maxKapasitas = (short) (faker.number().numberBetween(minKapasitas, 10000)); // max >= min
-//                isValid = minKapasitas >= 1 && maxKapasitas >= minKapasitas && maxKapasitas <= 9999;
-//
-//                if (intLoop == 250) {
-//                    System.out.println("SUDAH MENCOBA MEMBUAT DATA Kapasitas SEBANYAK 250 KALI DAN GAGAL !!");
-//                    System.exit(1);
-//                }
-//                intLoop++;
-//            } catch (Exception e) {
-//                isValid = false;
-//            }
-//        }
-//        return new short[]{minKapasitas, maxKapasitas};
-//    }
+    public String dataMulai() {
+        Random rand = new Random();
+        isValid = false;
+        intLoop = 0;
+        String mulai = "";
+
+        while(!isValid){
+            try{
+                int randomHour = rand.nextInt(8); // 0 to 7
+                int randomMinute = rand.nextInt(60);
+                int randomSecond = rand.nextInt(60);
+
+                LocalTime randomTime = LocalTime.of(randomHour, randomMinute, randomSecond);
+                mulai = randomTime.format(DateTimeFormatter.ofPattern("HH:mm:ss"));
+                matcher = Pattern.compile("^([01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d$").matcher(mulai);
+
+                if(intLoop==250){
+                    System.out.println("SUDAH MENCOBA MEMBUAT DATA mulai SEBANYAK 15 KALI DAN GAGAL !!");
+                    System.exit(1);
+                }
+                intLoop++;
+            }catch (Exception e){
+                isValid = false;
+            }
+        }
+        return mulai;
+    }
+    public String dataBerakhir() {
+        Random rand = new Random();
+        isValid = false;
+        intLoop = 0;
+        String berakhir = "";
+
+        while(!isValid){
+            try{
+                int randomHour = rand.nextInt(8); // 0 to 7
+                int randomMinute = rand.nextInt(60);
+                int randomSecond = rand.nextInt(60);
+
+                LocalTime randomTime = LocalTime.of(randomHour, randomMinute, randomSecond);
+                berakhir = randomTime.format(DateTimeFormatter.ofPattern("HH:mm:ss"));
+                matcher = Pattern.compile("^([01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d$").matcher(berakhir);
+
+                if(intLoop==250){
+                    System.out.println("SUDAH MENCOBA MEMBUAT DATA berakhir SEBANYAK 15 KALI DAN GAGAL !!");
+                    System.exit(1);
+                }
+                intLoop++;
+            }catch (Exception e){
+                isValid = false;
+            }
+        }
+        return berakhir;
+    }
+
+    public String dataDurasi() {
+        Random rand = new Random();
+        isValid = false;
+        intLoop = 0;
+        String durasi = "";
+
+        while(!isValid){
+            try{
+                int randomIndex = rand.nextInt();
+                BigDecimal BigDecimal = java.math.BigDecimal.valueOf(0.5 + randomIndex * 0.5).setScale(1, RoundingMode.HALF_UP);
+                durasi = BigDecimal.toString();
+                matcher = Pattern.compile("^(0\\.5|1(\\.0)?|1\\.5|2(\\.0)?|2\\.5|3(\\.0)?|3\\.5|4(\\.0)?)$").matcher(durasi);
+                isValid = matcher.find();
+
+                if(intLoop==250){
+                    System.out.println("SUDAH MENCOBA MEMBUAT DATA durasi SEBANYAK 15 KALI DAN GAGAL !!");
+                    System.exit(1);
+                }
+                intLoop++;
+            }catch (Exception e){
+                isValid = false;
+            }
+        }
+        return durasi;
+    }
+
+    public String dataStatus() {
+        isValid = false;
+        intLoop = 0;
+        String status = "";
+
+        while (!isValid) {
+            try {
+                String[] statusOptions = {"pending", "approved", "cancelled"};
+                status = statusOptions[faker.random().nextInt(statusOptions.length)];
+                matcher = Pattern.compile("^(pending|approved|cancelled)$").matcher(status);
+                isValid = matcher.find();
+
+                if (intLoop == 250) {
+                    System.out.println("SUDAH MENCOBA MEMBUAT DATA Nama Ruangan SEBANYAK 250 KALI DAN GAGAL !!");
+                    System.exit(1);
+                }
+                intLoop++;
+            } catch (Exception e) {
+                isValid = false;
+            }
+        }
+        return status;
+    }
+
 }
