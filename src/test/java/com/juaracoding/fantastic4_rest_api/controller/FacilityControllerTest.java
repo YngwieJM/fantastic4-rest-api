@@ -66,14 +66,12 @@ public class FacilityControllerTest extends AbstractTestNGSpringContextTests {
                 RelRuanganDTO relRuanganDTO = new RelRuanganDTO();
                 relRuanganDTO.setId(fasilitas.getRuanganID().getId());
                 req.put("ruangan", relRuanganDTO);
-//            RelAksesDTO relAksesDTO = new RelAksesDTO();
-//            req.put("akses",relAksesDTO);
 
                 response = given().
                         header("Content-Type","application/json").
                         header("accept","*/*").
 //                        header(AuthControllerTest.AUTH_HEADER,token).
-        body(req).
+                body(req).
                         request(Method.POST,"facility");
 
                 int intResponse = response.getStatusCode();

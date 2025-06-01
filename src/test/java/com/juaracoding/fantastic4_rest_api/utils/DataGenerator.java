@@ -20,6 +20,56 @@ public class DataGenerator {
         private Matcher matcher = null;
         private int intLoop = 0;
 
+
+        public String dataId() {
+        isValid = false;
+        intLoop = 0;
+        String id = "";
+        while (!isValid) {
+            try {
+                id = faker.bothify("??????????#####").replaceAll("[^A-Za-z0-9]", "");
+                // Ensure length between 5 and 50
+                if (id.length() < 5) {
+                    id += faker.bothify("?????").replaceAll("[^A-Za-z0-9]", "");
+                }
+                if (id.length() > 50) {
+                    id = id.substring(0, 50);
+                }
+                matcher = Pattern.compile("^([A-Za-z0-9]{5,50})$").matcher(id);
+                isValid = matcher.find();
+                if (intLoop == 250) {
+                    System.out.println("Tried 250 times to generate ID and failed!");
+                    System.exit(1);
+                }
+                intLoop++;
+            } catch (Exception e) {
+                isValid = false;
+            }
+        }
+        return id;
+    }
+
+    public String dataNama() {
+        isValid = false;
+        intLoop = 0;
+        String nama = "";
+        while(!isValid){
+            try{
+                nama = faker.name().name();
+                matcher = Pattern.compile("^[a-zA-Z\\s?]{4,50}$").matcher(nama);
+                isValid = matcher.find();
+                if(intLoop==250){
+                    System.out.println("SUDAH MENCOBA MEMBUAT DATA Nama SEBANYAK 250 KALI DAN GAGAL !!");
+                    System.exit(1);
+                }
+                intLoop++;
+            }catch (Exception e){
+                isValid = false;
+            }
+        }
+        return nama;
+    }
+
     public String dataEmail() {
         isValid = false;
         intLoop = 0;
@@ -63,118 +113,6 @@ public class DataGenerator {
         return noTelp;
     }
 
-    public String dataNama() {
-        isValid = false;
-        intLoop = 0;
-        String nama = "";
-        while(!isValid){
-            try{
-                nama = faker.name().name();
-                matcher = Pattern.compile("^[a-zA-Z\\s?]{4,50}$").matcher(nama);
-                isValid = matcher.find();
-                if(intLoop==250){
-                    System.out.println("SUDAH MENCOBA MEMBUAT DATA Nama SEBANYAK 250 KALI DAN GAGAL !!");
-                    System.exit(1);
-                }
-                intLoop++;
-            }catch (Exception e){
-                isValid = false;
-            }
-        }
-        return nama;
-    }
-
-    public String dataNamaDepan() {
-        isValid = false;
-        intLoop = 0;
-        String namaDepan = "";
-        while(!isValid){
-            try{
-                namaDepan = faker.name().firstName();
-                matcher = Pattern.compile("^[a-zA-Z\\s?]{4,50}$").matcher(namaDepan);
-                isValid = matcher.find();
-                if(intLoop==250){
-                    System.out.println("SUDAH MENCOBA MEMBUAT DATA Nama Depan SEBANYAK 15 KALI DAN GAGAL !!");
-                    System.exit(1);
-                }
-                intLoop++;
-            }catch (Exception e){
-                isValid = false;
-            }
-        }
-        return namaDepan;
-    }
-
-    public String dataNamaTengah() {
-        isValid = false;
-        intLoop = 0;
-        String namaTengah = "";
-        while(!isValid){
-            try{
-                namaTengah = faker.name().nameWithMiddle().split(" ")[1];
-                matcher = Pattern.compile("^[a-zA-Z\\s?]{4,50}$").matcher(namaTengah);
-                isValid = matcher.find();
-                if(intLoop==250){
-                    System.out.println("SUDAH MENCOBA MEMBUAT DATA Nama Tengah SEBANYAK 15 KALI DAN GAGAL !!");
-                    System.exit(1);
-                }
-                intLoop++;
-            }catch (Exception e){
-                isValid = false;
-            }
-        }
-        return namaTengah;
-    }
-
-    public String dataNamaBelakang() {
-        isValid = false;
-        intLoop = 0;
-        String namaBelakang = "";
-        while(!isValid){
-            try{
-                namaBelakang = faker.name().lastName();
-                matcher = Pattern.compile("^[a-zA-Z\\s?]{4,50}$").matcher(namaBelakang);
-                isValid = matcher.find();
-                if(intLoop==250){
-                    System.out.println("SUDAH MENCOBA MEMBUAT DATA Nama Belakang SEBANYAK 15 KALI DAN GAGAL !!");
-                    System.exit(1);
-                }
-                intLoop++;
-            }catch (Exception e){
-                isValid = false;
-            }
-        }
-        return namaBelakang;
-    }
-
-    public String dataId() {
-        isValid = false;
-        intLoop = 0;
-        String id = "";
-        while (!isValid) {
-            try {
-                id = faker.bothify("??????????#####").replaceAll("[^A-Za-z0-9]", "");
-                // Ensure length between 5 and 50
-                if (id.length() < 5) {
-                    id += faker.bothify("?????").replaceAll("[^A-Za-z0-9]", "");
-                }
-                if (id.length() > 50) {
-                    id = id.substring(0, 50);
-                }
-                matcher = Pattern.compile("^([A-Za-z0-9]{5,50})$").matcher(id);
-                isValid = matcher.find();
-                if (intLoop == 250) {
-                    System.out.println("Tried 250 times to generate ID and failed!");
-                    System.exit(1);
-                }
-                intLoop++;
-            } catch (Exception e) {
-                isValid = false;
-            }
-        }
-        return id;
-    }
-
     public String dataPassword() {
         isValid = false;
         intLoop = 0;
@@ -195,6 +133,7 @@ public class DataGenerator {
         }
         return password;
     }
+
     public String dataDepartement() {
         isValid = false;
         intLoop = 0;
@@ -299,7 +238,6 @@ public class DataGenerator {
         return namaRuangan;
     }
 
-
     public String dataLokasi() {
         boolean isValid = false;
         int intLoop = 0;
@@ -396,6 +334,56 @@ public class DataGenerator {
         return namaFasilitas;
     }
 
+    public Short dataJumlahFasilitas() {
+        isValid = false;
+        intLoop = 0;
+        short jumlahFasilitas = 0;
+
+        while (!isValid) {
+            try {
+                jumlahFasilitas = (short) faker.number().numberBetween(1, 100);
+                isValid = jumlahFasilitas >= 1 && jumlahFasilitas <= 100;
+
+                if (intLoop == 250) {
+                    System.out.println("SUDAH MENCOBA MEMBUAT DATA Jumlah Fasilitas SEBANYAK 250 KALI DAN GAGAL !!");
+                    System.exit(1);
+                }
+                intLoop++;
+            } catch (Exception e) {
+                isValid = false;
+            }
+        }
+        return jumlahFasilitas;
+    }
+
+    public String dataIdPesan() {
+        boolean isValid = false;
+        int intLoop = 0;
+        String idPesan = "";
+        while (!isValid) {
+            try {
+                idPesan = "FS" + faker.bothify("##########").replaceAll("[^A-Za-z0-9]", "");
+                // Ensure length between 5 and 50
+                if (idPesan.length() < 5) {
+                    idPesan += faker.bothify("?????").replaceAll("[^A-Za-z0-9]", "");
+                }
+                if (idPesan.length() > 50) {
+                    idPesan = idPesan.substring(0, 50);
+                }
+                matcher = Pattern.compile("^([A-Za-z0-9]{5,50})$").matcher(idPesan);
+                isValid = matcher.find();
+                if (intLoop == 250) {
+                    System.out.println("Tried 250 times to generate data IdPesan and failed!");
+                    System.exit(1);
+                }
+                intLoop++;
+            } catch (Exception e) {
+                isValid = false;
+            }
+        }
+        return idPesan;
+    }
+
     public String dataNamaPertemuan() {
         boolean isValid = false;
         int intLoop = 0;
@@ -459,36 +447,6 @@ public class DataGenerator {
         return tanggalPertemuan;
     }
 
-    public String dataNamaTim() {
-        isValid = false;
-        intLoop = 0;
-        String namaTim   = "";
-        namaTim = faker.team().name();
-        return namaTim;
-    }
-
-    public Short dataJumlahFasilitas() {
-        isValid = false;
-        intLoop = 0;
-        short jumlahFasilitas = 0;
-
-        while (!isValid) {
-            try {
-                jumlahFasilitas = (short) faker.number().numberBetween(1, 100);
-                isValid = jumlahFasilitas >= 1 && jumlahFasilitas <= 100;
-
-                if (intLoop == 250) {
-                    System.out.println("SUDAH MENCOBA MEMBUAT DATA Jumlah Fasilitas SEBANYAK 250 KALI DAN GAGAL !!");
-                    System.exit(1);
-                }
-                intLoop++;
-            } catch (Exception e) {
-                isValid = false;
-            }
-        }
-        return jumlahFasilitas;
-    }
-
     public String dataMulai() {
         Random rand = new Random();
         isValid = false;
@@ -546,16 +504,17 @@ public class DataGenerator {
 
     public String dataDurasi() {
         Random rand = new Random();
-        isValid = false;
         intLoop = 0;
         String durasi = "";
+        isValid = false;
 
         while(!isValid){
             try{
-                int randomIndex = rand.nextInt();
-                BigDecimal BigDecimal = java.math.BigDecimal.valueOf(0.5 + randomIndex * 0.5).setScale(1, RoundingMode.HALF_UP);
-                durasi = BigDecimal.toString();
-                matcher = Pattern.compile("^(0\\.5|1(\\.0)?|1\\.5|2(\\.0)?|2\\.5|3(\\.0)?|3\\.5|4(\\.0)?)$").matcher(durasi);
+                int randomIndex = rand.nextInt(8);
+                BigDecimal durasiDecimal = BigDecimal.valueOf(0.5 + randomIndex * 0.5).setScale(1, RoundingMode.HALF_UP);
+                durasi = durasiDecimal.toString();
+
+                Matcher matcher = Pattern.compile("^(0\\.5|1(\\.0)?|1\\.5|2(\\.0)?|2\\.5|3(\\.0)?|3\\.5|4(\\.0)?)$").matcher(durasi);
                 isValid = matcher.find();
 
                 if(intLoop==250){
@@ -583,7 +542,7 @@ public class DataGenerator {
                 isValid = matcher.find();
 
                 if (intLoop == 250) {
-                    System.out.println("SUDAH MENCOBA MEMBUAT DATA Nama Ruangan SEBANYAK 250 KALI DAN GAGAL !!");
+                    System.out.println("SUDAH MENCOBA MEMBUAT DATA Status SEBANYAK 250 KALI DAN GAGAL !!");
                     System.exit(1);
                 }
                 intLoop++;
@@ -594,4 +553,11 @@ public class DataGenerator {
         return status;
     }
 
+    public String dataNamaTim() {
+        isValid = false;
+        intLoop = 0;
+        String namaTim   = "";
+        namaTim = faker.team().name();
+        return namaTim;
+    }
 }
