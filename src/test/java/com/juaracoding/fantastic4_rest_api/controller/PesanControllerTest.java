@@ -268,9 +268,9 @@ public class PesanControllerTest extends AbstractTestNGSpringContextTests {
 
             Assert.assertEquals(jsonPath.getString("data.user.id"), pesan.getUser().getId());
             Assert.assertEquals(jsonPath.getString("data.ruangan.id"), pesan.getRuangan().getId());
-            Assert.assertEquals(jsonPath.getString("data.tanggalPemesanan"), pesan.getTanggalPemesanan());
+            Assert.assertEquals(jsonPath.getString("data.tanggal-pemesanan"), pesan.getTanggalPemesanan());
             Assert.assertEquals(jsonPath.getString("data.namaPertemuan"), pesan.getNamaPertemuan());
-            Assert.assertEquals(jsonPath.getString("data.tanggalPertemuan"), pesan.getTanggalPertemuan());
+            Assert.assertEquals(jsonPath.getString("data.tanggal-pertemuan"), pesan.getTanggalPertemuan());
             Assert.assertEquals(jsonPath.getString("data.mulai"), pesan.getMulai());
             Assert.assertEquals(jsonPath.getString("data.berakhir"), pesan.getBerakhir());
             Assert.assertEquals(jsonPath.getString("data.durasi"), pesan.getDurasi());
