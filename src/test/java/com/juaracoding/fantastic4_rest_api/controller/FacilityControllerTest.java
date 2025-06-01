@@ -120,11 +120,13 @@ public class FacilityControllerTest extends AbstractTestNGSpringContextTests {
 
             int intResponse = response.getStatusCode();
             JsonPath jsonPath = response.jsonPath();
+
             Assert.assertEquals(intResponse,200);
             Assert.assertEquals(jsonPath.getString("message"),"DATA BERHASIL DIUBAH");
             Assert.assertNotNull(jsonPath.getString("data"));
             Assert.assertTrue(Boolean.parseBoolean(jsonPath.getString("success")));
             Assert.assertNotNull(jsonPath.getString("timestamp"));
+
             System.out.println(response.getBody().prettyPrint());
         }catch (Exception e){
             System.out.println(e.getMessage());

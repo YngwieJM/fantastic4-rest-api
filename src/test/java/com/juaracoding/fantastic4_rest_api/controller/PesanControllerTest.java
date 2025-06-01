@@ -64,13 +64,14 @@ public class PesanControllerTest extends AbstractTestNGSpringContextTests {
     @Test(priority = 0)
     void save() {
         Response response;
+        idPesanTest = dataGenerator.dataIdPesan();
         Long id = dataGenerator.dataIdPesan();
         String mulai = dataGenerator.dataMulai();
         String berakhir = dataGenerator.dataBerakhir(mulai);
         String nama = dataGenerator.dataNamaTim();
         String path = "/" + nama.toLowerCase().replace(" ", "-");
         try {
-            req.put("id", id);
+            req.put("id", idPesanTest);
             req.put("tanggal-pemesanan", dataGenerator.dataTanggalPemesanan());
             req.put("namaPertemuan", dataGenerator.dataNamaPertemuan());
             req.put("tanggal-pertemuan", dataGenerator.dataTanggalPertemuan());
@@ -89,7 +90,7 @@ public class PesanControllerTest extends AbstractTestNGSpringContextTests {
                     header("Content-Type", "application/json").
                     header("accept", "*/*").
 //                        header(AuthControllerTest.AUTH_HEADER,token).
-        body(req).
+            body(req).
                     request(Method.POST, "pesan");
 
             int intResponse = response.getStatusCode();
@@ -152,12 +153,15 @@ public class PesanControllerTest extends AbstractTestNGSpringContextTests {
 
             int intResponse = response.getStatusCode();
             JsonPath jsonPath = response.jsonPath();
-//            System.out.println(response.getBody().prettyPrint());
-            Assert.assertEquals(intResponse,200);
-            Assert.assertEquals(jsonPath.getString("message"), "DATA BERHASIL DIUBAH");
+            System.out.println(response.getBody().prettyPrint());
+            Assert.assertEquals(intResponse, 200);
+            Assert.assertEquals(jsonPath.getString("message"),"DATA BERHASIL DIUBAH");
             Assert.assertNotNull(jsonPath.getString("data"));
             Assert.assertTrue(Boolean.parseBoolean(jsonPath.getString("success")));
             Assert.assertNotNull(jsonPath.getString("timestamp"));
+
+            System.out.println(response.getBody().prettyPrint());
+
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
@@ -179,6 +183,7 @@ public class PesanControllerTest extends AbstractTestNGSpringContextTests {
 
             Assert.assertEquals(intResponse, 200);
             Assert.assertEquals(jsonPath.getString("message"), "DATA BERHASIL DITEMUKAN");
+
             Assert.assertEquals(jsonPath.getString("data.id"), pesan.getPesanID());
             Assert.assertEquals(jsonPath.getString("data.tanggal-pemesanan"), pesan.getTanggalPemesanan());
             Assert.assertEquals(jsonPath.getString("data.namaPertemuan"), pesan.getNamaPertemuan());
@@ -189,6 +194,7 @@ public class PesanControllerTest extends AbstractTestNGSpringContextTests {
             Assert.assertEquals(jsonPath.getString("data.status"), pesan.getStatus());
             Assert.assertEquals(jsonPath.getString("data.user.id"), pesan.getUser().getId());
             Assert.assertEquals(jsonPath.getString("data.ruangan.id"), pesan.getRuangan().getId());
+
             Assert.assertTrue(Boolean.parseBoolean(jsonPath.getString("success")));
             Assert.assertNotNull(jsonPath.getString("timestamp"));
         } catch (Exception e) {

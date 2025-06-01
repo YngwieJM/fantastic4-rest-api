@@ -495,18 +495,21 @@ public class DataGenerator {
         isValid = false;
         intLoop = 0;
         while (!isValid) {
-            int index = rand.nextInt(8);
+            int index = rand.nextInt(8); // index 0–7 menghasilkan durasi 0.5–4.0
             BigDecimal durasi = BigDecimal.valueOf(0.5 + index * 0.5).setScale(1, RoundingMode.HALF_UP);
-            Matcher matcher = Pattern.compile("^(0\\.5|1(\\.0)?|1\\.5|2(\\.0)?|2\\.5|3(\\.0)?|3\\.5|4(\\.0)?)$").matcher(durasi.toString());
+            String durasiStr = durasi.toString();
 
-            isValid = matcher.find();
-            if (matcher.find()) {
-                return durasi.toString();
+            boolean match = Pattern.compile("^(0\\.5|1(\\.0)?|1\\.5|2(\\.0)?|2\\.5|3(\\.0)?|3\\.5|4(\\.0)?)$")
+                    .matcher(durasiStr).find();
+            isValid = match;
+            if (match) {
+                return durasiStr;
             }
             intLoop++;
         }
         throw new RuntimeException("SUDAH MENCOBA MEMBUAT DATA DURASI SEBANYAK 250 KALI DAN GAGAL !!");
     }
+
 
     public String dataStatus() {
         isValid = false;
@@ -517,13 +520,14 @@ public class DataGenerator {
             Matcher matcher = Pattern.compile("^(pending|approved|cancelled)$").matcher(status);
 
             isValid = matcher.find();
-            if (matcher.find()) {
+            if (isValid) {
                 return status;
             }
             intLoop++;
         }
         throw new RuntimeException("SUDAH MENCOBA MEMBUAT STATUS SEBANYAK 250 KALI DAN GAGAL !!");
     }
+
 
     public String dataNamaTim() {
         isValid = false;
