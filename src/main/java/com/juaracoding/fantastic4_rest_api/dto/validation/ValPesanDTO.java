@@ -14,6 +14,7 @@ import com.juaracoding.fantastic4_rest_api.dto.rel.RelRuanganDTO;
 import com.juaracoding.fantastic4_rest_api.dto.rel.RelUserDTO;
 import com.juaracoding.fantastic4_rest_api.model.Ruangan;
 import com.juaracoding.fantastic4_rest_api.model.User;
+import jakarta.persistence.Id;
 import jakarta.validation.constraints.*;
 
 import java.sql.Time;
