@@ -11,6 +11,7 @@ import com.juaracoding.fantastic4_rest_api.utils.DataGenerator;
 import io.restassured.http.Method;
 import io.restassured.path.json.JsonPath;
 import io.restassured.response.Response;
+import net.bytebuddy.asm.Advice;
 import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -68,13 +69,15 @@ public class PesanControllerTest extends AbstractTestNGSpringContextTests {
         Long id = dataGenerator.dataIdPesan();
         String mulai = dataGenerator.dataMulai();
         String berakhir = dataGenerator.dataBerakhir(mulai);
+        LocalDate tanggalPemesanan = LocalDate.parse(dataGenerator.dataTanggalPemesanan());
+        LocalDate tanggalPertemuan = LocalDate.parse(dataGenerator.dataTanggalPertemuan(tanggalPemesanan.toString()));
         String nama = dataGenerator.dataNamaTim();
         String path = "/" + nama.toLowerCase().replace(" ", "-");
         try {
             req.put("id", idPesanTest);
-            req.put("tanggal-pemesanan", dataGenerator.dataTanggalPemesanan());
+            req.put("tanggal-pemesanan", tanggalPemesanan);
             req.put("namaPertemuan", dataGenerator.dataNamaPertemuan());
-            req.put("tanggal-pertemuan", dataGenerator.dataTanggalPertemuan());
+            req.put("tanggal-pertemuan", tanggalPertemuan);
             req.put("mulai", mulai);
             req.put("berakhir", berakhir);
             req.put("durasi", dataGenerator.dataDurasi());
@@ -112,18 +115,18 @@ public class PesanControllerTest extends AbstractTestNGSpringContextTests {
         req.clear();
         try {
             String reqId = String.valueOf(idPesanTest);
-            LocalDate reqTanggalPemesanan = LocalDate.parse(dataGenerator.dataTanggalPemesanan());
+            LocalDate tanggalPemesanan = LocalDate.parse(dataGenerator.dataTanggalPemesanan());
             String reqNamaPertemuan = dataGenerator.dataNamaPertemuan();
-            LocalDate reqTanggalPertemuan = LocalDate.parse(dataGenerator.dataTanggalPertemuan());
+            LocalDate tanggalPertemuan = LocalDate.parse(dataGenerator.dataTanggalPertemuan(tanggalPemesanan.toString()));
             String mulai = dataGenerator.dataMulai();
             String berakhir = dataGenerator.dataBerakhir(mulai);
             BigDecimal reqDurasi = pesan.getDurasi();
             String reqStatus = pesan.getStatus();
 
             pesan.setPesanID(Long.valueOf(reqId));
-            pesan.setTanggalPemesanan(reqTanggalPemesanan);
+            pesan.setTanggalPemesanan(tanggalPemesanan);
             pesan.setNamaPertemuan(reqNamaPertemuan);
-            pesan.setTanggalPertemuan(reqTanggalPertemuan);
+            pesan.setTanggalPertemuan(tanggalPertemuan);
             pesan.setMulai(Time.valueOf(mulai));
             pesan.setBerakhir(Time.valueOf(berakhir));
             pesan.setDurasi(reqDurasi);
@@ -134,9 +137,9 @@ public class PesanControllerTest extends AbstractTestNGSpringContextTests {
             relRuanganDTO.setId(pesan.getRuangan().getId());
 
             req.put("id", idPesanTest);
-            req.put("tanggal-pemesanan", reqTanggalPemesanan);
+            req.put("tanggal-pemesanan", tanggalPemesanan);
             req.put("namaPertemuan", reqNamaPertemuan);
-            req.put("tanggal-pertemuan", reqTanggalPertemuan);
+            req.put("tanggal-pertemuan", tanggalPemesanan);
             req.put("mulai", mulai);
             req.put("berakhir", berakhir);
             req.put("durasi", reqDurasi);
@@ -170,6 +173,10 @@ public class PesanControllerTest extends AbstractTestNGSpringContextTests {
     @Test(priority = 20)
     void findById() {
         Response response;
+        if (idPesanTest == null) {
+            idPesanTest = pesan.getPesanID();
+        }
+
         try {
             response = given().
                     header("Content-Type", "application/json").
@@ -181,19 +188,18 @@ public class PesanControllerTest extends AbstractTestNGSpringContextTests {
             JsonPath jsonPath = response.jsonPath();
             System.out.println(response.getBody().prettyPrint());
             Assert.assertEquals(intResponse,200);
-            Assert.assertEquals(jsonPath.getString("message"), "DATA BERHASIL DITEMUKAN");
+            Assert.assertEquals(jsonPath.getString("message"), "DATA DITEMUKAN");
 
-            Assert.assertEquals(jsonPath.getString("data.id"), pesan.getPesanID());
-            Assert.assertEquals(jsonPath.getString("data.tanggal-pemesanan"), pesan.getTanggalPemesanan());
-            Assert.assertEquals(jsonPath.getString("data.namaPertemuan"), pesan.getNamaPertemuan());
-            Assert.assertEquals(jsonPath.getString("data.tanggal-pertemuan"), pesan.getTanggalPertemuan());
-            Assert.assertEquals(jsonPath.getString("data.mulai"), pesan.getMulai());
-            Assert.assertEquals(jsonPath.getString("data.berakhir"), pesan.getBerakhir());
-            Assert.assertEquals(jsonPath.getString("data.durasi"), pesan.getDurasi());
+            Assert.assertEquals(jsonPath.getString("data.id"), String.valueOf(pesan.getPesanID()));
+            Assert.assertEquals(jsonPath.getString("data.['tanggal-pemesanan']"), pesan.getTanggalPemesanan().toString());
+            Assert.assertEquals(jsonPath.getString("data.['nama-pertemuan']"), pesan.getNamaPertemuan());
+            Assert.assertEquals(jsonPath.getString("data.['tanggal-pertemuan']"), pesan.getTanggalPertemuan().toString());
+            Assert.assertEquals(jsonPath.getString("data.mulai"), pesan.getMulai().toString());
+            Assert.assertEquals(jsonPath.getString("data.berakhir"), pesan.getBerakhir().toString());
+            Assert.assertEquals(jsonPath.getString("data.durasi"), pesan.getDurasi().toString());
             Assert.assertEquals(jsonPath.getString("data.status"), pesan.getStatus());
-//            Assert.assertEquals(jsonPath.getString("data.user.id"), pesan.getUser().getId());
-//            Assert.assertEquals(jsonPath.getString("data.ruangan.id"), pesan.getRuangan().getId());
-
+            Assert.assertEquals(jsonPath.getString("data.user.id"), pesan.getUser().getId());
+            Assert.assertEquals(jsonPath.getString("data.ruangan.id"), pesan.getRuangan().getId());
             Assert.assertTrue(Boolean.parseBoolean(jsonPath.getString("success")));
             Assert.assertNotNull(jsonPath.getString("timestamp"));
         } catch (Exception e) {
@@ -204,21 +210,26 @@ public class PesanControllerTest extends AbstractTestNGSpringContextTests {
     @Test(priority = 30)
     void findByAll() {
         Response response;
+        if (idPesanTest == null) {
+            idPesanTest = pesan.getPesanID();
+        }
         try {
             response = given().
                     header("Content-Type","application/json").
                     header("accept","*/*").
 //                        header(AuthControllerTest.AUTH_HEADER,token).
-            request(Method.GET,"pesan");
+            request(Method.GET,"/pesan/"+idPesanTest);
 
             int intResponse = response.getStatusCode();
             JsonPath jsonPath = response.jsonPath();
+
             System.out.println(response.getBody().prettyPrint());
-            List ltData = jsonPath.getList("data.content");
-            int intData = (ltData != null) ? ltData.size() : 0;
+
+            List ltData = jsonPath.getList("data");
+            int intData = ltData.size();
 
             Assert.assertEquals(intResponse, 200);
-            Assert.assertEquals(jsonPath.getString("message"), "DATA BERHASIL DITEMUKAN");
+            Assert.assertEquals(jsonPath.getString("message"), "DATA DITEMUKAN");
             Assert.assertTrue(Boolean.parseBoolean(jsonPath.getString("success")));
             Assert.assertNotNull(jsonPath.getString("timestamp"));
 
@@ -249,7 +260,7 @@ public class PesanControllerTest extends AbstractTestNGSpringContextTests {
                     header("Content-Type", "application/json").
                     header("accept", "*/*").
                     params("size", 10).
-                    params("column", "namaPertemuan").
+                    params("column", "nama").
                     params("value", strValue).
                     request(Method.GET, pathVariable);
             int intResponse = response.getStatusCode();
@@ -271,17 +282,18 @@ public class PesanControllerTest extends AbstractTestNGSpringContextTests {
             Assert.assertEquals(jsonPath.getString("data.sort"), "asc");
             Assert.assertEquals(Integer.parseInt(jsonPath.getString("data.size-per-page")), 10);
             Assert.assertEquals(jsonPath.getString("data.value"), strValue);
+            Assert.assertEquals(Integer.parseInt(jsonPath.getString("data.total-data")), intData);
 
+            Assert.assertEquals(map.get("id").toString(), pesan.getPesanID());
+            Assert.assertEquals(jsonPath.getString("data.tanggal-pemesanan"), pesan.getTanggalPemesanan().toString());
+            Assert.assertEquals(jsonPath.getString("data.namaPertemuan"), pesan.getNamaPertemuan());
+            Assert.assertEquals(jsonPath.getString("data.tanggal-pertemuan"), pesan.getTanggalPertemuan().toString());
+            Assert.assertEquals(jsonPath.getString("data.mulai"), pesan.getMulai().toString());
+            Assert.assertEquals(jsonPath.getString("data.berakhir"), pesan.getBerakhir().toString());
+            Assert.assertEquals(jsonPath.getString("data.durasi"), pesan.getDurasi().toString());
+            Assert.assertEquals(jsonPath.getString("data.status"), pesan.getStatus());
             Assert.assertEquals(jsonPath.getString("data.user.id"), pesan.getUser().getId());
             Assert.assertEquals(jsonPath.getString("data.ruangan.id"), pesan.getRuangan().getId());
-            Assert.assertEquals(jsonPath.getString("data.tanggal-pemesanan"), pesan.getTanggalPemesanan());
-            Assert.assertEquals(jsonPath.getString("data.namaPertemuan"), pesan.getNamaPertemuan());
-            Assert.assertEquals(jsonPath.getString("data.tanggal-pertemuan"), pesan.getTanggalPertemuan());
-            Assert.assertEquals(jsonPath.getString("data.mulai"), pesan.getMulai());
-            Assert.assertEquals(jsonPath.getString("data.berakhir"), pesan.getBerakhir());
-            Assert.assertEquals(jsonPath.getString("data.durasi"), pesan.getDurasi());
-            Assert.assertEquals(jsonPath.getString("data.status"), pesan.getStatus());
-            Assert.assertEquals(map.get("id").toString(), pesan.getPesanID());
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
@@ -295,20 +307,19 @@ public class PesanControllerTest extends AbstractTestNGSpringContextTests {
                         header("Content-Type", "application/json").
                         header("accept", "*/*").
 //                        header(AuthControllerTest.AUTH_HEADER,token).
-                request(Method.DELETE, "pesan/" + idPesanTest);
+                request(Method.DELETE, "/pesan/" + pesan.getPesanID());
 
                 int intResponse = response.getStatusCode();
                 JsonPath jsonPath = response.jsonPath();
 
                 System.out.println(response.getBody().prettyPrint());
                 Assert.assertEquals(intResponse, 200);
-                Assert.assertEquals(jsonPath.getString("messege"), "DATA BERHASIL DIHAPUS");
+                Assert.assertEquals(jsonPath.getString("message"), "DATA BERHASIL DIHAPUS");
                 Assert.assertNotNull(jsonPath.getString("data"));
                 Assert.assertTrue(Boolean.parseBoolean(jsonPath.getString("success")));
                 Assert.assertNotNull(jsonPath.getString("timestamp"));
             } catch (Exception e) {
                 System.out.println(e.getMessage());
             }
-            findByAll();
         }
     }
