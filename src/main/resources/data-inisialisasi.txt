@@ -1,18 +1,18 @@
 /*
  Navicat Premium Data Transfer
 
- Source Server         : LOCAL_SQLEXPRESS
+ Source Server         : LOCAL_SQQL
  Source Server Type    : SQL Server
- Source Server Version : 15002130
+ Source Server Version : 15002000
  Source Host           : localhost:1433
  Source Catalog        : TitikTemuDB
  Source Schema         : corez
 
  Target Server Type    : SQL Server
- Target Server Version : 15002130
+ Target Server Version : 15002000
  File Encoding         : 65001
 
- Date: 24/05/2025 20:43:04
+ Date: 03/06/2025 21:32:47
 */
 
 
@@ -68,30 +68,6 @@ GO
 
 
 -- ----------------------------
--- Table structure for MstAdmin
--- ----------------------------
-IF EXISTS (SELECT * FROM sys.all_objects WHERE object_id = OBJECT_ID(N'[corez].[MstAdmin]') AND type IN ('U'))
-	DROP TABLE [corez].[MstAdmin]
-GO
-
-CREATE TABLE [corez].[MstAdmin] (
-  [AdminID] varchar(50) COLLATE SQL_Latin1_General_CP1_CI_AS  NOT NULL,
-  [Email] varchar(50) COLLATE SQL_Latin1_General_CP1_CI_AS  NOT NULL,
-  [Nama] varchar(50) COLLATE SQL_Latin1_General_CP1_CI_AS  NOT NULL,
-  [NoTelp] varchar(50) COLLATE SQL_Latin1_General_CP1_CI_AS  NOT NULL,
-  [Password] varchar(64) COLLATE SQL_Latin1_General_CP1_CI_AS  NOT NULL
-)
-GO
-
-ALTER TABLE [corez].[MstAdmin] SET (LOCK_ESCALATION = TABLE)
-GO
-
-
--- ----------------------------
--- Records of MstAdmin
--- ----------------------------
-
--- ----------------------------
 -- Table structure for MstAkses
 -- ----------------------------
 IF EXISTS (SELECT * FROM sys.all_objects WHERE object_id = OBJECT_ID(N'[corez].[MstAkses]') AND type IN ('U'))
@@ -137,7 +113,11 @@ IF EXISTS (SELECT * FROM sys.all_objects WHERE object_id = OBJECT_ID(N'[corez].[
 GO
 
 CREATE TABLE [corez].[MstFasilitas] (
-  [Jumlah] bigint  NOT NULL,
+  [Jumlah] smallint  NOT NULL,
+  [CreatedBy] bigint  NOT NULL,
+  [CreatedDate] datetime2(6)  NULL,
+  [ModifiedBy] bigint  NULL,
+  [ModifiedDate] datetime2(6)  NULL,
   [FasilitasID] varchar(50) COLLATE SQL_Latin1_General_CP1_CI_AS  NOT NULL,
   [NamaFasilitas] varchar(50) COLLATE SQL_Latin1_General_CP1_CI_AS  NOT NULL,
   [RuanganID] varchar(50) COLLATE SQL_Latin1_General_CP1_CI_AS  NULL
@@ -151,6 +131,9 @@ GO
 -- ----------------------------
 -- Records of MstFasilitas
 -- ----------------------------
+INSERT INTO [corez].[MstFasilitas] ([Jumlah], [CreatedBy], [CreatedDate], [ModifiedBy], [ModifiedDate], [FasilitasID], [NamaFasilitas], [RuanganID]) VALUES (N'10', N'1', N'2025-05-29 16:34:16.000000', NULL, NULL, N'FS1', N'Kursi', N'RM0201')
+GO
+
 
 -- ----------------------------
 -- Table structure for MstMenu
@@ -214,8 +197,12 @@ IF EXISTS (SELECT * FROM sys.all_objects WHERE object_id = OBJECT_ID(N'[corez].[
 GO
 
 CREATE TABLE [corez].[MstRuangan] (
-  [MaxKapasitas] bigint  NOT NULL,
-  [MinKapasitas] bigint  NOT NULL,
+  [MaxKapasitas] smallint  NOT NULL,
+  [MinKapasitas] smallint  NOT NULL,
+  [CreatedBy] bigint  NOT NULL,
+  [CreatedDate] datetime2(6)  NULL,
+  [ModifiedBy] bigint  NULL,
+  [ModifiedDate] datetime2(6)  NULL,
   [Lokasi] varchar(50) COLLATE SQL_Latin1_General_CP1_CI_AS  NOT NULL,
   [NamaRuangan] varchar(50) COLLATE SQL_Latin1_General_CP1_CI_AS  NOT NULL,
   [RuanganID] varchar(50) COLLATE SQL_Latin1_General_CP1_CI_AS  NOT NULL
@@ -229,6 +216,9 @@ GO
 -- ----------------------------
 -- Records of MstRuangan
 -- ----------------------------
+INSERT INTO [corez].[MstRuangan] ([MaxKapasitas], [MinKapasitas], [CreatedBy], [CreatedDate], [ModifiedBy], [ModifiedDate], [Lokasi], [NamaRuangan], [RuanganID]) VALUES (N'10', N'20', N'1', N'2025-05-29 16:33:22.000000', NULL, NULL, N'2', N'RuangS', N'RM0201')
+GO
+
 
 -- ----------------------------
 -- Table structure for MstUser
@@ -238,14 +228,21 @@ IF EXISTS (SELECT * FROM sys.all_objects WHERE object_id = OBJECT_ID(N'[corez].[
 GO
 
 CREATE TABLE [corez].[MstUser] (
+  [IsRegistered] bit  NULL,
+  [CreatedDate] datetime2(6)  NULL,
   [IDAkses] bigint  NULL,
+  [ModifiedDate] datetime2(6)  NULL,
   [Email] varchar(50) COLLATE SQL_Latin1_General_CP1_CI_AS  NOT NULL,
   [Nama] varchar(50) COLLATE SQL_Latin1_General_CP1_CI_AS  NOT NULL,
   [NoTelp] varchar(50) COLLATE SQL_Latin1_General_CP1_CI_AS  NOT NULL,
   [UserID] varchar(50) COLLATE SQL_Latin1_General_CP1_CI_AS  NOT NULL,
+  [OTP] varchar(64) COLLATE SQL_Latin1_General_CP1_CI_AS  NULL,
   [Password] varchar(64) COLLATE SQL_Latin1_General_CP1_CI_AS  NOT NULL,
+  [TokenEstafet] varchar(64) COLLATE SQL_Latin1_General_CP1_CI_AS  NULL,
   [Departemen] varchar(100) COLLATE SQL_Latin1_General_CP1_CI_AS  NOT NULL,
-  [Jabatan] varchar(100) COLLATE SQL_Latin1_General_CP1_CI_AS  NOT NULL
+  [Jabatan] varchar(100) COLLATE SQL_Latin1_General_CP1_CI_AS  NOT NULL,
+  [CreatedBy] varchar(255) COLLATE SQL_Latin1_General_CP1_CI_AS  NOT NULL,
+  [ModifiedBy] varchar(255) COLLATE SQL_Latin1_General_CP1_CI_AS  NULL
 )
 GO
 
@@ -256,7 +253,10 @@ GO
 -- ----------------------------
 -- Records of MstUser
 -- ----------------------------
-INSERT INTO [corez].[MstUser] ([IDAkses], [Email], [Nama], [NoTelp], [UserID], [Password], [Departemen], [Jabatan]) VALUES (N'1', N'cumi@gmail.com', N'cumi', N'628239283', N'paul.cumi', N'Paul@321', N'CumiCumi', N'User')
+INSERT INTO [corez].[MstUser] ([IsRegistered], [CreatedDate], [IDAkses], [ModifiedDate], [Email], [Nama], [NoTelp], [UserID], [OTP], [Password], [TokenEstafet], [Departemen], [Jabatan], [CreatedBy], [ModifiedBy]) VALUES (NULL, N'2025-05-27 01:15:37.000000', N'1', NULL, N'cumi@gmail.com', N'cumi', N'628239283', N'paul.cumi', NULL, N'Paul@321', NULL, N'CumiCumi', N'User', N'1', NULL)
+GO
+
+INSERT INTO [corez].[MstUser] ([IsRegistered], [CreatedDate], [IDAkses], [ModifiedDate], [Email], [Nama], [NoTelp], [UserID], [OTP], [Password], [TokenEstafet], [Departemen], [Jabatan], [CreatedBy], [ModifiedBy]) VALUES (NULL, N'2025-05-27 01:16:04.000000', N'1', NULL, N'yngwie@gmail.com', N'yngwie', N'+62812342781', N'Yng1998', NULL, N'Yngwie@1234', NULL, N'IT', N'Core', N'1', NULL)
 GO
 
 
@@ -268,11 +268,15 @@ IF EXISTS (SELECT * FROM sys.all_objects WHERE object_id = OBJECT_ID(N'[corez].[
 GO
 
 CREATE TABLE [corez].[TxnPesan] (
+  [Berakhir] time(7)  NOT NULL,
   [Durasi] numeric(18,1)  NOT NULL,
-  [Tanggal] date  NOT NULL,
-  [Berakhir] datetime2(6)  NOT NULL,
-  [Mulai] datetime2(6)  NOT NULL,
-  [PesanID] bigint  IDENTITY(1,1) NOT NULL,
+  [Mulai] time(7)  NOT NULL,
+  [TanggalPemesanan] date  NOT NULL,
+  [TanggalPertemuan] date  NOT NULL,
+  [CreatedBy] bigint  NOT NULL,
+  [ModifiedBy] bigint  NULL,
+  [ModifiedDate] datetime2(6)  NULL,
+  [PesanID] bigint  NOT NULL,
   [RuanganID] varchar(50) COLLATE SQL_Latin1_General_CP1_CI_AS  NULL,
   [Status] varchar(50) COLLATE SQL_Latin1_General_CP1_CI_AS  NOT NULL,
   [UserID] varchar(50) COLLATE SQL_Latin1_General_CP1_CI_AS  NULL,
@@ -287,42 +291,7 @@ GO
 -- ----------------------------
 -- Records of TxnPesan
 -- ----------------------------
-SET IDENTITY_INSERT [corez].[TxnPesan] ON
-GO
-
-SET IDENTITY_INSERT [corez].[TxnPesan] OFF
-GO
-
-
--- ----------------------------
--- Uniques structure for table MapAksesMenu
--- ----------------------------
-ALTER TABLE [corez].[MapAksesMenu] ADD CONSTRAINT [unq-akses-to-menu] UNIQUE NONCLUSTERED ([IDAkses] ASC, [IDMenu] ASC)
-WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON)
-ON [PRIMARY]
-GO
-
-
--- ----------------------------
--- Uniques structure for table MstAdmin
--- ----------------------------
-ALTER TABLE [corez].[MstAdmin] ADD CONSTRAINT [UK6k1epeqqilbrflt3nvglf6ab5] UNIQUE NONCLUSTERED ([Email] ASC)
-WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON)
-ON [PRIMARY]
-GO
-
-ALTER TABLE [corez].[MstAdmin] ADD CONSTRAINT [UKlgangk1hhifcr0anfonjrp90f] UNIQUE NONCLUSTERED ([NoTelp] ASC)
-WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON)
-ON [PRIMARY]
-GO
-
-
--- ----------------------------
--- Primary Key structure for table MstAdmin
--- ----------------------------
-ALTER TABLE [corez].[MstAdmin] ADD CONSTRAINT [PK__MstAdmin__719FE4E8CFDA1005] PRIMARY KEY CLUSTERED ([AdminID])
-WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON)
-ON [PRIMARY]
+INSERT INTO [corez].[TxnPesan] ([Berakhir], [Durasi], [Mulai], [TanggalPemesanan], [TanggalPertemuan], [CreatedBy], [ModifiedBy], [ModifiedDate], [PesanID], [RuanganID], [Status], [UserID], [NamaPertemuan]) VALUES (N'15:00:00.0000000', N'2.0', N'13:00:00.0000000', N'2025-05-28', N'2025-05-30', N'1', NULL, NULL, N'1', N'RM0201', N'pending', N'Yng1998', N'Pertemaun Pertama')
 GO
 
 
@@ -350,7 +319,7 @@ GO
 -- ----------------------------
 -- Primary Key structure for table MstAkses
 -- ----------------------------
-ALTER TABLE [corez].[MstAkses] ADD CONSTRAINT [PK__MstAkses__3214EC27292A4F9C] PRIMARY KEY CLUSTERED ([ID])
+ALTER TABLE [corez].[MstAkses] ADD CONSTRAINT [PK__MstAkses__3214EC2757DEB89D] PRIMARY KEY CLUSTERED ([ID])
 WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON)
 ON [PRIMARY]
 GO
@@ -359,7 +328,7 @@ GO
 -- ----------------------------
 -- Primary Key structure for table MstFasilitas
 -- ----------------------------
-ALTER TABLE [corez].[MstFasilitas] ADD CONSTRAINT [PK__MstFasil__0F28CF39F985D0C6] PRIMARY KEY CLUSTERED ([FasilitasID])
+ALTER TABLE [corez].[MstFasilitas] ADD CONSTRAINT [PK__MstFasil__0F28CF39E50A6AC8] PRIMARY KEY CLUSTERED ([FasilitasID])
 WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON)
 ON [PRIMARY]
 GO
@@ -394,7 +363,7 @@ GO
 -- ----------------------------
 -- Primary Key structure for table MstMenu
 -- ----------------------------
-ALTER TABLE [corez].[MstMenu] ADD CONSTRAINT [PK__MstMenu__3214EC277056EECF] PRIMARY KEY CLUSTERED ([ID])
+ALTER TABLE [corez].[MstMenu] ADD CONSTRAINT [PK__MstMenu__3214EC2721AB2B62] PRIMARY KEY CLUSTERED ([ID])
 WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON)
 ON [PRIMARY]
 GO
@@ -412,7 +381,7 @@ GO
 -- ----------------------------
 -- Primary Key structure for table MstRuangan
 -- ----------------------------
-ALTER TABLE [corez].[MstRuangan] ADD CONSTRAINT [PK__MstRuang__098EF5B4D95EEB69] PRIMARY KEY CLUSTERED ([RuanganID])
+ALTER TABLE [corez].[MstRuangan] ADD CONSTRAINT [PK__MstRuang__098EF5B40B107B0E] PRIMARY KEY CLUSTERED ([RuanganID])
 WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON)
 ON [PRIMARY]
 GO
@@ -435,23 +404,16 @@ GO
 -- ----------------------------
 -- Primary Key structure for table MstUser
 -- ----------------------------
-ALTER TABLE [corez].[MstUser] ADD CONSTRAINT [PK__MstUser__1788CCAC4435894F] PRIMARY KEY CLUSTERED ([UserID])
+ALTER TABLE [corez].[MstUser] ADD CONSTRAINT [PK__MstUser__1788CCACC145C45B] PRIMARY KEY CLUSTERED ([UserID])
 WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON)
 ON [PRIMARY]
 GO
 
 
 -- ----------------------------
--- Auto increment value for TxnPesan
--- ----------------------------
-DBCC CHECKIDENT ('[corez].[TxnPesan]', RESEED, 1)
-GO
-
-
--- ----------------------------
 -- Primary Key structure for table TxnPesan
 -- ----------------------------
-ALTER TABLE [corez].[TxnPesan] ADD CONSTRAINT [PK__TxnPesan__8A404D3F5CAC9AC7] PRIMARY KEY CLUSTERED ([PesanID])
+ALTER TABLE [corez].[TxnPesan] ADD CONSTRAINT [PK__TxnPesan__8A404D3FD79E019E] PRIMARY KEY CLUSTERED ([PesanID])
 WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON)
 ON [PRIMARY]
 GO
@@ -460,10 +422,24 @@ GO
 -- ----------------------------
 -- Foreign Keys structure for table MapAksesMenu
 -- ----------------------------
-ALTER TABLE [corez].[MapAksesMenu] ADD CONSTRAINT [fk-toMenu] FOREIGN KEY ([IDMenu]) REFERENCES [corez].[MstMenu] ([ID]) ON DELETE NO ACTION ON UPDATE NO ACTION
+ALTER TABLE [corez].[MapAksesMenu] ADD CONSTRAINT [foreign-key-akses-menu-to-akses] FOREIGN KEY ([IDAkses]) REFERENCES [corez].[MstAkses] ([ID]) ON DELETE NO ACTION ON UPDATE NO ACTION
 GO
 
-ALTER TABLE [corez].[MapAksesMenu] ADD CONSTRAINT [fk-toAkses] FOREIGN KEY ([IDAkses]) REFERENCES [corez].[MstAkses] ([ID]) ON DELETE NO ACTION ON UPDATE NO ACTION
+ALTER TABLE [corez].[MapAksesMenu] ADD CONSTRAINT [foreign-key-akses-menu-to-menu] FOREIGN KEY ([IDMenu]) REFERENCES [corez].[MstMenu] ([ID]) ON DELETE NO ACTION ON UPDATE NO ACTION
+GO
+
+EXEC sp_addextendedproperty
+'MS_Description', N'Foreign Key MapAksesMenu to MstAkses',
+'SCHEMA', N'corez',
+'TABLE', N'MapAksesMenu',
+'CONSTRAINT', N'foreign-key-akses-menu-to-akses'
+GO
+
+EXEC sp_addextendedproperty
+'MS_Description', N'Foreign Key MapAksesMenu to MstMenu',
+'SCHEMA', N'corez',
+'TABLE', N'MapAksesMenu',
+'CONSTRAINT', N'foreign-key-akses-menu-to-menu'
 GO
 
 
