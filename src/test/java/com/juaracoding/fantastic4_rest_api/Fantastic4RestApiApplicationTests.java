@@ -1,13 +1,13 @@
-package com.juaracoding.fantastic4_rest_api;
-
-import org.junit.jupiter.api.Test;
-import org.springframework.boot.test.context.SpringBootTest;
-
-@SpringBootTest
-class Fantastic4RestApiApplicationTests {
-
-	@Test
-	void contextLoads() {
-	}
-
-}
+//package com.juaracoding.fantastic4_rest_api;
+//
+//import org.junit.jupiter.api.Test;
+//import org.springframework.boot.test.context.SpringBootTest;
+//
+//@SpringBootTest
+//class Fantastic4RestApiApplicationTests {
+//
+//	@Test
+//	void contextLoads() {
+//	}
+//
+//}

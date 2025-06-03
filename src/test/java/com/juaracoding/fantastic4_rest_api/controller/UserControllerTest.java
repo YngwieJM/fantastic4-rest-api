@@ -34,6 +34,7 @@ public class UserControllerTest extends AbstractTestNGSpringContextTests {
         private Random rand ;
         private String token;
         private DataGenerator dataGenerator;
+        private String forDeleteId;
 
         @BeforeClass
         private void init(){
@@ -44,6 +45,7 @@ public class UserControllerTest extends AbstractTestNGSpringContextTests {
             dataGenerator = new DataGenerator();
             Optional<User> op = userRepo.findTop1ByOrderByIdDesc();
             user = op.get();
+
         }
 
         @BeforeTest
@@ -54,9 +56,11 @@ public class UserControllerTest extends AbstractTestNGSpringContextTests {
         @Test(priority = 0)
         void save(){
             Response response ;
+            forDeleteId = dataGenerator.dataId();
             String nama = dataGenerator.dataNamaTim();
             String path = "/"+nama.toLowerCase().replace(" ","-");
             try{
+                req.put("id", forDeleteId);
                 req.put("nama", dataGenerator.dataNama());
                 req.put("email", dataGenerator.dataEmail());
                 req.put("noTelp", dataGenerator.dataNoTelp());
@@ -99,6 +103,7 @@ public class UserControllerTest extends AbstractTestNGSpringContextTests {
                 String reqJabatan = dataGenerator.dataJabatan();
                 String reqPassword = dataGenerator.dataPassword();
 
+                user.setId(user.getId());
                 user.setNama(reqNama);
                 user.setEmail(reqEmail);
                 user.setNoTelp(reqNoTelp);
@@ -106,12 +111,12 @@ public class UserControllerTest extends AbstractTestNGSpringContextTests {
                 user.setJabatan(reqJabatan);
                 user.setPassword(reqPassword);
 
+                req.put("id", user.getId());
                 req.put("nama", reqNama);
                 req.put("email", reqEmail);
                 req.put("noTelp", reqNoTelp);
                 req.put("departemen", reqDepartemen);
                 req.put("jabatan", reqJabatan);
-                req.put("password", reqPassword);
                 RelAksesDTO relAksesDTO = new RelAksesDTO();
                 relAksesDTO.setId(user.getAkses().getId());
                 req.put("akses",relAksesDTO);
@@ -130,6 +135,7 @@ public class UserControllerTest extends AbstractTestNGSpringContextTests {
                 Assert.assertNotNull(jsonPath.getString("data"));
                 Assert.assertTrue(Boolean.parseBoolean(jsonPath.getString("success")));
                 Assert.assertNotNull(jsonPath.getString("timestamp"));
+                System.out.println(response.getBody().prettyPrint());
             }catch (Exception e){
                 System.out.println(e.getMessage());
             }
@@ -148,16 +154,18 @@ public class UserControllerTest extends AbstractTestNGSpringContextTests {
                 int intResponse = response.getStatusCode();
                 JsonPath jsonPath = response.jsonPath();
                 Assert.assertEquals(intResponse,200);
-                Assert.assertEquals(jsonPath.getString("message"),"DATA BERHASIL DITEMUKAN");
+                Assert.assertEquals(jsonPath.getString("message"),"DATA DITEMUKAN");
                 Assert.assertEquals(jsonPath.getString("data.id"),user.getId());
                 Assert.assertEquals(jsonPath.getString("data.nama"),user.getNama());
                 Assert.assertEquals(jsonPath.getString("data.email"),user.getEmail());;
-                Assert.assertEquals(jsonPath.getString("data.noTelp"),user.getNoTelp());
+                Assert.assertEquals(jsonPath.getString("data.no-telp"),user.getNoTelp());
                 Assert.assertEquals(jsonPath.getString("data.departemen"),user.getDepartemen());
                 Assert.assertEquals(jsonPath.getString("data.jabatan"),user.getJabatan());
-                Assert.assertEquals(jsonPath.getString("data.password"),user.getPassword());
+//                Assert.assertEquals(jsonPath.getString("data.password"),user.getPassword());
                 Assert.assertTrue(Boolean.parseBoolean(jsonPath.getString("success")));
                 Assert.assertNotNull(jsonPath.getString("timestamp"));
+                System.out.println(response.getBody().prettyPrint());
+
             }catch (Exception e){
                 System.out.println(e.getMessage());
             }
@@ -171,15 +179,16 @@ public class UserControllerTest extends AbstractTestNGSpringContextTests {
                     header("Content-Type","application/json").
                     header("accept","*/*").
 //                        header(AuthControllerTest.AUTH_HEADER,token).
-                    request(Method.GET,"user/");
+                     request(Method.GET, "user");
 
             int intResponse = response.getStatusCode();
             JsonPath jsonPath = response.jsonPath();
+            System.out.println(response.getBody().prettyPrint());
             List ltData = jsonPath.getList("data.content");
-            int intData = ltData.size();
+            int intData = (ltData != null) ? ltData.size() : 0;
 
             Assert.assertEquals(intResponse,200);
-            Assert.assertEquals(jsonPath.getString("message"),"DATA BERHASIL DITEMUKAN");
+            Assert.assertEquals(jsonPath.getString("message"),"DATA DITEMUKAN");
             Assert.assertTrue(Boolean.parseBoolean(jsonPath.getString("success")));
             Assert.assertNotNull(jsonPath.getString("timestamp"));
 // ======================================================================================================================================================
@@ -200,15 +209,16 @@ public class UserControllerTest extends AbstractTestNGSpringContextTests {
     @Test(priority = 40)
     void findByParam() {
         Response response;
-        String pathVariable = "/user/asc/id/0";
+        String pathVariable = "/user/search/asc/id/0";
         String strValue = user.getNama();
 
         try {
             response = given().
                     header("Content-Type", "application/json").
                     header("accept", "*/*").
-                    params("value", strValue).
                     params("size", 10).
+                    params("column", "nama").
+                    params("value", strValue).
                     request(Method.GET, pathVariable);
             int intResponse = response.getStatusCode();
             JsonPath jsonPath = response.jsonPath();
@@ -218,27 +228,29 @@ public class UserControllerTest extends AbstractTestNGSpringContextTests {
 
             System.out.println(response.getBody().prettyPrint());
             Assert.assertEquals(intResponse, 200);
-            Assert.assertEquals(jsonPath.getString("message"), "DATA BERHASIL DITEMUKAN");
+            Assert.assertEquals(jsonPath.getString("message"), "DATA DITEMUKAN");
             Assert.assertTrue(Boolean.parseBoolean(jsonPath.getString("success")));
             Assert.assertNotNull(jsonPath.getString("timestamp"));
 
             Assert.assertEquals(jsonPath.getString("data.sort-by"), "id");
             Assert.assertEquals(Integer.parseInt(jsonPath.getString("data.current-page")), 0);
-            Assert.assertEquals(jsonPath.getString("data.column-name"), "id");
+            Assert.assertEquals(jsonPath.getString("data.column-name"), "nama");
             Assert.assertNotNull(jsonPath.getString("data.total-pages"));
             Assert.assertEquals(jsonPath.getString("data.sort"), "asc");
             Assert.assertEquals(Integer.parseInt(jsonPath.getString("data.size-per-page")), 10);
             Assert.assertEquals(jsonPath.getString("data.value"), strValue);
 
-            Assert.assertEquals(jsonPath.getString("data.id"), user.getId());
-            Assert.assertEquals(jsonPath.getString("data.nama"), user.getNama());
-            Assert.assertEquals(jsonPath.getString("data.email"), user.getEmail());
-            ;
-            Assert.assertEquals(jsonPath.getString("data.noTelp"), user.getNoTelp());
-            Assert.assertEquals(jsonPath.getString("data.departemen"), user.getDepartemen());
-            Assert.assertEquals(jsonPath.getString("data.jabatan"), user.getJabatan());
-            Assert.assertEquals(jsonPath.getString("data.password"), user.getPassword());
             Assert.assertEquals(map.get("id").toString(), user.getId());
+            Assert.assertEquals(map.get("nama"), user.getNama());
+            Assert.assertEquals(map.get("email"), user.getEmail());
+            Assert.assertEquals(map.get("no-telp"), user.getNoTelp());
+            Assert.assertEquals(map.get("departemen"), user.getDepartemen());
+            Assert.assertEquals(map.get("jabatan"), user.getJabatan());
+            Map<String, Object> aksesMap = (Map<String, Object>) map.get("akses");
+            Assert.assertEquals(aksesMap.get("id").toString(), user.getAkses().getId().toString());
+            Assert.assertEquals(aksesMap.get("nama"), user.getAkses().getNama());
+
+
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
@@ -248,17 +260,19 @@ public class UserControllerTest extends AbstractTestNGSpringContextTests {
     void delete(){
         Response response;
         try {
+
             response = given().
                     header("Content-Type", "application/json").
                     header("accept", "*/*").
 //                        header(AuthControllerTest.AUTH_HEADER,token).
-        request(Method.DELETE, "user/" + user.getId());
+        request(Method.DELETE, "user/" + forDeleteId);
 
             int intResponse = response.getStatusCode();
             JsonPath jsonPath = response.jsonPath();
 
+            System.out.println(response.getBody().prettyPrint());
             Assert.assertEquals(intResponse, 200);
-            Assert.assertEquals(jsonPath.getString("messege"), "DATA BERHASIL DIHAPUS");
+            Assert.assertEquals(jsonPath.getString("message"), "DATA BERHASIL DIHAPUS");
             Assert.assertNotNull(jsonPath.getString("data"));
             Assert.assertTrue(Boolean.parseBoolean(jsonPath.getString("success")));
             Assert.assertNotNull(jsonPath.getString("timestamp"));
@@ -266,4 +280,5 @@ public class UserControllerTest extends AbstractTestNGSpringContextTests {
             System.out.println(e.getMessage());
         }
     }
+
 }

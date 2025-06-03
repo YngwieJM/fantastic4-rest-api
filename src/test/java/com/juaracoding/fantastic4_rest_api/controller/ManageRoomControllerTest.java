@@ -1,9 +1,9 @@
 package com.juaracoding.fantastic4_rest_api.controller;
 
-import com.juaracoding.fantastic4_rest_api.dto.rel.RelRuanganDTO;
+
 import com.juaracoding.fantastic4_rest_api.model.Ruangan;
 import com.juaracoding.fantastic4_rest_api.repo.RuanganRepo;
-import com.juaracoding.fantastic4_rest_api.utils.DataGenerator;
+import com.juaracoding.fantastic4_rest_api.utils.*;
 import io.restassured.http.Method;
 import io.restassured.path.json.JsonPath;
 import io.restassured.response.Response;
@@ -13,11 +13,10 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
 import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
+import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
 
-import java.time.LocalDate;
-import java.util.List;
-import java.util.Map;
+
 import java.util.Optional;
 import java.util.Random;
 
@@ -32,53 +31,201 @@ public class ManageRoomControllerTest extends AbstractTestNGSpringContextTests {
     private Ruangan ruangan;
     private Random rand;
     private DataGenerator dataGenerator;
+    private String token;
+    private String idRuanganTest;
 
-//    @BeforeClass
-//    public void init() {
-//        req = new JSONObject();
-//        ruangan = new Ruangan();
-//        rand = new Random();
-//        dataGenerator = new DataGenerator();
-//        Optional<Ruangan> op = ruanganRepo.findTop1ByOrderByIdDesc();
-//        if (op.isPresent()) {
-//            ruangan = op.get();
-//        } else {
-//            System.out.println("Tidak ada ruangan yang tersedia untuk diambil");
-//            ruangan = new Ruangan(); // atau log/buat ruangan dummy
-//        }
-//    }
-//
-//    @Test(priority = 0)
-//    void save(){
-//        Response response ;
-//        String nama = dataGenerator.dataNamaTim();
+    @BeforeClass
+    private void init() {
+//            token = new TokenGenerator(AuthControllerTest.authorization).getToken();
+        rand = new Random();
+        req = new JSONObject();
+        ruangan = new Ruangan();
+        dataGenerator = new DataGenerator();
+        Optional<Ruangan> op = ruanganRepo.findTop1ByOrderByIdDesc();
+        ruangan = op.get();
+    }
+
+    @BeforeTest
+    private void setup() {
+        /** sifatnya optional */
+    }
+
+    @Test(priority = 0)
+    void save() {
+        Response response;
+        idRuanganTest = dataGenerator.dataIdRuangan();
+        short[] kapasitas = dataGenerator.dataKapasitas();
+        short minKapasitas = kapasitas[0];
+        short maxKapasitas = kapasitas[1];
+//        String nama = dataGenerator.dataNamaRuangan();
 //        String path = "/"+nama.toLowerCase().replace(" ","-");
-//        try{
-//            int min = rand.nextInt(50) + 1; // 1 - 50
-//            int max = min + rand.nextInt(50); // min+1 to min+50
-//
-//            req.put("namaRuangan", dataGenerator.dataNamaRuangan());
-//            req.put("minKapasitas", min);
-//            req.put("maxKapasitas", max);
-//            req.put("lokasi", dataGenerator.dataLokasi());
-//
-//
-//            response = given().
-//                    header("Content-Type","application/json").
-//                    header("accept","*/*").
-//                    body(req).
-//                    request(Method.POST,"room");
-//
-//            int intResponse = response.getStatusCode();
-//            JsonPath jsonPath = response.jsonPath();
-//            System.out.println(response.getBody().prettyPrint());
-//            Assert.assertEquals(intResponse,201);
-//            Assert.assertEquals(jsonPath.getString("message"),"SAVE SUCCESS !!");
-//            Assert.assertNotNull(jsonPath.getString("data"));
-//            Assert.assertTrue(Boolean.parseBoolean(jsonPath.getString("success")));
-//            Assert.assertNotNull(jsonPath.getString("timestamp"));
-//        }catch (Exception e){
-//            System.out.println(e.getMessage());
-//        }
-//    }
+        try {
+            req.put("id", idRuanganTest);
+            req.put("namaRuangan", dataGenerator.dataNamaRuangan());
+            req.put("minKapasitas",minKapasitas);
+            req.put("maxKapasitas", maxKapasitas);
+            req.put("lokasi", dataGenerator.dataLokasi());
+
+            response = given().
+                    header("Content-Type", "application/json").
+                    header("accept", "*/*").
+//                        header(AuthControllerTest.AUTH_HEADER,token).
+        body(req).
+                    request(Method.POST, "manage-room");
+
+            int intResponse = response.getStatusCode();
+            JsonPath jsonPath = response.jsonPath();
+            System.out.println(response.getBody().prettyPrint());
+            Assert.assertEquals(intResponse, 201);
+            Assert.assertEquals(jsonPath.getString("message"), "SAVE SUCCESS !!");
+            Assert.assertNotNull(jsonPath.getString("data"));
+            Assert.assertTrue(Boolean.parseBoolean(jsonPath.getString("success")));
+            Assert.assertNotNull(jsonPath.getString("timestamp"));
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
+    @Test(priority = 10)
+    void update() {
+        if (idRuanganTest == null) {
+            idRuanganTest = dataGenerator.dataIdRuangan();
+        }
+        short[] kapasitas = dataGenerator.dataKapasitas();
+        short minKapasitas = kapasitas[0];
+        short maxKapasitas = kapasitas[1];
+        Response response;
+        try {
+            req.put("id", idRuanganTest);
+            req.put("namaRuangan", dataGenerator.dataNamaRuangan());
+            req.put("minKapasitas", minKapasitas);
+            req.put("maxKapasitas", maxKapasitas);
+            req.put("lokasi", dataGenerator.dataLokasi());
+
+            response = given().
+                    header("Content-Type", "application/json").
+                    header("accept", "*/*").
+//                        header(AuthControllerTest.AUTH_HEADER,token).
+        body(req).
+                    request(Method.PUT, "manage-room/" + idRuanganTest);
+
+            int intResponse = response.getStatusCode();
+            JsonPath jsonPath = response.jsonPath();
+            System.out.println(response.getBody().prettyPrint());
+            Assert.assertEquals(intResponse, 200);
+            Assert.assertEquals(jsonPath.getString("message"), "DATA BERHASIL DIUBAH");
+            Assert.assertNotNull(jsonPath.getString("data"));
+            Assert.assertTrue(Boolean.parseBoolean(jsonPath.getString("success")));
+            Assert.assertNotNull(jsonPath.getString("timestamp"));
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
+    @Test(priority = 20)
+    void findAll() {
+        Response response;
+        try {
+            response = given().
+                    header("Content-Type", "application/json").
+                    header("accept", "*/*").
+//                        header(AuthControllerTest.AUTH_HEADER,token).
+                    request(Method.GET, "manage-room");
+
+            int intResponse = response.getStatusCode();
+            JsonPath jsonPath = response.jsonPath();
+            System.out.println(response.getBody().prettyPrint());
+            Assert.assertEquals(intResponse, 200);
+            Assert.assertEquals(jsonPath.getString("message"), "DATA DITEMUKAN");
+            Assert.assertNotNull(jsonPath.getString("data"));
+            Assert.assertTrue(Boolean.parseBoolean(jsonPath.getString("success")));
+            Assert.assertNotNull(jsonPath.getString("timestamp"));
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
+    @Test(priority = 30)
+    void findById() {
+        Response response;
+        try {
+            response = given().
+                    header("Content-Type", "application/json").
+                    header("accept", "*/*").
+//                        header(AuthControllerTest.AUTH_HEADER,token).
+                    request(Method.GET, "manage-room/" + ruangan.getId());
+
+            int intResponse = response.getStatusCode();
+            JsonPath jsonPath = response.jsonPath();
+            System.out.println(response.getBody().prettyPrint());
+            Assert.assertEquals(intResponse, 200);
+            Assert.assertEquals(jsonPath.getString("message"), "DATA DITEMUKAN");
+            Assert.assertNotNull(jsonPath.getString("data"));
+            Assert.assertTrue(Boolean.parseBoolean(jsonPath.getString("success")));
+            Assert.assertNotNull(jsonPath.getString("timestamp"));
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
+    @Test(priority = 40)
+    void findByParam() {
+        Response response;
+        String pathVariable = "/manage-room/asc/id/0";
+        String strValue = ruangan.getNamaRuangan();
+        try {
+            response = given().
+                    header("Content-Type", "application/json").
+                    header("accept", "*/*").
+//                        header(AuthControllerTest.AUTH_HEADER,token).
+                    params("size", 10).
+                    params("column", "namaRuangan").
+                    params("value", strValue).
+                    request(Method.GET, pathVariable);
+
+            int intResponse = response.getStatusCode();
+            JsonPath jsonPath = response.jsonPath();
+            System.out.println(response.getBody().prettyPrint());
+            Assert.assertEquals(intResponse, 200);
+            Assert.assertEquals(jsonPath.getString("message"), "DATA DITEMUKAN");
+            Assert.assertNotNull(jsonPath.getString("data"));
+            Assert.assertTrue(Boolean.parseBoolean(jsonPath.getString("success")));
+            Assert.assertNotNull(jsonPath.getString("timestamp"));
+
+            Assert.assertEquals(jsonPath.getString("data.sort-by"), "id");
+            Assert.assertEquals(Integer.parseInt(jsonPath.getString("data.current-page")), 0);
+            Assert.assertEquals(jsonPath.getString("data.column-name"), "namaRuangan");
+            Assert.assertNotNull(jsonPath.getString("data.total-pages"));
+            Assert.assertEquals(jsonPath.getString("data.sort"), "asc");
+            Assert.assertEquals(Integer.parseInt(jsonPath.getString("data.size-per-page")), 10);
+            Assert.assertEquals(jsonPath.getString("data.value"), strValue);
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
+    @Test(priority = 50)
+    void delete() {
+        Response response;
+        try {
+            response = given().
+                    header("Content-Type", "application/json").
+                    header("accept", "*/*").
+//                        header(AuthControllerTest.AUTH_HEADER,token).
+                    request(Method.DELETE, "manage-room/" + ruangan.getId());
+
+            int intResponse = response.getStatusCode();
+            JsonPath jsonPath = response.jsonPath();
+            System.out.println(response.getBody().prettyPrint());
+            Assert.assertEquals(intResponse, 200);
+            Assert.assertEquals(jsonPath.getString("message"), "DATA BERHASIL DIHAPUS");
+            Assert.assertTrue(Boolean.parseBoolean(jsonPath.getString("success")));
+            Assert.assertNotNull(jsonPath.getString("timestamp"));
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
 }
+
+

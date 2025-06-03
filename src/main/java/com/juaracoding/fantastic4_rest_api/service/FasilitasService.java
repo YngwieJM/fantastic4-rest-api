@@ -1,5 +1,6 @@
 package com.juaracoding.fantastic4_rest_api.service;
 
+import com.juaracoding.fantastic4_rest_api.config.OtherConfig;
 import com.juaracoding.fantastic4_rest_api.core.IService;
 import com.juaracoding.fantastic4_rest_api.dto.report.RepFasilitasDTO;
 import com.juaracoding.fantastic4_rest_api.dto.response.ResFasilitasDTO;
@@ -116,6 +117,15 @@ public class FasilitasService implements IService<Fasilitas> {
         } catch (Exception e) {
             return GlobalResponse.terjadiKesalahan("FAC032", request);
         }
+        if(OtherConfig.getEnableAutomationTesting().equalsIgnoreCase("y")){
+            sBuild.append("FasilitasService.findAll(Pageable pageable, HttpServletRequest request) : ")
+                    .append("Page : ").append(page.getNumber()).append(" | ")
+                    .append("Size : ").append(page.getSize()).append(" | ")
+                    .append("Total Page : ").append(page.getTotalPages()).append(" | ")
+                    .append("Total Data : ").append(page.getTotalElements());
+            System.out.println(sBuild);
+            return GlobalResponse.dataDitemukan(data, request);
+        }
         return GlobalResponse.dataDitemukan(listDTO, request);
     }
 
@@ -156,6 +166,15 @@ public class FasilitasService implements IService<Fasilitas> {
             data = tp.transformPagination(listDTO, page, columnName, value);
         } catch (Exception e) {
             return GlobalResponse.terjadiKesalahan("FAC042", request);
+        }
+        if (OtherConfig.getEnableAutomationTesting().equalsIgnoreCase("y")){
+            sBuild.append("FasilitasService.findByParam(Pageable pageable, String columnName, String value, HttpServletRequest request) : ")
+                    .append("Page : ").append(page.getNumber()).append(" | ")
+                    .append("Size : ").append(page.getSize()).append(" | ")
+                    .append("Total Page : ").append(page.getTotalPages()).append(" | ")
+                    .append("Total Data : ").append(page.getTotalElements());
+            System.out.println(sBuild);
+            return GlobalResponse.dataDitemukan(data, request);
         }
         return GlobalResponse.dataDitemukan(listDTO, request);
     }

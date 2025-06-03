@@ -6,6 +6,7 @@
             <class name="com.juaracoding.fantastic4_rest_api.controller.UserControllerTest"></class>
             <class name="com.juaracoding.fantastic4_rest_api.controller.ManageRoomControllerTest"></class>
             <class name="com.juaracoding.fantastic4_rest_api.controller.FacilityControllerTest"></class>
+            <class name="com.juaracoding.fantastic4_rest_api.controller.PesanControllerTest"></class>
         </classes>
     </test>
 </suite>

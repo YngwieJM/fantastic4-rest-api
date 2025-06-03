@@ -24,6 +24,8 @@ public interface FasilitasRepo extends JpaRepository<Fasilitas, String> {
 
      Page<Fasilitas> findByNamaFasilitasContainsIgnoreCase(String namaFasilitas, Pageable pageable);
      List<Fasilitas> findByNamaFasilitasContainsIgnoreCase(String namaFasilitas);
+
+    Optional<Fasilitas> findTop1ByOrderByIdDesc();
 //     Page<Fasilitas> findByRuanganID(Map<String, Object> ruanganID, Pageable pageable);
 //     List<Fasilitas> findByRuanganID(Map<String, Object> ruanganID);
 

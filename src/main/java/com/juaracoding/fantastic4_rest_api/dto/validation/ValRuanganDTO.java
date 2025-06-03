@@ -18,15 +18,16 @@ public class ValRuanganDTO {
     private String namaRuangan;
 
     @NotNull
-    @Min(value = 1, message = "Minimal kapasitas 1")
-    @Max(value = 9999, message = "Maksimal kapasitas 9999")
-    private Short minKapasitas;
+    @Pattern(regexp = "^([0-9]{1,4})$",
+            message = "Hanya boleh memasukan angka max 4 digit")
+    private String minKapasitas;
 
 
     @NotNull
-    @Min(value = 1, message = "Minimal kapasitas 1")
-    @Max(value = 9999, message = "Maksimal kapasitas 9999")
-    private Short maxKapasitas;
+    @Pattern(regexp = "^([0-9]{1,4})$",
+            message = "Hanya boleh memasukan angka max 4 digit")
+    private String maxKapasitas;
+
 
     @NotNull
     @Pattern(regexp = "^([a-zA-Z0-9\\s]{2,50})$",
@@ -50,19 +51,19 @@ public class ValRuanganDTO {
         this.namaRuangan = namaRuangan;
     }
 
-    public Short getMinKapasitas() {
+    public String getMinKapasitas() {
         return minKapasitas;
     }
 
-    public void setMinKapasitas(Short minKapasitas) {
+    public void setMinKapasitas(String minKapasitas) {
         this.minKapasitas = minKapasitas;
     }
 
-    public Short getMaxKapasitas() {
+    public String getMaxKapasitas() {
         return maxKapasitas;
     }
 
-    public void setMaxKapasitas(Short maxKapasitas) {
+    public void setMaxKapasitas(String maxKapasitas) {
         this.maxKapasitas = maxKapasitas;
     }
 

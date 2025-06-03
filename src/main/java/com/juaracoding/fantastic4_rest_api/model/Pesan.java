@@ -64,7 +64,6 @@ public class Pesan {
     public void setPesanID(Long pesanID) {
         this.id = pesanID;
     }
-
     public User getUser() {
         return user;
     }

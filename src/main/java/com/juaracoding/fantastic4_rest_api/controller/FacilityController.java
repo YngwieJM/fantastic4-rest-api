@@ -1,5 +1,6 @@
 package com.juaracoding.fantastic4_rest_api.controller;
 
+import com.juaracoding.fantastic4_rest_api.config.OtherConfig;
 import com.juaracoding.fantastic4_rest_api.dto.validation.ValFasilitasDTO;
 import com.juaracoding.fantastic4_rest_api.service.FasilitasService;
 import jakarta.servlet.http.HttpServletRequest;
@@ -47,7 +48,7 @@ public class FacilityController {
      */
     @GetMapping
     public ResponseEntity<Object> findAll(HttpServletRequest request){
-        Pageable pageable = PageRequest.of(0, 10, Sort.by("id"));
+        Pageable pageable = PageRequest.of(0, OtherConfig.getDefaultPaginationSize(), Sort.by("id"));
         return fasilitasService.findAll(pageable, request);
     }
 
