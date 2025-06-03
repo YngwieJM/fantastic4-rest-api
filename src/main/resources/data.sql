@@ -1,6 +1,47 @@
 SET IDENTITY_INSERT [corez].[MstAkses] ON
 ;
 
+IF EXISTS (SELECT * FROM sys.all_objects WHERE object_id = OBJECT_ID(N'[corez].[MapAksesMenu]') AND type IN ('U'))
+	DROP TABLE [corez].[MapAksesMenu]
+;
+
+CREATE TABLE [corez].[MapAksesMenu] (
+  [IDAkses] bigint  NOT NULL,
+  [IDMenu] bigint  NOT NULL
+)
+;
+
+-- ----------------------------
+-- Foreign Keys structure for table MapAksesMenu
+-- ----------------------------
+ALTER TABLE [corez].[MapAksesMenu] ADD CONSTRAINT [foreign-key-akses-menu-to-akses] FOREIGN KEY ([IDAkses]) REFERENCES [corez].[MstAkses] ([ID]) ON DELETE NO ACTION ON UPDATE NO ACTION
+;
+
+ALTER TABLE [corez].[MapAksesMenu] ADD CONSTRAINT [foreign-key-akses-menu-to-menu] FOREIGN KEY ([IDMenu]) REFERENCES [corez].[MstMenu] ([ID]) ON DELETE NO ACTION ON UPDATE NO ACTION
+;
+
+EXEC sp_addextendedproperty
+'MS_Description', N'Foreign Key MapAksesMenu to MstAkses',
+'SCHEMA', N'corez',
+'TABLE', N'MapAksesMenu',
+'CONSTRAINT', N'foreign-key-akses-menu-to-akses'
+;
+
+EXEC sp_addextendedproperty
+'MS_Description', N'Foreign Key MapAksesMenu to MstMenu',
+'SCHEMA', N'corez',
+'TABLE', N'MapAksesMenu',
+'CONSTRAINT', N'foreign-key-akses-menu-to-menu'
+;
+
+ALTER TABLE [corez].[MapAksesMenu] SET (LOCK_ESCALATION = TABLE)
+;
+
+
+ALTER TABLE [corez].[MapAksesMenu] SET (LOCK_ESCALATION = TABLE)
+;
+
+
 INSERT INTO [corez].[MstRuangan] ([MaxKapasitas], [MinKapasitas], [CreatedBy], [CreatedDate], [ModifiedBy], [ModifiedDate], [Lokasi], [NamaRuangan], [RuanganID]) VALUES (N'10', N'20', N'1', N'2025-05-29 16:33:22.000000', NULL, NULL, N'2', N'RuangS', N'RM0201')
 ;
 
