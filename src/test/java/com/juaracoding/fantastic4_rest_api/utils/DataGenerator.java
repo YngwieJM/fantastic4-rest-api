@@ -1,6 +1,7 @@
 package com.juaracoding.fantastic4_rest_api.utils;
 
 import com.github.javafaker.Faker;
+import jakarta.mail.search.SearchTerm;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -410,7 +411,7 @@ public class DataGenerator {
             }
             intLoop++;
         }
-        return tanggalPemesanan;
+        return LocalDate.now().toString();
     }
 
     public String dataTanggalPertemuan1() {
@@ -418,11 +419,14 @@ public class DataGenerator {
         return today.toString();
     }
 
-    public String dataTanggalPertemuan2() {
-        LocalDate now = LocalDate.now();
-        LocalDate future = now.plusDays(rand.nextInt(15)); // 0–14 hari ke depan
-        return future.toString();
+    public String dataTanggalPertemuan(String tanggalPemesanan) {
+        LocalDate tglPemesanan = LocalDate.parse(tanggalPemesanan);
+        // Generate tanggal pertemuan 0–14 hari setelah pemesanan
+        LocalDate tglPertemuan = tglPemesanan.plusDays(rand.nextInt(15));
+        return tglPertemuan.toString();
     }
+
+
 
     public String dataTanggalPertemuan() {
         isValid = false;

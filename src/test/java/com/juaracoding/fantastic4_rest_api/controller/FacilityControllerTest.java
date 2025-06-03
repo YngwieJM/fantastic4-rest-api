@@ -255,7 +255,7 @@ public class FacilityControllerTest extends AbstractTestNGSpringContextTests {
                     header("Content-Type", "application/json").
                     header("accept", "*/*").
 //                        header(AuthControllerTest.AUTH_HEADER,token).
-        request(Method.DELETE, "facility/" + idFasilitasTest);
+            request(Method.DELETE, "facility/" + idFasilitasTest);
 
             int intResponse = response.getStatusCode();
             JsonPath jsonPath = response.jsonPath();
