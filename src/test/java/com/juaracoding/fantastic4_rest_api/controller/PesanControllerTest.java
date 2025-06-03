@@ -58,7 +58,7 @@ public class PesanControllerTest extends AbstractTestNGSpringContextTests {
 
     @BeforeTest
     private void setup() {
-        /** sifatnya optional */
+        /* sifatnya optional */
     }
 
     @Test(priority = 0)
@@ -302,7 +302,7 @@ public class PesanControllerTest extends AbstractTestNGSpringContextTests {
 
                 System.out.println(response.getBody().prettyPrint());
                 Assert.assertEquals(intResponse, 200);
-                Assert.assertEquals(jsonPath.getString("messege"), "DATA BERHASIL DIHAPUS");
+                Assert.assertEquals(jsonPath.getString("message"), "DATA BERHASIL DIHAPUS");
                 Assert.assertNotNull(jsonPath.getString("data"));
                 Assert.assertTrue(Boolean.parseBoolean(jsonPath.getString("success")));
                 Assert.assertNotNull(jsonPath.getString("timestamp"));
