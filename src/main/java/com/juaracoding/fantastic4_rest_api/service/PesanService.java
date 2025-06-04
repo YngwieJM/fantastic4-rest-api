@@ -1,6 +1,7 @@
 package com.juaracoding.fantastic4_rest_api.service;
 
 
+import com.juaracoding.fantastic4_rest_api.config.OtherConfig;
 import com.juaracoding.fantastic4_rest_api.core.IService;
 import com.juaracoding.fantastic4_rest_api.dto.report.RepFasilitasDTO;
 import com.juaracoding.fantastic4_rest_api.dto.report.RepPesanDTO;
@@ -54,7 +55,7 @@ public class PesanService implements IService<Pesan> {
                 return new ResponseHandler().handleResponse("Object Null !!", HttpStatus.BAD_REQUEST, null, "PES01", request);
             }
             pesan.setCreatedBy(1L);
-            pesan.setTanggalPemesanan(LocalDate.now());
+            if(OtherConfig.getEnableAutomationTesting().isEmpty()) pesan.setTanggalPemesanan(LocalDate.now());
             pesan.setStatus("pending");
             pesanRepo.save(pesan);// Assuming 1L is the ID of the user creating the record
         } catch (Exception e) {
@@ -125,6 +126,11 @@ public class PesanService implements IService<Pesan> {
         } catch (Exception e) {
             return GlobalResponse.terjadiKesalahan("PES32", request);
         }
+        if (OtherConfig.getEnableAutomationTesting().equalsIgnoreCase("y")){
+            sBuild.append("PesanService.findAll: Berhasil mendapatkan data Pesan");
+            System.out.println(sBuild);
+            return GlobalResponse.dataDitemukan(data, request);
+        }
         return GlobalResponse.dataDitemukan(listDTO, request);
     }
 
@@ -193,6 +199,11 @@ public class PesanService implements IService<Pesan> {
             data = tp.transformPagination(listDTO, page, columnName, value);
         } catch (Exception e) {
             GlobalResponse.terjadiKesalahan("PES52", request);
+        }
+        if (OtherConfig.getEnableAutomationTesting().equalsIgnoreCase("y")){
+            sBuild.append("PesanService.findByParam.");
+            System.out.println(sBuild);
+            return GlobalResponse.dataDitemukan(data, request);
         }
         return GlobalResponse.dataDitemukan(listDTO, request);
     }

@@ -20,17 +20,17 @@ public class MainConfig {
     private Environment env;
 
     @Primary
-//    @Bean
-//    public DataSource getDataSource() {
-//
-//        DataSourceBuilder dataSourceBuilder = DataSourceBuilder.create();
-//        dataSourceBuilder.driverClassName(env.getProperty("spring.datasource.driver-class-name"));
-//        dataSourceBuilder.url(Crypto.performDecrypt(env.getProperty("spring.datasource.url")));
-//        dataSourceBuilder.username(Crypto.performDecrypt(env.getProperty("spring.datasource.username")));
-//        dataSourceBuilder.password(Crypto.performDecrypt(env.getProperty("spring.datasource.password")));
-//
-//        return dataSourceBuilder.build();
-//    }
+    @Bean
+    public DataSource getDataSource() {
+
+        DataSourceBuilder dataSourceBuilder = DataSourceBuilder.create();
+        dataSourceBuilder.driverClassName(env.getProperty("spring.datasource.driver-class-name"));
+        dataSourceBuilder.url(Crypto.performDecrypt(env.getProperty("spring.datasource.url")));
+        dataSourceBuilder.username(Crypto.performDecrypt(env.getProperty("spring.datasource.username")));
+        dataSourceBuilder.password(Crypto.performDecrypt(env.getProperty("spring.datasource.password")));
+
+        return dataSourceBuilder.build();
+    }
 
     @Bean
     public ModelMapper getModelMapper(){
