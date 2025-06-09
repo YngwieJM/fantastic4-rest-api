@@ -3,16 +3,26 @@ package com.juaracoding.fantastic4_rest_api.model;
 import jakarta.persistence.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import java.time.LocalDateTime;
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "MstUser")
-public class User {
+public class User implements UserDetails {
 
     @Id
     @Column(name = "UserID", length = 50, nullable = false, unique = true)
     private String id;
+
+    @Column(name = "Username" , length = 16, nullable = false, unique = true)
+    private String username;
 
     @Column(name = "Nama", length = 50, nullable = false)
     private String nama;
@@ -59,12 +69,30 @@ public class User {
     @JoinColumn(name = "IDAkses",foreignKey = @ForeignKey(name = "fk-user-to-akses"))
     private Akses akses;
 
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        List<Menu> lt = this.akses.getListMenu();
+        Set<GrantedAuthority> grantedAuthorities = new HashSet<>();
+        for (Menu m :lt) {
+            grantedAuthorities.add(new SimpleGrantedAuthority(m.getNama()));
+        }
+        return grantedAuthorities;
+    }
+
     public String getId() {
         return id;
     }
 
     public void setId(String id) {
         this.id = id;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     public String getNama() {

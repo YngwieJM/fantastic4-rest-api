@@ -11,6 +11,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.HandlerMapping;
 
@@ -27,19 +28,21 @@ public class BookingRoomController {
 
 
     @PostMapping
-//    @PreAuthorize("hasAuthroity('Booking Room')") for security
+    @PreAuthorize("hasAuthroity('Booking Room')")
     public ResponseEntity<Object> save(@Valid @RequestBody ValPesanDTO valPesanDTO,
                                        HttpServletRequest request) {
         return pesanService.save(pesanService.mapToPesan(valPesanDTO), request);
     }
 
     @GetMapping
+    @PreAuthorize("hasAuthroity('Booking Room')")
     public ResponseEntity<Object> findAll(HttpServletRequest request) {
         Pageable pageable = PageRequest.of(0, 10, Sort.by("id"));
         return pesanService.findAll(pageable, request);
     }
 
     @GetMapping("/find-by-param/{sort}/{sort-by}/{page}")
+    @PreAuthorize("hasAuthroity('Booking Room')")
     public ResponseEntity<Object> findByParam(
             @PathVariable String sort,
             @PathVariable(value = "sort-by") String sortBy,

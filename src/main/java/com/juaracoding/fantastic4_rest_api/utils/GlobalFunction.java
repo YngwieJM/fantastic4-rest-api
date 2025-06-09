@@ -1,5 +1,9 @@
 package com.juaracoding.fantastic4_rest_api.utils;
 
+import com.juaracoding.fantastic4_rest_api.config.JwtConfig;
+import com.juaracoding.fantastic4_rest_api.config.OtherConfig;
+import com.juaracoding.fantastic4_rest_api.security.Crypto;
+import com.juaracoding.fantastic4_rest_api.security.JwtUtility;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.stereotype.Component;
 
@@ -39,6 +43,21 @@ public class GlobalFunction {
             }
         }
         return sb.toString();
+    }
+
+    public static void printConsole(Object o){
+        if(OtherConfig.getEnablePrintConsole().equals("y")){
+            System.out.println(o);
+        }
+    }
+
+    public static Map<String,Object> extractToken(HttpServletRequest request){
+        String token = request.getHeader("Authorization");
+        token = token.substring(7);
+        if(JwtConfig.getTokenEncryptEnable().equals("y")){
+            token = Crypto.performDecrypt(token);
+        }
+        return new JwtUtility().mappingBodyToken(token);
     }
 
 

@@ -13,6 +13,10 @@ public class ValUserDTO {
             message = "User ID tidak boleh kosong. Contoh yang benar : LWF1997")
     private String id;
 
+    @Pattern(regexp = "^([a-z0-9\\.]{8,16})$",
+            message = "Format Huruf kecil ,numeric dan titik saja min 8 max 16 karakter, ex : paulch.1234")
+    private String username;
+
     /*Nama lengkap user, hanya huruf dan spasi, 4-50 karakter*/
     @NotNull
     @Pattern(regexp ="^[a-zA-Z\\s]{4,50}$",
@@ -62,6 +66,14 @@ public class ValUserDTO {
 
     public void setId(String id) {
         this.id = id;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     /*Getter dan Setter Nama*/

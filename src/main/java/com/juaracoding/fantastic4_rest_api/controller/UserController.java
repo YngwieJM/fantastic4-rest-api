@@ -1,7 +1,9 @@
 package com.juaracoding.fantastic4_rest_api.controller;
 
 import com.juaracoding.fantastic4_rest_api.config.OtherConfig;
+import com.juaracoding.fantastic4_rest_api.dto.validation.RegisDTO;
 import com.juaracoding.fantastic4_rest_api.dto.validation.ValUserDTO;
+import com.juaracoding.fantastic4_rest_api.service.AuthService;
 import com.juaracoding.fantastic4_rest_api.service.UserService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
@@ -21,9 +23,21 @@ public class UserController {
     @Autowired
     private UserService userService;
 
+    @Autowired
+    private AuthService authService;
+
     @Qualifier("resourceHandlerMapping")
     @Autowired
     private HandlerMapping resourcehandlerMapping;
+
+
+    @PostMapping("/regis")
+    public ResponseEntity<Object> registration(@Valid @RequestBody RegisDTO regisDTO
+            , HttpServletRequest request
+
+    ){
+        return authService.regis(authService.mapToUser(regisDTO),request);
+    }
 
     @PostMapping
     public ResponseEntity<Object> save(@Valid @RequestBody ValUserDTO valUserDTO,

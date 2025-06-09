@@ -13,6 +13,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.HandlerMapping;
 
@@ -28,12 +29,14 @@ public class ManageRoomController {
     private HandlerMapping resourcehandlerMapping;
 
     @PostMapping
+    @PreAuthorize("hasAuthroity('Manage Room')")
     public ResponseEntity<Object> save(@Valid @RequestBody ValRuanganDTO valRuanganDTO,
                                        HttpServletRequest request){
         return ruanganService.save(ruanganService.mapToRuangan(valRuanganDTO), request);
     }
 
     @PutMapping("/{id}")
+    @PreAuthorize("hasAuthroity('Manage Room')")
     public ResponseEntity<Object> update(@Valid @RequestBody ValRuanganDTO valRuanganDTO,
                                          @PathVariable String id,
                                          HttpServletRequest request){
@@ -41,24 +44,28 @@ public class ManageRoomController {
     }
 
     @DeleteMapping("/{id}")
+    @PreAuthorize("hasAuthroity('Manage Room')")
     public ResponseEntity<Object> delete(@PathVariable String id,
                                          HttpServletRequest request) {
         return ruanganService.delete(id, request);
     }
 
     @GetMapping
+    @PreAuthorize("hasAuthroity('Manage Room')")
     public ResponseEntity<Object> findAll(HttpServletRequest request) {
         Pageable pageable = PageRequest.of(0, OtherConfig.getDefaultPaginationSize(), Sort.by("id"));
         return ruanganService.findAll(pageable, request);
     }
 
     @GetMapping ("/{id}")
+    @PreAuthorize("hasAuthroity('Manage Room')")
     public ResponseEntity<Object> findById(@PathVariable String id,
                                            HttpServletRequest request) {
         return ruanganService.findById(id, request);
     }
 
     @GetMapping("{sort}/{sort-by}/{page}")
+    @PreAuthorize("hasAuthroity('Manage Room')")
     public ResponseEntity<Object> findByParam(
             @PathVariable String sort,
             @PathVariable(value = "sort-by") String sortBy,

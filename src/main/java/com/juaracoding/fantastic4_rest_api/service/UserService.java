@@ -7,6 +7,7 @@ import com.juaracoding.fantastic4_rest_api.handler.ResponseHandler;
 import com.juaracoding.fantastic4_rest_api.model.User;
 import com.juaracoding.fantastic4_rest_api.repo.UserRepo;
 import com.juaracoding.fantastic4_rest_api.security.BcryptImpl;
+import com.juaracoding.fantastic4_rest_api.utils.GlobalFunction;
 import com.juaracoding.fantastic4_rest_api.utils.GlobalResponse;
 import com.juaracoding.fantastic4_rest_api.utils.TransformPagination;
 import jakarta.servlet.http.HttpServletRequest;
@@ -39,6 +40,7 @@ public class UserService implements IService<User> {
 
     @Override
     public ResponseEntity<Object> save(User user, HttpServletRequest request) {
+        Map<String,Object> m = GlobalFunction.extractToken(request);
         try {
             if (user == null) {
                 return new ResponseHandler().handleResponse("Object Null !!", HttpStatus.BAD_REQUEST, null, "OBJECT NULL", request

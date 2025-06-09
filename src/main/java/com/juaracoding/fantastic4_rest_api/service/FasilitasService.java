@@ -8,6 +8,7 @@ import com.juaracoding.fantastic4_rest_api.dto.validation.ValFasilitasDTO;
 import com.juaracoding.fantastic4_rest_api.handler.ResponseHandler;
 import com.juaracoding.fantastic4_rest_api.model.Fasilitas;
 import com.juaracoding.fantastic4_rest_api.repo.FasilitasRepo;
+import com.juaracoding.fantastic4_rest_api.utils.GlobalFunction;
 import com.juaracoding.fantastic4_rest_api.utils.GlobalResponse;
 import com.juaracoding.fantastic4_rest_api.utils.TransformPagination;
 import jakarta.servlet.http.HttpServletRequest;
@@ -43,6 +44,7 @@ public class FasilitasService implements IService<Fasilitas> {
 
     @Override
     public ResponseEntity<Object> save(Fasilitas fasilitas, HttpServletRequest request){ //01-10
+        Map<String,Object> m = GlobalFunction.extractToken(request);
         try{
             if(fasilitas == null){
                 return new ResponseHandler().handleResponse("OBJECT NULL !!", HttpStatus.BAD_REQUEST,null,"OBJECT_NULL",request);
@@ -59,6 +61,7 @@ public class FasilitasService implements IService<Fasilitas> {
 
 
     public ResponseEntity<Object> update(String id, Fasilitas fasilitas, HttpServletRequest request){//11 - 20
+        Map<String,Object> m = GlobalFunction.extractToken(request);
         try {
             if (id == null || id.isEmpty()) {
                 return new ResponseHandler().handleResponse("ID NULL !!", HttpStatus.BAD_REQUEST, null, "ID_NULL", request);
@@ -85,6 +88,7 @@ public class FasilitasService implements IService<Fasilitas> {
 
 
     public ResponseEntity<Object> delete(String id, HttpServletRequest request){//21 - 30
+        Map<String,Object> m = GlobalFunction.extractToken(request);
         try {
             if (id == null) {
                 return new ResponseHandler().handleResponse("ID NULL !!", HttpStatus.BAD_REQUEST, null, "ID_NULL", request);

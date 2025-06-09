@@ -1,6 +1,8 @@
 package com.juaracoding.fantastic4_rest_api.controller;
 
 import com.juaracoding.fantastic4_rest_api.dto.validation.LoginDTO;
+import com.juaracoding.fantastic4_rest_api.dto.validation.RegisDTO;
+import com.juaracoding.fantastic4_rest_api.dto.validation.VerifyRegisDTO;
 import com.juaracoding.fantastic4_rest_api.service.AuthService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
@@ -22,20 +24,20 @@ public class AuthController {
     @Autowired
     AuthService authService;
 
-//
-//    @PostMapping("/regis")
-//    public ResponseEntity<Object> registration(@Valid @RequestBody RegisDTO regisDTO
-//            , HttpServletRequest request
-//
-//    ){
-//        return authService.regis(authService.mapToUser(regisDTO),request);
-//    }
-//
-//    @PostMapping("/verify-regis")
-//    public ResponseEntity<Object> verifyRegis(@Valid @RequestBody VerifyRegisDTO verifyRegisDTO
-//            , HttpServletRequest request){
-//        return authService.verifyRegis(authService.mapToUser(verifyRegisDTO),request);
-//    }
+
+    @PostMapping("/regis")
+    public ResponseEntity<Object> registration(@Valid @RequestBody RegisDTO regisDTO
+            , HttpServletRequest request
+
+    ){
+        return authService.regis(authService.mapToUser(regisDTO),request);
+    }
+
+    @PostMapping("/verify-regis")
+    public ResponseEntity<Object> verifyRegis(@Valid @RequestBody VerifyRegisDTO verifyRegisDTO
+            , HttpServletRequest request){
+        return authService.verifyRegis(authService.mapToUser(verifyRegisDTO),request);
+    }
 
     @PostMapping("login")
     public ResponseEntity<Object> login(@Valid @RequestBody LoginDTO loginDTO

@@ -11,7 +11,17 @@ public class OtherConfig {
     private static String enableLogFile;
     private static String enableAutomationTesting;
     private static String smtpEnable;
+    private static String enablePrintConsole;
     private static Integer defaultPaginationSize;
+
+    public static String getEnablePrintConsole() {
+        return enablePrintConsole;
+    }
+
+    @Value("${enable.print.console}")
+    private void setEnablePrintConsole(String enablePrintConsole) {
+        OtherConfig.enablePrintConsole = enablePrintConsole;
+    }
 
     public static Integer getDefaultPaginationSize() {
         return defaultPaginationSize;

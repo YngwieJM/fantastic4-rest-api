@@ -11,6 +11,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.HandlerMapping;
 
@@ -25,12 +26,14 @@ public class FacilityController {
     private HandlerMapping resourcehandlerMapping;
 
     @PostMapping
+    @PreAuthorize("hasAuthority('Facility')")
     public ResponseEntity<Object> save(@Valid @RequestBody ValFasilitasDTO valFasilitasDTO,
                                        HttpServletRequest request){
         return fasilitasService.save(fasilitasService.mapToFasilitas(valFasilitasDTO), request);
     }
 
     @PutMapping("/{id}")
+    @PreAuthorize("hasAuthority('Facility')")
     public ResponseEntity<Object> update(@Valid @RequestBody ValFasilitasDTO valFasilitasDTO,
                                        @PathVariable String id,
                                          HttpServletRequest request){
@@ -38,6 +41,7 @@ public class FacilityController {
     }
 
     @DeleteMapping("/{id}")
+    @PreAuthorize("hasAuthority('Facility')")
     public ResponseEntity<Object> delete(@PathVariable String id,
                                          HttpServletRequest request){
         return fasilitasService.delete(id, request);
@@ -47,12 +51,14 @@ public class FacilityController {
      * Ketika menu dibuka pertama kali, api yang di hit adalah api ini ....
      */
     @GetMapping
+    @PreAuthorize("hasAuthority('Facility')")
     public ResponseEntity<Object> findAll(HttpServletRequest request){
         Pageable pageable = PageRequest.of(0, OtherConfig.getDefaultPaginationSize(), Sort.by("id"));
         return fasilitasService.findAll(pageable, request);
     }
 
     @GetMapping("/{id}")
+    @PreAuthorize("hasAuthority('Facility')")
     public ResponseEntity<Object> findById(
             @PathVariable String id,
             HttpServletRequest request) {
@@ -60,6 +66,7 @@ public class FacilityController {
     }
 
     @GetMapping("{sort}/{sort-by}/{page}")
+    @PreAuthorize("hasAuthority('Facility')")
     public ResponseEntity<Object> findByParam(
             @PathVariable String sort,
             @PathVariable(value = "sort-by") String sortBy,

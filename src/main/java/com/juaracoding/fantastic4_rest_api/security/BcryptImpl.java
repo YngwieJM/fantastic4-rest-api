@@ -39,7 +39,7 @@ public class BcryptImpl {
           //$2a$11$Q8W1LSyof5hsvYkTZgaGEeeTQwsNcLpJujah7bupUnR1wgHjCCRI.
           //$2a$11$tbFWU77CQP.hnXyDVKh.ZuTP0jHW7x7G2nS0hQj1tDWutdRzENzuu
 //        System.out.println("Ini Hash Ke DB: " + hashKeDB);
-        System.out.println(hash("Yngwie@1234"));
+        System.out.println(hash("JYW33Yngwie@1234"));
         System.out.println("Compare Hash 1 : "+verifyHash("Paul@1234","$2a$11$LITfERUVcwfXYiBfsIhcve5nb456IE0wkvINW.KpcaYHid/eV/y2W"));
         System.out.println("Compare Hash 2 : "+verifyHash("Paul@1234","$2a$11$Q8W1LSyof5hsvYkTZgaGEeeTQwsNcLpJujah7bupUnR1wgHjCCRI."));
         System.out.println("Compare Hash 3 : "+verifyHash("Paul@1234","$2a$11$tbFWU77CQP.hnXyDVKh.ZuTP0jHW7x7G2nS0hQj1tDWutdRzENzuu"));

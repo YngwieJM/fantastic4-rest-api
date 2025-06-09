@@ -13,6 +13,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -23,12 +24,14 @@ public class PesanController {
     private PesanService pesanService;
 
     @PostMapping
+    @PreAuthorize("hasAuthority('Pesan')")
     public ResponseEntity<Object> save(@Valid @RequestBody ValPesanDTO valPesanDTO,
                                        HttpServletRequest request){
         return pesanService.save(pesanService.mapToPesan(valPesanDTO), request);
     }
 
     @PutMapping("/{id}")
+    @PreAuthorize("hasAuthority('Pesan')")
     public ResponseEntity<Object> update(@Valid @RequestBody ValPesanDTO valPesanDTO,
                                          @PathVariable String id,
                                          HttpServletRequest request){
@@ -36,6 +39,7 @@ public class PesanController {
     }
 
     @DeleteMapping("/{id}")
+    @PreAuthorize("hasAuthority('Pesan')")
     public ResponseEntity<Object> delete(@PathVariable String id,
                                          HttpServletRequest request){
         return pesanService.delete(id, request);
@@ -45,12 +49,14 @@ public class PesanController {
      * Ketika menu dibuka pertama kali, api yang di hit adalah api ini ....
      */
     @GetMapping
+    @PreAuthorize("hasAuthority('Pesan')")
     public ResponseEntity<Object> findAll(HttpServletRequest request){
         Pageable pageable = PageRequest.of(0, OtherConfig.getDefaultPaginationSize(), Sort.by("id"));
         return pesanService.findAll(pageable, request);
     }
 
     @GetMapping("/{id}")
+    @PreAuthorize("hasAuthority('Pesan')")
     public ResponseEntity<Object> findById(
             @PathVariable String id,
             HttpServletRequest request) {
@@ -58,6 +64,7 @@ public class PesanController {
     }
 
     @GetMapping("{sort}/{sort-by}/{page}")
+    @PreAuthorize("hasAuthority('Pesan')")
     public ResponseEntity<Object> findByParam(
             @PathVariable String sort,
             @PathVariable(value = "sort-by") String sortBy,
