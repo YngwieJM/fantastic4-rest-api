@@ -32,7 +32,7 @@ public class ValPesanDTO {
     @Max(value = 99999, message = "ID must be at most 99999")
     private Long id;
 
-    @NotNull(message = "Relasi Tidak Boleh Kosong")
+//    @NotNull(message = "Relasi Tidak Boleh Kosong")
     @JsonProperty("user")
     private RelUserDTO user;
 

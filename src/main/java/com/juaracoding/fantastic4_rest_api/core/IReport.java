@@ -10,7 +10,7 @@ import java.util.Map;
 
 public interface IReport<G> {
 
-    public List<G> convertListWorkBookToListEntity(List<Map<String, String>> workBookData, Long userId);//111-120
+    public List<G> convertListWorkBookToListEntity(List<Map<String, String>> workBookData, String userId);//111-120
     public void downloadReportExcel(String column, String value, HttpServletRequest request, HttpServletResponse response);//121-130
-    public void generateToPDF(String column, String value, HttpServletRequest request, HttpServletResponse response);//131-140
+//    public void generateToPDF(String column, String value, HttpServletRequest request, HttpServletResponse response);//131-140
 }

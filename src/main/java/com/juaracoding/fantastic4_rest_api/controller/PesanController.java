@@ -4,6 +4,8 @@ import com.juaracoding.fantastic4_rest_api.config.OtherConfig;
 import com.juaracoding.fantastic4_rest_api.dto.validation.ValFasilitasDTO;
 import com.juaracoding.fantastic4_rest_api.dto.validation.ValPesanDTO;
 import com.juaracoding.fantastic4_rest_api.model.Pesan;
+import com.juaracoding.fantastic4_rest_api.model.User;
+import com.juaracoding.fantastic4_rest_api.repo.UserRepo;
 import com.juaracoding.fantastic4_rest_api.service.PesanService;
 import com.juaracoding.fantastic4_rest_api.handler.ResponseHandler;
 import jakarta.servlet.http.HttpServletRequest;
@@ -16,6 +18,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import java.security.Principal;
+
 @RestController
 @RequestMapping("pesan")
 public class PesanController {
@@ -23,15 +27,24 @@ public class PesanController {
     @Autowired
     private PesanService pesanService;
 
+    @Autowired
+    private UserRepo userRepo;
+
     @PostMapping
-    @PreAuthorize("hasAuthority('Pesan')")
+    @PreAuthorize("hasAuthority('Booking Room')")
     public ResponseEntity<Object> save(@Valid @RequestBody ValPesanDTO valPesanDTO,
-                                       HttpServletRequest request){
-        return pesanService.save(pesanService.mapToPesan(valPesanDTO), request);
+                                       HttpServletRequest request,
+                                       Principal principal) {
+        String username = principal.getName();
+        User user = userRepo.findByUsername(username)
+                .orElseThrow(() -> new RuntimeException("User not found"));
+        Pesan pesan = pesanService.mapToPesan(valPesanDTO);
+        pesan.setUser(user); // Set the logged-in user
+        return pesanService.save(pesan, request);
     }
 
     @PutMapping("/{id}")
-    @PreAuthorize("hasAuthority('Pesan')")
+    @PreAuthorize("hasAuthority('Booking Room')")
     public ResponseEntity<Object> update(@Valid @RequestBody ValPesanDTO valPesanDTO,
                                          @PathVariable String id,
                                          HttpServletRequest request){
@@ -39,7 +52,7 @@ public class PesanController {
     }
 
     @DeleteMapping("/{id}")
-    @PreAuthorize("hasAuthority('Pesan')")
+    @PreAuthorize("hasAuthority('Booking Room')")
     public ResponseEntity<Object> delete(@PathVariable String id,
                                          HttpServletRequest request){
         return pesanService.delete(id, request);
@@ -49,14 +62,14 @@ public class PesanController {
      * Ketika menu dibuka pertama kali, api yang di hit adalah api ini ....
      */
     @GetMapping
-    @PreAuthorize("hasAuthority('Pesan')")
+    @PreAuthorize("hasAuthority('Booking Room')")
     public ResponseEntity<Object> findAll(HttpServletRequest request){
         Pageable pageable = PageRequest.of(0, OtherConfig.getDefaultPaginationSize(), Sort.by("id"));
         return pesanService.findAll(pageable, request);
     }
 
     @GetMapping("/{id}")
-    @PreAuthorize("hasAuthority('Pesan')")
+    @PreAuthorize("hasAuthority('Booking Room')")
     public ResponseEntity<Object> findById(
             @PathVariable String id,
             HttpServletRequest request) {
@@ -64,7 +77,7 @@ public class PesanController {
     }
 
     @GetMapping("{sort}/{sort-by}/{page}")
-    @PreAuthorize("hasAuthority('Pesan')")
+    @PreAuthorize("hasAuthority('Booking Room')")
     public ResponseEntity<Object> findByParam(
             @PathVariable String sort,
             @PathVariable(value = "sort-by") String sortBy,

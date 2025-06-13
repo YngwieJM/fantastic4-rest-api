@@ -2,6 +2,7 @@ package com.juaracoding.fantastic4_rest_api.service;
 
 
 import com.juaracoding.fantastic4_rest_api.config.OtherConfig;
+import com.juaracoding.fantastic4_rest_api.core.IReport;
 import com.juaracoding.fantastic4_rest_api.core.IService;
 import com.juaracoding.fantastic4_rest_api.dto.report.RepFasilitasDTO;
 import com.juaracoding.fantastic4_rest_api.dto.report.RepPesanDTO;
@@ -12,9 +13,12 @@ import com.juaracoding.fantastic4_rest_api.dto.validation.ValPesanDTO;
 import com.juaracoding.fantastic4_rest_api.handler.ResponseHandler;
 import com.juaracoding.fantastic4_rest_api.model.Fasilitas;
 import com.juaracoding.fantastic4_rest_api.model.Menu;
+import com.juaracoding.fantastic4_rest_api.utils.ExcelWriter;
+import com.juaracoding.fantastic4_rest_api.utils.GlobalFunction;
 import com.juaracoding.fantastic4_rest_api.utils.GlobalResponse;
 import com.juaracoding.fantastic4_rest_api.utils.TransformPagination;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import org.modelmapper.ModelMapper;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -27,15 +31,15 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.sql.Time;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 @Transactional
-public class PesanService implements IService<Pesan> {
+public class PesanService implements IService<Pesan>, IReport<Pesan> {
 
     @Autowired
     private PesanRepo pesanRepo;
@@ -54,7 +58,7 @@ public class PesanService implements IService<Pesan> {
             if(pesan==null){
                 return new ResponseHandler().handleResponse("Object Null !!", HttpStatus.BAD_REQUEST, null, "PES01", request);
             }
-            pesan.setCreatedBy(1L);
+//            pesan.setCreatedBy(1L); // Assuming 1L is the ID of the user creating the record
             if(OtherConfig.getEnableAutomationTesting().isEmpty()) pesan.setTanggalPemesanan(LocalDate.now());
             pesan.setStatus("pending");
             pesanRepo.save(pesan);// Assuming 1L is the ID of the user creating the record
@@ -83,7 +87,7 @@ public class PesanService implements IService<Pesan> {
             pesanDB.setMulai(pesan.getMulai());
             pesanDB.setBerakhir(pesan.getBerakhir());
             pesanDB.setStatus(pesan.getStatus());
-            pesanDB.setModifiedBy(1L); // Assuming 1L is the ID of the user updating the record
+            pesanDB.setModifiedBy(String.valueOf(1L)); // Assuming 1L is the ID of the user updating the record
             pesanDB.setModifiedDate(LocalDateTime.now());
         } catch (Exception e) {
             return GlobalResponse.dataGagalDiubah("PES14", request);
@@ -225,6 +229,93 @@ public class PesanService implements IService<Pesan> {
         }
         return GlobalResponse.dataDitemukan(resPesanDTO, request);
     }
+
+
+    @Override
+    public List<Pesan> convertListWorkBookToListEntity(List<Map<String, String>> workbookData,
+                                     String userId) {
+        List<Pesan> list = new ArrayList<>();
+        for (Map<String, String> row : workbookData) {
+            Pesan pesan = new Pesan();
+            pesan.setNamaPertemuan(row.get("namaPertemuan"));
+            pesan.setTanggalPertemuan(LocalDate.parse(row.get("tanggalPertemuan")));
+            pesan.setMulai(Time.valueOf(row.get("mulai").toString()));
+            pesan.setBerakhir(Time.valueOf(row.get("berakhir").toString()));
+            pesan.setStatus(row.get("status"));
+            pesan.setCreatedBy(userId); // Assuming userId is passed correctly
+            list.add(pesan);
+        }
+        return list;
+    }
+
+    public void downloadReportExcel(String column, String value,
+                                    HttpServletRequest request, HttpServletResponse response) {
+        List<Pesan> listPesan = null;
+        try{
+            switch (column) {
+                case "namaPertemuan":
+                    listPesan = pesanRepo.findByNamaPertemuanContainsIgnoreCase(value);
+                    break;
+                case "idUser":
+                    listPesan = pesanRepo.findByUserId(value);
+                    break;
+                case "idRuangan":
+                    listPesan = pesanRepo.findByRuanganId(value);
+                    break;
+                case "status":
+                    listPesan = pesanRepo.findByStatusIgnoreCase(value);
+                    break;
+                case "tanggalPertemuan":
+                    LocalDate tanggal = LocalDate.parse(value); // Format: yyyy-MM-dd
+                    listPesan = pesanRepo.findByTanggalPertemuan(tanggal);
+                    break;
+                default:listPesan = pesanRepo.findAll();
+                    break;
+
+            }
+            if (listPesan.isEmpty()) {
+                GlobalResponse.manualResponse(response,GlobalResponse.dataTidakDitemukan("PES71", request));
+                return;
+            }
+            List<RepPesanDTO> listDTO = mapToDTO(listPesan);
+
+            String headerKey = "conetent-disposition";
+            sBuild.setLength(0);
+            String headerValue = sBuild.append("attachment; filename=pesan.xlsx").
+                    append(new SimpleDateFormat("dd-MM-yyyy_HH:mm:ss").format(new Date())).
+                    append(".xlsx").toString();
+            response.setContentType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
+            response.setHeader(headerKey, headerValue);
+
+            Map<String, Object> map = GlobalFunction.convertClassToMap(new RepPesanDTO());
+            List<String> listTemp = new ArrayList<>();
+            for (Map.Entry<String, Object> entry : map.entrySet()){
+                listTemp.add(entry.getKey());
+            }
+            int intListTemp = listTemp.size();
+            String [] headerArr = new String[intListTemp];
+            String [] loppDataArr = new String[intListTemp];
+
+            for (int i = 0 ; i < intListTemp; i++){
+                headerArr[i] = GlobalFunction.camelToStandard(listTemp.get(i));
+                loppDataArr[i] = listTemp.get(i);
+            }
+            int intListDTOSize = listDTO.size();
+            String [][] strBody = new String[intListDTOSize][intListTemp];
+            for(int i = 0; i < intListDTOSize; i++){
+                map = GlobalFunction.convertClassToMap(listDTO.get(i));
+                for (int j = 0; j < intListTemp; j++){
+                    strBody[i][j] = String.valueOf(map.get(loppDataArr[j]));
+                }
+            }
+            new ExcelWriter(strBody,headerArr,"sheet-1",response);
+        } catch (Exception e) {
+            GlobalResponse.
+                    manualResponse(response, GlobalResponse.terjadiKesalahan("PES72", request));
+            return;
+        }
+    }
+
 
     /** aditonal function */
 

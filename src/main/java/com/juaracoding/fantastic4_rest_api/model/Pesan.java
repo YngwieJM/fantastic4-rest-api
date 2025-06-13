@@ -47,10 +47,10 @@ public class Pesan {
     private String status;
 
     @Column(name = "CreatedBy",nullable = false,updatable = false)
-    private Long createdBy=1L;
+    private String createdBy="System";
 
     @Column(name = "ModifiedBy",insertable = false)
-    private Long modifiedBy;
+    private String modifiedBy;
 
     @Column(name = "ModifiedDate",insertable = false)
     @UpdateTimestamp
@@ -136,19 +136,19 @@ public class Pesan {
         this.status = status;
     }
 
-    public Long getCreatedBy() {
+    public String getCreatedBy() {
         return createdBy;
     }
 
-    public void setCreatedBy(Long createdBy) {
+    public void setCreatedBy(String createdBy) {
         this.createdBy = createdBy;
     }
 
-    public Long getModifiedBy() {
+    public String getModifiedBy() {
         return modifiedBy;
     }
 
-    public void setModifiedBy(Long modifiedBy) {
+    public void setModifiedBy(String modifiedBy) {
         this.modifiedBy = modifiedBy;
     }
 
