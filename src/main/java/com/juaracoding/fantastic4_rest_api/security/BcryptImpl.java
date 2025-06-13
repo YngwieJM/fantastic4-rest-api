@@ -43,6 +43,6 @@ public class BcryptImpl {
         System.out.println("Compare Hash 1 : "+verifyHash("Paul@1234","$2a$11$LITfERUVcwfXYiBfsIhcve5nb456IE0wkvINW.KpcaYHid/eV/y2W"));
         System.out.println("Compare Hash 2 : "+verifyHash("Paul@1234","$2a$11$Q8W1LSyof5hsvYkTZgaGEeeTQwsNcLpJujah7bupUnR1wgHjCCRI."));
         System.out.println("Compare Hash 3 : "+verifyHash("Paul@1234","$2a$11$tbFWU77CQP.hnXyDVKh.ZuTP0jHW7x7G2nS0hQj1tDWutdRzENzuu"));
-
+        System.out.println("Compare Hash 4 : "+verifyHash("luthfan1997Luthfan@1234","$2a$11$6M32rMSJ.70eMvZoW/hooOte9SAoPb7gXtXM.f4OUKhDnphE6eXFq"));
     }
 }

@@ -4,6 +4,7 @@ package com.juaracoding.fantastic4_rest_api.service;
 import com.juaracoding.fantastic4_rest_api.config.JwtConfig;
 import com.juaracoding.fantastic4_rest_api.config.OtherConfig;
 import com.juaracoding.fantastic4_rest_api.dto.MenuLoginDTO;
+import com.juaracoding.fantastic4_rest_api.dto.validation.ChangePasswordDTO;
 import com.juaracoding.fantastic4_rest_api.dto.validation.LoginDTO;
 //import com.juarcoding.pcmspringboot3.dto.validation.VerifyRegisDTO;
 import com.juaracoding.fantastic4_rest_api.dto.validation.RegisDTO;
@@ -72,10 +73,10 @@ public class AuthService implements UserDetailsService {
             akses.setId(2L);
             user.setAkses(akses);
             user.setRegistered(false);
-            user.setId(user.getNama()+123);
-            user.setDepartemen("Trainer");
-            user.setJabatan("Trainer");
-            user.setCreatedBy(String.valueOf(1L));
+            user.setId(user.getNama().split("\\s+")[0]+123);
+//            user.setDepartemen("Trainer");
+//            user.setJabatan("Trainer");
+            user.setCreatedBy(String.valueOf(user.getId()));
             user.setCreatedDate(LocalDateTime.now());
 
             userRepo.save(user);
@@ -99,7 +100,7 @@ public class AuthService implements UserDetailsService {
     }
 
     /** 011-020 */
-    public ResponseEntity<Object> verifyRegis(User user, HttpServletRequest request) {
+    public ResponseEntity<Object> verifyRegis(User user,String newPassword, HttpServletRequest request) {
         try {
             int otp = random.nextInt(100000,999999);
             Optional<User> opUser = userRepo.findByEmail(user.getEmail());
@@ -113,6 +114,9 @@ public class AuthService implements UserDetailsService {
             userNext.setRegistered(true);
             userNext.setModifiedBy(userNext.getId());
             userNext.setOtp(BcryptImpl.hash(String.valueOf(otp)));
+            userNext.setPassword(BcryptImpl.hash(userNext.getUsername() + newPassword));
+            userNext.setModifiedDate(LocalDateTime.now());
+            userRepo.save(userNext);
         }catch (Exception e){
             LoggingFile.logException("AuthService","verifyRegis(User user, HttpServletRequest request)"+ RequestCapture.allRequest(request),e);
 
@@ -207,6 +211,24 @@ public class AuthService implements UserDetailsService {
         return new org.springframework.security.core.userdetails.User(user.getUsername(),user.getPassword(),user.getAuthorities());
     }
 
+    // In AuthService.java
+    public ResponseEntity<Object> changePassword(String username, String currentPassword, String newPassword, HttpServletRequest request) {
+        Optional<User> opUser = userRepo.findByUsername(username);
+        if (!opUser.isPresent()) {
+            return new ResponseHandler().handleResponse("User not found", HttpStatus.NOT_FOUND, null, "AUT00FV031", request);
+        }
+        User user = opUser.get();
+        String pwdDB = user.getUsername() + currentPassword;
+        if (!BcryptImpl.verifyHash(pwdDB, user.getPassword())) {
+            return new ResponseHandler().handleResponse("Current password is incorrect", HttpStatus.UNAUTHORIZED, null, "AUT00FV032", request);
+        }
+        user.setPassword(BcryptImpl.hash(user.getUsername() + newPassword));
+        user.setModifiedBy(user.getId());
+        user.setModifiedDate(LocalDateTime.now());
+        userRepo.save(user);
+        return new ResponseHandler().handleResponse("Password changed successfully", HttpStatus.OK, null, null, request);
+    }
+
 
 //    public User mapToUser(RegisDTO regisDTO) {
 //        User user = new User();
@@ -258,6 +280,13 @@ public class AuthService implements UserDetailsService {
         return modelMapper.map(loginDTO, User.class);
     }
 
+    public User mapToUser(ChangePasswordDTO changePasswordDTO, String username) {
+        User user = new User();
+        user.setUsername(username); // set from authenticated principal
+        user.setPassword(changePasswordDTO.getCurrentPassword());
+        return user;
+    }
+
     public List<MenuLoginDTO> mapToMenuLoginDTO(List<Menu> ltMenu){
         List<MenuLoginDTO> ltMenuDTO = new ArrayList<>();
         for (Menu menu : ltMenu) {
@@ -269,4 +298,6 @@ public class AuthService implements UserDetailsService {
 
         return ltMenuDTO;
     }
+
+
 }

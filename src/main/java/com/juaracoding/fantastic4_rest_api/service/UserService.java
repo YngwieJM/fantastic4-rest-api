@@ -46,11 +46,12 @@ public class UserService implements IService<User> {
                 return new ResponseHandler().handleResponse("Object Null !!", HttpStatus.BAD_REQUEST, null, "OBJECT NULL", request
                 );
             }
-            user.setPassword(BcryptImpl.hash(user.getNama().replace(" ", "") + user.getJabatan().replace(" ", "") + "@123"));
-            user.setCreatedBy(String.valueOf(1L));
+            user.setPassword(BcryptImpl.hash(user.getUsername()+user.getPassword()));
+            user.setCreatedBy(user.getId());
             user.setCreatedDate(LocalDateTime.now());
             user.setRegistered(false);
             userRepo.save(user);
+
         } catch (Exception e) {
             return GlobalResponse.dataGagalDisimpan("AUT05FE001", request);
         }
@@ -73,7 +74,7 @@ public class UserService implements IService<User> {
             userDB.setNoTelp(user.getNoTelp());
             userDB.setDepartemen(user.getDepartemen());
             userDB.setJabatan(user.getJabatan());
-            userDB.setModifiedBy(String.valueOf(1L));
+            userDB.setModifiedBy(user.getId());
             userDB.setModifiedDate(LocalDateTime.now());
             userRepo.save(userDB);
             return GlobalResponse.dataBerhasilDiubah(request);

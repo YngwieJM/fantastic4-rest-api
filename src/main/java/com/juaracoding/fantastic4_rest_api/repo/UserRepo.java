@@ -17,6 +17,7 @@ public interface UserRepo extends JpaRepository<User, String> {
     Optional<User> findByUsernameAndIsRegistered(String username, Boolean valid);
     @Query("SELECT p FROM User p WHERE p.akses.id = ?1")
     Optional<User> cariAkses(String id);
+    Optional<User> findByUsername(String username);
     Optional<User> findByUsernameOrEmailOrNoTelpAndIsRegistered(String username, String email, String noTelp, Boolean valid);
 
     public Page<User> findByNamaContainsIgnoreCase(String nama, Pageable pageable);
@@ -25,6 +26,7 @@ public interface UserRepo extends JpaRepository<User, String> {
     public Page<User> findByDepartemenContainsIgnoreCase(String departemen, Pageable pageable);
     public Page<User> findByJabatanContainsIgnoreCase(String jabatan, Pageable pageable);
 
+//    public List<User> findByUsername(String username);
     public List<User> findByNamaContainsIgnoreCase(String nama);
     public List<User> findByEmailContainsIgnoreCase(String email);
     public List<User> findByNoTelpContainsIgnoreCase(String noTelp);
