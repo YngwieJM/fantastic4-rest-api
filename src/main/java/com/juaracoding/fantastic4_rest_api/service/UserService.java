@@ -1,14 +1,20 @@
 package com.juaracoding.fantastic4_rest_api.service;
 
+import com.juaracoding.fantastic4_rest_api.config.OtherConfig;
 import com.juaracoding.fantastic4_rest_api.core.IService;
+import com.juaracoding.fantastic4_rest_api.dto.report.RepFasilitasDTO;
+import com.juaracoding.fantastic4_rest_api.dto.report.RepUserDTO;
 import com.juaracoding.fantastic4_rest_api.dto.response.ResUserDTO;
 import com.juaracoding.fantastic4_rest_api.dto.validation.ValUserDTO;
 import com.juaracoding.fantastic4_rest_api.handler.ResponseHandler;
+import com.juaracoding.fantastic4_rest_api.model.Akses;
+import com.juaracoding.fantastic4_rest_api.model.Fasilitas;
 import com.juaracoding.fantastic4_rest_api.model.User;
 import com.juaracoding.fantastic4_rest_api.repo.UserRepo;
 import com.juaracoding.fantastic4_rest_api.security.BcryptImpl;
 import com.juaracoding.fantastic4_rest_api.utils.GlobalFunction;
 import com.juaracoding.fantastic4_rest_api.utils.GlobalResponse;
+import com.juaracoding.fantastic4_rest_api.utils.SendMailOTP;
 import com.juaracoding.fantastic4_rest_api.utils.TransformPagination;
 import jakarta.servlet.http.HttpServletRequest;
 import org.modelmapper.ModelMapper;
@@ -21,9 +27,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 public class UserService implements IService<User> {
@@ -37,25 +41,46 @@ public class UserService implements IService<User> {
     @Autowired
     private TransformPagination tp;
 
+    private Random random = new Random();
+
 
     @Override
     public ResponseEntity<Object> save(User user, HttpServletRequest request) {
         Map<String,Object> m = GlobalFunction.extractToken(request);
+        Map<String,Object> ms = new HashMap<>();
         try {
             if (user == null) {
                 return new ResponseHandler().handleResponse("Object Null !!", HttpStatus.BAD_REQUEST, null, "OBJECT NULL", request
                 );
             }
-            user.setPassword(BcryptImpl.hash(user.getUsername()+user.getPassword()));
-            user.setCreatedBy(user.getId());
-            user.setCreatedDate(LocalDateTime.now());
-            user.setRegistered(false);
-            userRepo.save(user);
 
+            int otp = random.nextInt(100000,999999);
+            user.setOtp(BcryptImpl.hash(String.valueOf(otp)));
+            user.setPassword(BcryptImpl.hash(user.getUsername()+user.getPassword()));
+            /** Default Akses untuk New member */
+            Akses akses = new Akses();
+            akses.setId(2L);
+            user.setAkses(akses);
+            user.setRegistered(false);
+//            user.setId(user.getNama().split("\\s+")[0]+123);
+//            user.setDepartemen("Trainer");
+//            user.setJabatan("Trainer");
+            user.setCreatedBy(String.valueOf(user.getId()));
+            user.setCreatedDate(LocalDateTime.now());
+
+            userRepo.save(user);
+            if(OtherConfig.getEnableAutomationTesting().equals("y")){
+                ms.put("otp",otp);// ini untuk automation
+            }
+            SendMailOTP.verifyRegisOTP("OTP UNTUK REGISTRASI",
+                    user.getNama(),user.getEmail(),String.valueOf(otp),"ver_regis.html");
+            m.put("email",user.getEmail());
+            ms.put("otp",otp);
+            Thread.sleep(1000);
         } catch (Exception e) {
             return GlobalResponse.dataGagalDisimpan("AUT05FE001", request);
         }
-        return GlobalResponse.dataBerhasilDisimpan(request);
+        return new ResponseHandler().handleResponse("OTP Terkirim, Cek Email !!",HttpStatus.OK,ms,null,request);
     }
 
     @Override
@@ -102,21 +127,26 @@ public class UserService implements IService<User> {
 
     @Override
     public ResponseEntity<Object> findAll(Pageable pageable, HttpServletRequest request) {
-        try {
-            Page<User> page = userRepo.findAll(pageable);
-            if (page.isEmpty()) {
-                return GlobalResponse.dataTidakDitemukan("USR01FV031", request);
+        Page<User> page = null;
+        List<User> list = null;
+        List<RepUserDTO> listDTO = null;
+        Map<String, Object> data = null;
+        try{
+            page = userRepo.findAll(pageable);
+            if (page.isEmpty()){
+                return GlobalResponse.dataTidakDitemukan("FAC031", request);
             }
-            List<ResUserDTO> listDTO = mapToDTO(page.getContent());
-            Map<String, Object> data = tp.transformPagination(listDTO, page, "id", "");
-            return GlobalResponse.dataDitemukan(data, request);
+            listDTO = mapToDTO(page.getContent());
+            data = tp.transformPagination(listDTO, page, "id", "");
         } catch (Exception e) {
-            return GlobalResponse.terjadiKesalahan("USR01FE031", request);
+            return GlobalResponse.terjadiKesalahan("FAC032", request);
         }
+        return GlobalResponse.dataDitemukan(listDTO, request);
     }
 
     @Override
     public ResponseEntity<Object> findById(String id, HttpServletRequest request) {
+        ResUserDTO resUserDTO = null;
         try {
             if (id == null) {
                 return GlobalResponse.objectIsNull("USR01FV041", request);
@@ -160,7 +190,7 @@ public class UserService implements IService<User> {
             if (page.isEmpty()) {
                 return GlobalResponse.dataTidakDitemukan("USR01FV051", request);
             }
-            List<ResUserDTO> listDTO = mapToDTO(page.getContent());
+            List<RepUserDTO> listDTO = mapToDTO(page.getContent());
             Map<String, Object> data = tp.transformPagination(listDTO, page, columnName, value);
             return GlobalResponse.dataDitemukan(data, request);
         } catch (Exception e) {
@@ -174,8 +204,8 @@ public class UserService implements IService<User> {
         return modelMapper.map(dto, User.class);
     }
 
-    public List<ResUserDTO> mapToDTO(List<User> listUser) {
-        return modelMapper.map(listUser, new TypeToken<List<ResUserDTO>>() {}.getType());
+    public List<RepUserDTO> mapToDTO(List<User> listUser) {
+        return modelMapper.map(listUser, new TypeToken<List<RepUserDTO>>() {}.getType());
     }
 
     public ResUserDTO mapToDTO(User user) {

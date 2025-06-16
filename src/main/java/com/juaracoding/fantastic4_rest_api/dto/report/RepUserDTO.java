@@ -1,6 +1,7 @@
 package com.juaracoding.fantastic4_rest_api.dto.report;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.juaracoding.fantastic4_rest_api.dto.rel.RelAksesDTO;
 
 public class RepUserDTO {
 
@@ -11,7 +12,7 @@ public class RepUserDTO {
     @JsonProperty("no-telp")
     private String noTelp;
 
-    private String password;
+//    private String password;
 
     private String nama;
 
@@ -19,7 +20,7 @@ public class RepUserDTO {
 
     private String jabatan;
 
-    private String akses;
+    private RelAksesDTO akses;
 
     public String getId() {
         return id;
@@ -45,13 +46,13 @@ public class RepUserDTO {
         this.noTelp = noTelp;
     }
 
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
+//    public String getPassword() {
+//        return password;
+//    }
+//
+//    public void setPassword(String password) {
+//        this.password = password;
+//    }
 
     public String getNama() {
         return nama;
@@ -77,11 +78,11 @@ public class RepUserDTO {
         this.jabatan = jabatan;
     }
 
-    public String getAkses() {
+    public RelAksesDTO getAkses() {
         return akses;
     }
 
-    public void setAkses(String akses) {
+    public void setAkses(RelAksesDTO akses) {
         this.akses = akses;
     }
 }
