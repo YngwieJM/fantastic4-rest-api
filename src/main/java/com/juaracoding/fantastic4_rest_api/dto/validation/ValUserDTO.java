@@ -55,7 +55,7 @@ public class ValUserDTO {
     @Pattern(regexp = "^[A-Za-z0-9 ]+$", message = "Jabatan hanya boleh berisi huruf, angka, dan spasi. Contoh: Manager, Supervisor IT, Staff 1")
     private String jabatan;
 
-    @NotNull(message = "Akses Wajib Dipilih")
+//    @NotNull(message = "Akses Wajib Dipilih")
     private RelAksesDTO akses;
 
     /*Getter dan Setter UserID*/
