@@ -13,6 +13,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.HandlerMapping;
 
@@ -35,6 +36,7 @@ public class UserController {
     }
 
     @PutMapping("/{id}")
+    @PreAuthorize("hasAuthority('User')")
     public ResponseEntity<Object> update(@Valid @RequestBody ValUserDTO valUserDTO,
                                          @PathVariable String id,
                                          HttpServletRequest request) {
@@ -42,6 +44,7 @@ public class UserController {
     }
 
     @DeleteMapping("/{id}")
+    @PreAuthorize("hasAuthority('User')")
     public ResponseEntity<Object> delete(@PathVariable String id,
                                          HttpServletRequest request) {
         return userService.delete(id, request);

@@ -21,7 +21,7 @@ public class ChangePasswordController {
     AuthService authService;
 
     @PutMapping
-    @PreAuthorize("Change Password")
+    @PreAuthorize("hasAuthority('Change Password')")
     public ResponseEntity<Object> changePassword(@Valid @RequestBody ChangePasswordDTO changePasswordDTO,
                                                  HttpServletRequest request,
                                                  Principal principal) {
