@@ -9,6 +9,7 @@ import com.juaracoding.fantastic4_rest_api.model.User;
 import com.juaracoding.fantastic4_rest_api.repo.UserRepo;
 import com.juaracoding.fantastic4_rest_api.service.PesanService;
 import com.juaracoding.fantastic4_rest_api.service.RuanganService;
+import com.juaracoding.fantastic4_rest_api.utils.GlobalResponse;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,6 +28,7 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("booking-room")
@@ -38,6 +40,7 @@ public class BookingRoomController {
     @Autowired
     private UserRepo userRepo;
 
+    @Autowired
     private RuanganService ruanganService;
 
     @Qualifier("resourceHandlerMapping")
@@ -95,6 +98,7 @@ public class BookingRoomController {
 //        return column;
 //    }
 @GetMapping("/search")
+@PreAuthorize("hasAuthority('Booking Room')")
 public ResponseEntity<Object> searchAvailableRooms(
         @RequestParam("kapasitas") Short kapasitas,
         @RequestParam("durasi") Integer durasi,
@@ -108,6 +112,71 @@ public ResponseEntity<Object> searchAvailableRooms(
 
     return pesanService.searchAvailableRooms(kapasitas, mulaiTime, berakhirTime, request);
 }
+
+    @GetMapping("/search-manual")
+    @PreAuthorize("hasAuthority('Booking Room')")
+    public ResponseEntity<Object> search(
+            @RequestParam("nama-pertemuan") String namaPertemuan,
+            @RequestParam("kapasitas") Short kapasitas,
+            @RequestParam("durasi") Integer durasi,
+            HttpServletRequest request) {
+
+        List<RepSarchDTO> data = new java.util.ArrayList<>();
+        if (kapasitas <= 10 && durasi == 1) {
+            data1(data);
+        } else if (kapasitas <= 20 && durasi == 1) {
+            data2(data);
+        } else if(kapasitas <= 10 && durasi == 2){
+            data3(data);
+        } else {
+            return GlobalResponse.ruanganTidakDitemukan("Ruangan Tidak Ditemukan",request);
+        }
+        return ResponseEntity.ok(data);
+    }
+
+    @PostMapping("/save-manual")
+    @PreAuthorize("hasAuthority('Booking Room')")
+    public ResponseEntity<Object> saveSimplePesan(
+            @RequestBody Map<String, Object> payload,
+            HttpServletRequest request,
+            Principal principal) {
+
+        // Extract fields from payload
+        String roomId = payload.get("roomId").toString();
+        String tanggalStr = payload.get("tanggal").toString();
+        String namaPertemuan = payload.get("namaPertemuan").toString();
+        Map<String, String> schedule = (Map<String, String>) payload.get("schedule");
+
+        LocalDate tanggalPertemuan = LocalDate.parse(tanggalStr);
+        Time mulai = Time.valueOf(schedule.get("mulai"));
+        Time berakhir = Time.valueOf(schedule.get("berakhir"));
+
+        // Find user and ruangan
+        String username = principal.getName();
+        User user = userRepo.findByUsername(username)
+                .orElseThrow(() -> new RuntimeException("User not found"));
+
+        // You need a helper to get Ruangan entity directly (not DTO)
+        Ruangan ruangan = ruanganService.findByRuanganId(roomId)
+                .stream().findFirst()
+                .orElseThrow(() -> new RuntimeException("Ruangan not found"));
+
+        // Call the service method
+        return pesanService.saveSimplePesan(
+                user,
+                ruangan,
+                LocalDate.now(), // tanggalPemesanan
+                tanggalPertemuan,
+                mulai,
+                berakhir,
+                "Pending",
+                username,
+                namaPertemuan,
+                request
+        );
+    }
+
+
 
     private void data1(List<RepSarchDTO> data){
 //        data.add(new RepSarchDTO("R001","Ruang Meeting 1", LocalDate.now().format(DateTimeFormatter.ofPattern("dd MMM YYYY")),"13:00-14:00"));

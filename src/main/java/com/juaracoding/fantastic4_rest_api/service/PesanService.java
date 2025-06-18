@@ -12,9 +12,7 @@ import com.juaracoding.fantastic4_rest_api.dto.response.ResPesanDTO;
 import com.juaracoding.fantastic4_rest_api.dto.validation.ValFasilitasDTO;
 import com.juaracoding.fantastic4_rest_api.dto.validation.ValPesanDTO;
 import com.juaracoding.fantastic4_rest_api.handler.ResponseHandler;
-import com.juaracoding.fantastic4_rest_api.model.Fasilitas;
-import com.juaracoding.fantastic4_rest_api.model.Menu;
-import com.juaracoding.fantastic4_rest_api.model.Ruangan;
+import com.juaracoding.fantastic4_rest_api.model.*;
 import com.juaracoding.fantastic4_rest_api.repo.RuanganRepo;
 import com.juaracoding.fantastic4_rest_api.utils.ExcelWriter;
 import com.juaracoding.fantastic4_rest_api.utils.GlobalFunction;
@@ -27,13 +25,13 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import com.juaracoding.fantastic4_rest_api.model.Pesan;
 import com.juaracoding.fantastic4_rest_api.repo.PesanRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.sql.Time;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
@@ -216,6 +214,39 @@ public class PesanService implements IService<Pesan>, IReport<Pesan> {
             return GlobalResponse.dataDitemukan(data, request);
         }
         return GlobalResponse.dataDitemukan(listDTO, request);
+    }
+
+    public ResponseEntity<Object> saveSimplePesan(
+            User user,
+            Ruangan ruangan,
+            LocalDate tanggalPemesanan,
+            LocalDate tanggalPertemuan,
+            Time mulai,
+            Time berakhir,
+            String status,
+            String createdBy,
+            String namaPertemuan,
+            HttpServletRequest request) {
+
+
+        Pesan pesan = new Pesan();
+        pesan.setUser(user);
+        pesan.setRuangan(ruangan);
+        pesan.setNamaPertemuan(namaPertemuan);
+        pesan.setTanggalPemesanan(tanggalPemesanan);
+        pesan.setTanggalPertemuan(tanggalPertemuan);
+        pesan.setMulai(mulai);
+        pesan.setBerakhir(berakhir);
+        pesan.setStatus(status);
+        pesan.setCreatedBy(createdBy);
+
+        long millis = berakhir.getTime() - mulai.getTime();
+        BigDecimal durasi = BigDecimal.valueOf(millis / (1000.0 * 60 * 60)).setScale(1, BigDecimal.ROUND_HALF_UP);
+        pesan.setDurasi(durasi);
+        // Set namaPertemuan and durasi if needed
+        // pesan.setNamaPertemuan(...);
+
+        return save(pesan, request);
     }
 
     public ResponseEntity<Object> searchAvailableRooms(Short kapasitas, Time mulai, Time berakhir, HttpServletRequest request) {

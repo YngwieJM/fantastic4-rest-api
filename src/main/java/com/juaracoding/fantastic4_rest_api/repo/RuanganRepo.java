@@ -25,6 +25,8 @@ public interface RuanganRepo extends JpaRepository<Ruangan, String> {
     public List<Ruangan> findByLokasiContainsIgnoreCase(String lokasi);
     public List<Ruangan> findByMinKapasitas(Short minKapasitas);
     public List<Ruangan> findByMaxKapasitas(Short maxKapasitas);
+    @Query("SELECT r FROM Ruangan r WHERE r.id = ?1")
+    List<Ruangan> findByIdRuangan(String id);
 
     // In RuanganRepo.java
     @Query(value = "SELECT * FROM corez.MstRuangan r WHERE r.MinKapasitas <= :kapasitas AND r.MaxKapasitas >= :kapasitas " +

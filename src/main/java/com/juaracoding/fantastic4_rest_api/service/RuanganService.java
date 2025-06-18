@@ -228,4 +228,8 @@ public class RuanganService implements IService<Ruangan>{
 
     public ResRuanganDTO mapToDTO(Ruangan ruangan){
         return modelMapper.map(ruangan,ResRuanganDTO.class);}
+
+    public  List<Ruangan>findByRuanganId(String id){
+        return ruanganRepo.findByIdRuangan(id);
     }
+}

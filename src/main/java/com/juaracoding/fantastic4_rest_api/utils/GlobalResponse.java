@@ -39,6 +39,10 @@ public class GlobalResponse {
         return new ResponseHandler().handleResponse("TERJADI KESALAHAN", HttpStatus.INTERNAL_SERVER_ERROR,null,errorCode,request);
     }
 
+    public static ResponseEntity<Object> ruanganTidakDitemukan(String errorCode, HttpServletRequest request){
+        return new ResponseHandler().handleResponse("Ruangan Tidak Ditemukan", HttpStatus.NO_CONTENT, null, null, request);
+    }
+
     public static ResponseEntity<Object> dataDitemukan(Object data,HttpServletRequest request){
         return new ResponseHandler().handleResponse("DATA DITEMUKAN", HttpStatus.OK,data,null,request);
     }

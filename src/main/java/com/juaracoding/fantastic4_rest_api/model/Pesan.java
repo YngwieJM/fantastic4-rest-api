@@ -11,7 +11,9 @@ import java.time.LocalDateTime;
 @Entity
 @Table(name = "TxnPesan")
 public class Pesan {
+
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "PesanID", length = 50, nullable = false, unique = true)
     private Long id;
 

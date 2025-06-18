@@ -120,5 +120,5 @@ INSERT INTO [corez].[MstUser] ([IsRegistered], [CreatedBy], [CreatedDate], [IDAk
 INSERT INTO [corez].[MstUser] ([IsRegistered], [CreatedBy], [CreatedDate], [IDAkses], [ModifiedBy], [ModifiedDate], [Email], [Nama], [Username], [NoTelp], [UserID], [OTP], [Password], [TokenEstafet], [Departemen], [Jabatan]) VALUES (N'1', N'1', N'2025-05-27 01:16:04.000000', N'1', NULL, NULL, N'yngwie@gmail.com', N'yngwie', N'JYW33', N'+62812342781', N'Yng1998', NULL, N'$2a$11$zlY6pD3keBkXNb4d65yeRuz4uMD1.21uGnhknxtEDXQUZvUIlgGGK', NULL, N'IT', N'Core')
 ;
 
-INSERT INTO [corez].[TxnPesan] ([Berakhir], [Durasi], [Mulai], [TanggalPertemuan], [CreatedBy], [ModifiedBy], [ModifiedDate], [PesanID], [TanggalPemesanan], [RuanganID], [Status], [UserID], [NamaPertemuan]) VALUES (N'15:00:00.0000000', N'2.0', N'13:00:00.0000000', N'2025-05-30', N'1', NULL, NULL, N'1', N'2025-05-28 12:17:40.000000', N'RM0201', N'pending', N'Yng1998', N'Pertemaun Pertama')
-;
+--INSERT INTO [corez].[TxnPesan] ([Berakhir], [Durasi], [Mulai], [TanggalPertemuan], [CreatedBy], [ModifiedBy], [ModifiedDate], [PesanID], [TanggalPemesanan], [RuanganID], [Status], [UserID], [NamaPertemuan]) VALUES (N'15:00:00.0000000', N'2.0', N'13:00:00.0000000', N'2025-05-30', N'1', NULL, NULL, N'1', N'2025-05-28 12:17:40.000000', N'RM0201', N'pending', N'Yng1998', N'Pertemaun Pertama')
+--;
