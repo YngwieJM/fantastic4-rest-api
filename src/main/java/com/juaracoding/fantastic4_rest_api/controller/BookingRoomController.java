@@ -4,9 +4,11 @@ package com.juaracoding.fantastic4_rest_api.controller;
 import com.juaracoding.fantastic4_rest_api.dto.report.RepSarchDTO;
 import com.juaracoding.fantastic4_rest_api.dto.validation.ValPesanDTO;
 import com.juaracoding.fantastic4_rest_api.model.Pesan;
+import com.juaracoding.fantastic4_rest_api.model.Ruangan;
 import com.juaracoding.fantastic4_rest_api.model.User;
 import com.juaracoding.fantastic4_rest_api.repo.UserRepo;
 import com.juaracoding.fantastic4_rest_api.service.PesanService;
+import com.juaracoding.fantastic4_rest_api.service.RuanganService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,7 +22,9 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.HandlerMapping;
 
 import java.security.Principal;
+import java.sql.Time;
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 
@@ -34,13 +38,15 @@ public class BookingRoomController {
     @Autowired
     private UserRepo userRepo;
 
+    private RuanganService ruanganService;
+
     @Qualifier("resourceHandlerMapping")
     @Autowired
     private HandlerMapping resourceHandlerMapping;
 
 
     @PostMapping
-    @PreAuthorize("hasAuthroity('Booking Room')")
+    @PreAuthorize("hasAuthority('Booking Room')")
     public ResponseEntity<Object> save(@Valid @RequestBody ValPesanDTO valPesanDTO,
                                        HttpServletRequest request,
                                        Principal principal) {
@@ -51,6 +57,8 @@ public class BookingRoomController {
         pesan.setUser(user); // Set the logged-in user
         return pesanService.save(pesan, request);
     }
+
+
 
 //    @GetMapping
 //    @PreAuthorize("hasAuthroity('Booking Room')")
@@ -86,6 +94,20 @@ public class BookingRoomController {
 //        }
 //        return column;
 //    }
+@GetMapping("/search")
+public ResponseEntity<Object> searchAvailableRooms(
+        @RequestParam("kapasitas") Short kapasitas,
+        @RequestParam("durasi") Integer durasi,
+        HttpServletRequest request) {
+
+    // Default start time (jam buka kantor 08:00:00)
+    LocalTime mulaiLocalTime = LocalTime.of(8, 0, 0);
+    LocalTime berakhirLocalTime = mulaiLocalTime.plusMinutes(durasi);
+    Time mulaiTime = Time.valueOf(mulaiLocalTime);
+    Time berakhirTime = Time.valueOf(berakhirLocalTime);
+
+    return pesanService.searchAvailableRooms(kapasitas, mulaiTime, berakhirTime, request);
+}
 
     private void data1(List<RepSarchDTO> data){
 //        data.add(new RepSarchDTO("R001","Ruang Meeting 1", LocalDate.now().format(DateTimeFormatter.ofPattern("dd MMM YYYY")),"13:00-14:00"));

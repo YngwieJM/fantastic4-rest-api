@@ -6,6 +6,7 @@ import com.juaracoding.fantastic4_rest_api.core.IReport;
 import com.juaracoding.fantastic4_rest_api.core.IService;
 import com.juaracoding.fantastic4_rest_api.dto.report.RepFasilitasDTO;
 import com.juaracoding.fantastic4_rest_api.dto.report.RepPesanDTO;
+import com.juaracoding.fantastic4_rest_api.dto.report.RepSarchDTO;
 import com.juaracoding.fantastic4_rest_api.dto.response.ResFasilitasDTO;
 import com.juaracoding.fantastic4_rest_api.dto.response.ResPesanDTO;
 import com.juaracoding.fantastic4_rest_api.dto.validation.ValFasilitasDTO;
@@ -13,6 +14,8 @@ import com.juaracoding.fantastic4_rest_api.dto.validation.ValPesanDTO;
 import com.juaracoding.fantastic4_rest_api.handler.ResponseHandler;
 import com.juaracoding.fantastic4_rest_api.model.Fasilitas;
 import com.juaracoding.fantastic4_rest_api.model.Menu;
+import com.juaracoding.fantastic4_rest_api.model.Ruangan;
+import com.juaracoding.fantastic4_rest_api.repo.RuanganRepo;
 import com.juaracoding.fantastic4_rest_api.utils.ExcelWriter;
 import com.juaracoding.fantastic4_rest_api.utils.GlobalFunction;
 import com.juaracoding.fantastic4_rest_api.utils.GlobalResponse;
@@ -43,6 +46,9 @@ public class PesanService implements IService<Pesan>, IReport<Pesan> {
 
     @Autowired
     private PesanRepo pesanRepo;
+
+    @Autowired
+    private RuanganRepo ruanganRepo;
 
     @Autowired
     private ModelMapper modelMapper;
@@ -210,6 +216,38 @@ public class PesanService implements IService<Pesan>, IReport<Pesan> {
             return GlobalResponse.dataDitemukan(data, request);
         }
         return GlobalResponse.dataDitemukan(listDTO, request);
+    }
+
+    public ResponseEntity<Object> searchAvailableRooms(Short kapasitas, Time mulai, Time berakhir, HttpServletRequest request) {
+        try {
+            // Step 1: Get all rooms matching capacity
+            List<Ruangan> rooms = ruanganRepo.findAll().stream()
+                    .filter(r -> r.getMinKapasitas() <= kapasitas && r.getMaxKapasitas() >= kapasitas)
+                    .toList();
+
+            List<Ruangan> availableRooms = new ArrayList<>();
+
+            for (Ruangan room : rooms) {
+                // Step 2: Get all bookings for this room
+                List<Pesan> bookings = pesanRepo.findByRuangan(room);
+
+                // Step 3: Check for time overlap
+                boolean isAvailable = bookings.stream().noneMatch(pesan ->
+                        mulai.before(pesan.getBerakhir()) && berakhir.after(pesan.getMulai())
+                );
+
+                if (isAvailable) {
+                    availableRooms.add(room);
+                }
+            }
+
+            if (availableRooms.isEmpty()) {
+                return GlobalResponse.dataTidakDitemukan("PES_SEARCH01", request);
+            }
+            return GlobalResponse.dataDitemukan(availableRooms, request);
+        } catch (Exception e) {
+            return GlobalResponse.terjadiKesalahan("PES_SEARCH02", request);
+        }
     }
 
     public ResponseEntity<Object> findPesananUser(String idUser, HttpServletRequest request){

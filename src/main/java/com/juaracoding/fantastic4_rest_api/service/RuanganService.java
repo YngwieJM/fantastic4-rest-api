@@ -4,7 +4,6 @@ import com.juaracoding.fantastic4_rest_api.config.OtherConfig;
 import com.juaracoding.fantastic4_rest_api.core.IService;
 import com.juaracoding.fantastic4_rest_api.dto.report.RepRuanganDTO;
 import com.juaracoding.fantastic4_rest_api.dto.response.ResRuanganDTO;
-import com.juaracoding.fantastic4_rest_api.dto.validation.ValFasilitasDTO;
 import com.juaracoding.fantastic4_rest_api.dto.validation.ValRuanganDTO;
 import com.juaracoding.fantastic4_rest_api.handler.ResponseHandler;
 import com.juaracoding.fantastic4_rest_api.model.Fasilitas;
@@ -52,23 +51,25 @@ public class RuanganService implements IService<Ruangan>{
     private StringBuilder sBuilder = new StringBuilder();
 
     @Override
-    public ResponseEntity<Object> save(Ruangan ruangan, HttpServletRequest request) {
-        try {
-            if (ruangan == null) {
-                return new ResponseHandler().handleResponse("Object Null !!", HttpStatus.BAD_REQUEST, null, "OBJECT NULL", request
-                );
-            }ruangan.setCreatedBy(1L);
+    public ResponseEntity<Object> save(Ruangan ruangan, HttpServletRequest request){ //01-10
+        Map<String,Object> m = GlobalFunction.extractToken(request);
+        try{
+            if(ruangan == null){
+                return new ResponseHandler().handleResponse("OBJECT NULL !!", HttpStatus.BAD_REQUEST,null,"OBJECT_NULL",request);
+            }
+            ruangan.setCreatedBy(1L); // Assuming 1L is the ID of the user creating the record
             ruangan.setCreatedDate(LocalDateTime.now());
             ruanganRepo.save(ruangan);
 
         } catch (Exception e) {
-            return GlobalResponse.dataGagalDisimpan("AUT05FE001", request);
+            return GlobalResponse.dataGagalDisimpan("FAC001", request);
         }
         return GlobalResponse.dataBerhasilDisimpan(request);
     }
 
     @Override
     public ResponseEntity<Object> update(String id, Ruangan ruangan, HttpServletRequest request) {
+        Map<String,Object> m = GlobalFunction.extractToken(request);
         try {
             if (id == null) {
                 return new ResponseHandler().handleResponse("Id NULL !!", HttpStatus.BAD_REQUEST,null,"ID_NULL",request);
@@ -95,6 +96,7 @@ public class RuanganService implements IService<Ruangan>{
 
     @Override
     public ResponseEntity<Object> delete(String id, HttpServletRequest request) {
+        Map<String,Object> m = GlobalFunction.extractToken(request);
         try {
             if (id==null) {
                 return GlobalResponse.objectIsNull("AUT05FV021", request);
