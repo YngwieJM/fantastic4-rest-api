@@ -216,6 +216,46 @@ public class PesanService implements IService<Pesan>, IReport<Pesan> {
         return GlobalResponse.dataDitemukan(listDTO, request);
     }
 
+    public ResponseEntity<Object> findByUserId(String idUser, Pageable pageable, HttpServletRequest request) {
+        Page<Pesan> page = null;
+        List<RepPesanDTO> listDTO = null;
+        Map<String, Object> data = null;
+
+        try {
+            if (idUser == null || idUser.isEmpty()) {
+                return GlobalResponse.objectIsNull("PES51", request);
+            }
+            page = pesanRepo.cariUser(idUser, pageable);
+            if (page.isEmpty()) {
+                return GlobalResponse.dataTidakDitemukan("PES52", request);
+            }
+            listDTO = mapToDTO(page.getContent());
+            data = tp.transformPagination(listDTO, page, "id", idUser);
+        } catch (Exception e) {
+            return GlobalResponse.terjadiKesalahan("PES53", request);
+        }
+        return GlobalResponse.dataDitemukan(listDTO, request);
+    }
+
+    public ResponseEntity<Object> updateStatus(String id, String status, HttpServletRequest request) {
+        try {
+            if (id == null || status == null) {
+                return new ResponseHandler().handleResponse("ID or status is null!", HttpStatus.BAD_REQUEST, null, "PES91", request);
+            }
+            Optional<Pesan> opPesan = pesanRepo.findById(Long.valueOf(id));
+            if (!opPesan.isPresent()) {
+                return GlobalResponse.dataTidakDitemukan("PES92", request);
+            }
+            Pesan pesan = opPesan.get();
+            pesan.setStatus(status);
+            pesan.setModifiedDate(LocalDateTime.now());
+            pesanRepo.save(pesan);
+        } catch (Exception e) {
+            return GlobalResponse.dataGagalDiubah("PES93", request);
+        }
+        return GlobalResponse.dataBerhasilDiubah(request);
+    }
+
     public ResponseEntity<Object> saveSimplePesan(
             User user,
             Ruangan ruangan,

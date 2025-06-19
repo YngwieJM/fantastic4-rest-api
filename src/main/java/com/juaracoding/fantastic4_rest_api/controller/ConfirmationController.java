@@ -3,7 +3,6 @@ package com.juaracoding.fantastic4_rest_api.controller;
 
 import com.juaracoding.fantastic4_rest_api.config.OtherConfig;
 import com.juaracoding.fantastic4_rest_api.service.PesanService;
-import com.juaracoding.fantastic4_rest_api.service.UserService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,8 +14,8 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("list-booking-room")
-public class ListBookingRoomController {
+@RequestMapping("confirmation")
+public class ConfirmationController {
 
 
     @Autowired
@@ -37,6 +36,23 @@ public class ListBookingRoomController {
         return pesanService.findById(id, request);
     }
 
+    @GetMapping("/{id}/user")
+    @PreAuthorize("hasAuthority('List Booking Room')")
+    public ResponseEntity<Object> findByUserId(
+            @PathVariable String id,
+            HttpServletRequest request) {
+        Pageable pageable = PageRequest.of(0, OtherConfig.getDefaultPaginationSize(), Sort.by("id"));
+        return pesanService.findByUserId(id, pageable, request);
+    }
+
+    @PutMapping("/{id}/status")
+    @PreAuthorize("hasAuthority('List Booking Room')")
+    public ResponseEntity<Object> updateStatus(
+            @PathVariable String id,
+            @RequestParam String status,
+            HttpServletRequest request) {
+        return pesanService.updateStatus(id, status, request);
+    }
 
     @GetMapping("/download-excel")
     @PreAuthorize("hasAuthority('List Booking Room')")
