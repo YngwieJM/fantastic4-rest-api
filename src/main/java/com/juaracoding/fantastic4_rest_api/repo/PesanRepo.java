@@ -49,4 +49,6 @@ public interface PesanRepo extends  JpaRepository<Pesan, Long> {
     List<Pesan> findByRuangan(Ruangan ruangan);
 
     Optional<Pesan> findTop1ByOrderByIdDesc();
+    boolean existsByRuanganAndTanggalPertemuanAndMulaiAndBerakhir(
+            Ruangan ruangan, LocalDate tanggalPertemuan, Time mulai, Time berakhir);
 }

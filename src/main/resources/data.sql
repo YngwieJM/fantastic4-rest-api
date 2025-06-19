@@ -41,12 +41,8 @@ ALTER TABLE [corez].[MapAksesMenu] SET (LOCK_ESCALATION = TABLE)
 ALTER TABLE [corez].[MapAksesMenu] SET (LOCK_ESCALATION = TABLE)
 ;
 
-
-INSERT INTO [corez].[MstRuangan] ([MaxKapasitas], [MinKapasitas], [CreatedBy], [CreatedDate], [ModifiedBy], [ModifiedDate], [Lokasi], [NamaRuangan], [RuanganID]) VALUES (N'10', N'20', N'1', N'2025-05-29 16:33:22.000000', NULL, NULL, N'2', N'RuangS', N'RM0201')
-;
-
-INSERT INTO [corez].[MstFasilitas] ([Jumlah], [CreatedBy], [CreatedDate], [ModifiedBy], [ModifiedDate], [FasilitasID], [NamaFasilitas], [RuanganID]) VALUES (N'10', N'1', N'2025-05-29 16:34:16.000000', NULL, NULL, N'FS1', N'Kursi', N'RM0201')
-;
+--INSERT INTO [corez].[MstFasilitas] ([Jumlah], [CreatedBy], [CreatedDate], [ModifiedBy], [ModifiedDate], [FasilitasID], [NamaFasilitas], [RuanganID]) VALUES (N'10', N'1', N'2025-05-29 16:34:16.000000', NULL, NULL, N'FS1', N'Kursi', N'RM0201')
+--;
 
 INSERT INTO [corez].[MstAkses] ([CreatedBy], [CreatedDate], [ID], [ModifiedBy], [ModifiedDate], [Nama], [Deskripsi]) VALUES (N'1', N'2025-05-24 20:36:04.000000', N'1', NULL, NULL, N'Admin', N'Administrator')
 ;
@@ -119,6 +115,61 @@ INSERT INTO [corez].[MstUser] ([IsRegistered], [CreatedBy], [CreatedDate], [IDAk
 
 INSERT INTO [corez].[MstUser] ([IsRegistered], [CreatedBy], [CreatedDate], [IDAkses], [ModifiedBy], [ModifiedDate], [Email], [Nama], [Username], [NoTelp], [UserID], [OTP], [Password], [TokenEstafet], [Departemen], [Jabatan]) VALUES (N'1', N'1', N'2025-05-27 01:16:04.000000', N'1', NULL, NULL, N'yngwie@gmail.com', N'yngwie', N'JYW33', N'+62812342781', N'Yng1998', NULL, N'$2a$11$zlY6pD3keBkXNb4d65yeRuz4uMD1.21uGnhknxtEDXQUZvUIlgGGK', NULL, N'IT', N'Core')
 ;
+
+INSERT INTO [corez].[MstRuangan] ([MaxKapasitas], [MinKapasitas], [CreatedBy], [CreatedDate], [ModifiedBy], [ModifiedDate], [Lokasi], [NamaRuangan], [RuanganID]) VALUES (N'10', N'1', N'1', N'2025-05-29 16:33:22.000000', NULL, NULL, N'Lantai 1', N'Ruang Meeting 1', N'R001')
+;
+
+INSERT INTO [corez].[MstRuangan] ([MaxKapasitas], [MinKapasitas], [CreatedBy], [CreatedDate], [ModifiedBy], [ModifiedDate], [Lokasi], [NamaRuangan], [RuanganID]) VALUES (N'10', N'5', N'1', N'2025-05-29 16:33:22.000000', NULL, NULL, N'Lantai 2', N'Ruang Meeting 2', N'R002')
+;
+
+INSERT INTO [corez].[MstRuangan] ([MaxKapasitas], [MinKapasitas], [CreatedBy], [CreatedDate], [ModifiedBy], [ModifiedDate], [Lokasi], [NamaRuangan], [RuanganID]) VALUES (N'50', N'10', N'1', N'2025-05-29 16:33:22.000000', NULL, NULL, N'Lantai 3', N'Ruang Meeting 3', N'R003')
+;
+
+INSERT INTO [corez].[MstRuangan] ([MaxKapasitas], [MinKapasitas], [CreatedBy], [CreatedDate], [ModifiedBy], [ModifiedDate], [Lokasi], [NamaRuangan], [RuanganID]) VALUES (N'50', N'1', N'1', N'2025-05-29 16:33:22.000000', NULL, NULL, N'Lantai 4', N'Ruang Meeting 4', N'R004')
+;
+
+INSERT INTO [corez].[MstFasilitas] ([Jumlah], [CreatedBy], [CreatedDate], [ModifiedBy], [ModifiedDate], [FasilitasID], [NamaFasilitas], [RuanganID]) VALUES (N'10', N'1', N'2025-05-29 16:33:22.000000', NULL, NULL, N'F0001', N'Kursi', N'R001')
+;
+
+INSERT INTO [corez].[MstFasilitas] ([Jumlah], [CreatedBy], [CreatedDate], [ModifiedBy], [ModifiedDate], [FasilitasID], [NamaFasilitas], [RuanganID]) VALUES (N'1', N'1', N'2025-05-29 16:33:22.000000', NULL, NULL, N'F0002', N'Proyektor LCD', N'R001')
+;
+
+INSERT INTO [corez].[MstFasilitas] ([Jumlah], [CreatedBy], [CreatedDate], [ModifiedBy], [ModifiedDate], [FasilitasID], [NamaFasilitas], [RuanganID]) VALUES (N'1', N'1', N'2025-05-29 16:33:22.000000', NULL, NULL, N'F0003', N'Papan Tulis', N'R001')
+;
+
+INSERT INTO [corez].[MstFasilitas] ([Jumlah], [CreatedBy], [CreatedDate], [ModifiedBy], [ModifiedDate], [FasilitasID], [NamaFasilitas], [RuanganID]) VALUES (N'10', N'1', N'2025-05-29 16:33:22.000000', NULL, NULL, N'F0004', N'Kursi', N'R002')
+;
+
+INSERT INTO [corez].[MstFasilitas] ([Jumlah], [CreatedBy], [CreatedDate], [ModifiedBy], [ModifiedDate], [FasilitasID], [NamaFasilitas], [RuanganID]) VALUES (N'1', N'1', N'2025-05-29 16:33:22.000000', NULL, NULL, N'F0005', N'Proyektor LCD', N'R002')
+;
+
+INSERT INTO [corez].[MstFasilitas] ([Jumlah], [CreatedBy], [CreatedDate], [ModifiedBy], [ModifiedDate], [FasilitasID], [NamaFasilitas], [RuanganID]) VALUES (N'1', N'1', N'2025-05-29 16:33:22.000000', NULL, NULL, N'F0006', N'Papan Tulis', N'R002')
+;
+
+INSERT INTO [corez].[MstFasilitas] ([Jumlah], [CreatedBy], [CreatedDate], [ModifiedBy], [ModifiedDate], [FasilitasID], [NamaFasilitas], [RuanganID]) VALUES (N'50', N'1', N'2025-05-29 16:33:22.000000', NULL, NULL, N'F0007', N'Kursi', N'R003')
+;
+
+INSERT INTO [corez].[MstFasilitas] ([Jumlah], [CreatedBy], [CreatedDate], [ModifiedBy], [ModifiedDate], [FasilitasID], [NamaFasilitas], [RuanganID]) VALUES (N'2', N'1', N'2025-05-29 16:33:22.000000', NULL, NULL, N'F0008', N'Proyektor LCD', N'R003')
+;
+
+INSERT INTO [corez].[MstFasilitas] ([Jumlah], [CreatedBy], [CreatedDate], [ModifiedBy], [ModifiedDate], [FasilitasID], [NamaFasilitas], [RuanganID]) VALUES (N'2', N'1', N'2025-05-29 16:33:22.000000', NULL, NULL, N'F0009', N'Papan Tulis', N'R003')
+;
+
+INSERT INTO [corez].[MstFasilitas] ([Jumlah], [CreatedBy], [CreatedDate], [ModifiedBy], [ModifiedDate], [FasilitasID], [NamaFasilitas], [RuanganID]) VALUES (N'50', N'1', N'2025-05-29 16:33:22.000000', NULL, NULL, N'F0010', N'Kursi', N'R003')
+;
+
+INSERT INTO [corez].[MstFasilitas] ([Jumlah], [CreatedBy], [CreatedDate], [ModifiedBy], [ModifiedDate], [FasilitasID], [NamaFasilitas], [RuanganID]) VALUES (N'2', N'1', N'2025-05-29 16:33:22.000000', NULL, NULL, N'F0011', N'Proyektor LCD', N'R004')
+;
+
+SET IDENTITY_INSERT [corez].[TxnPesan] ON;
+
+INSERT INTO [corez].[TxnPesan] ([Berakhir], [Durasi], [Mulai], [TanggalPemesanan], [TanggalPertemuan], [ModifiedDate], [PesanID], [RuanganID], [Status], [UserID], [NamaPertemuan], [CreatedBy], [ModifiedBy]) VALUES (N'14:00:00.0000000', N'1.0', N'13:00:00.0000000', N'2025-06-20', N'2025-06-21', NULL, N'1', N'R001', N'Booked', N'Yng1998', N'Pertemuan 1', N'1', NULL)
+;
+
+INSERT INTO [corez].[TxnPesan] ([Berakhir], [Durasi], [Mulai], [TanggalPemesanan], [TanggalPertemuan], [ModifiedDate], [PesanID], [RuanganID], [Status], [UserID], [NamaPertemuan], [CreatedBy], [ModifiedBy]) VALUES (N'15:00:00.0000000', N'1.0', N'14:00:00.0000000', N'2025-06-20', N'2025-06-21', NULL, N'2', N'R002', N'Booked', N'paul.cumi', N'Pertemuan 2', N'1', NULL)
+;
+
+SET IDENTITY_INSERT [corez].[TxnPesan] OFF;
 
 --INSERT INTO [corez].[TxnPesan] ([Berakhir], [Durasi], [Mulai], [TanggalPertemuan], [CreatedBy], [ModifiedBy], [ModifiedDate], [PesanID], [TanggalPemesanan], [RuanganID], [Status], [UserID], [NamaPertemuan]) VALUES (N'15:00:00.0000000', N'2.0', N'13:00:00.0000000', N'2025-05-30', N'1', NULL, NULL, N'1', N'2025-05-28 12:17:40.000000', N'RM0201', N'pending', N'Yng1998', N'Pertemaun Pertama')
 --;

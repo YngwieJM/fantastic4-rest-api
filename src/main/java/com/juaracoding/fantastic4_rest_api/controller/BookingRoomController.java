@@ -124,10 +124,12 @@ public ResponseEntity<Object> searchAvailableRooms(
         List<RepSarchDTO> data = new java.util.ArrayList<>();
         if (kapasitas <= 10 && durasi == 1) {
             data1(data);
-        } else if (kapasitas <= 20 && durasi == 1) {
+        } else if (kapasitas >= 10 && kapasitas <=50 && durasi == 1) {
             data2(data);
         } else if(kapasitas <= 10 && durasi == 2){
             data3(data);
+        } else if (kapasitas >= 10 && kapasitas <=50 && durasi == 2) {
+            data4(data);
         } else {
             return GlobalResponse.ruanganTidakDitemukan("Ruangan Tidak Ditemukan",request);
         }
@@ -185,7 +187,7 @@ public ResponseEntity<Object> searchAvailableRooms(
         data.add(new RepSarchDTO("R001","Ruang Meeting 1", LocalDate.now().format(DateTimeFormatter.ofPattern("dd MMM YYYY")),"16:00-17:00"));
 
         data.add(new RepSarchDTO("R002","Ruang Meeting 2", LocalDate.now().format(DateTimeFormatter.ofPattern("dd MMM YYYY")),"13:00-14:00"));
-        data.add(new RepSarchDTO("R002","Ruang Meeting 2", LocalDate.now().format(DateTimeFormatter.ofPattern("dd MMM YYYY")),"14:00-15:00"));
+//        data.add(new RepSarchDTO("R002","Ruang Meeting 2", LocalDate.now().format(DateTimeFormatter.ofPattern("dd MMM YYYY")),"14:00-15:00"));
         data.add(new RepSarchDTO("R002","Ruang Meeting 2", LocalDate.now().format(DateTimeFormatter.ofPattern("dd MMM YYYY")),"15:00-16:00"));
         data.add(new RepSarchDTO("R002","Ruang Meeting 2", LocalDate.now().format(DateTimeFormatter.ofPattern("dd MMM YYYY")),"16:00-17:00"));
 
@@ -246,5 +248,24 @@ public ResponseEntity<Object> searchAvailableRooms(
         data.add(new RepSarchDTO("R002" ,"Ruang Meeting 2", LocalDate.now().plusDays(1).format(DateTimeFormatter.ofPattern("dd MMM YYYY")),"10:00-12:00"));
         data.add(new RepSarchDTO("R002" ,"Ruang Meeting 2", LocalDate.now().plusDays(1).format(DateTimeFormatter.ofPattern("dd MMM YYYY")),"13:00-15:00"));
         data.add(new RepSarchDTO("R002" ,"Ruang Meeting 2", LocalDate.now().plusDays(1).format(DateTimeFormatter.ofPattern("dd MMM YYYY")),"15:00-17:00"));
+    }
+
+
+    private void data4(List<RepSarchDTO> data){
+        data.add(new RepSarchDTO("R003","Ruang Meeting 1", LocalDate.now().format(DateTimeFormatter.ofPattern("dd MMM YYYY")),"13:00-15:00"));
+        data.add(new RepSarchDTO("R003","Ruang Meeting 1", LocalDate.now().format(DateTimeFormatter.ofPattern("dd MMM YYYY")),"15:00-17:00"));
+
+        data.add(new RepSarchDTO("R004","Ruang Meeting 2", LocalDate.now().format(DateTimeFormatter.ofPattern("dd MMM YYYY")),"13:00-15:00"));
+        data.add(new RepSarchDTO("R004","Ruang Meeting 2", LocalDate.now().format(DateTimeFormatter.ofPattern("dd MMM YYYY")),"15:00-17:00"));
+
+        data.add(new RepSarchDTO("R003","Ruang Meeting 1", LocalDate.now().plusDays(1).format(DateTimeFormatter.ofPattern("dd MMM YYYY")),"08:00-10:00"));
+        data.add(new RepSarchDTO("R003","Ruang Meeting 1", LocalDate.now().plusDays(1).format(DateTimeFormatter.ofPattern("dd MMM YYYY")),"10:00-12:00"));
+        data.add(new RepSarchDTO("R003","Ruang Meeting 1", LocalDate.now().plusDays(1).format(DateTimeFormatter.ofPattern("dd MMM YYYY")),"13:00-15:00"));
+        data.add(new RepSarchDTO("R003","Ruang Meeting 1", LocalDate.now().plusDays(1).format(DateTimeFormatter.ofPattern("dd MMM YYYY")),"15:00-17:00"));
+
+        data.add(new RepSarchDTO("R004" ,"Ruang Meeting 2", LocalDate.now().plusDays(1).format(DateTimeFormatter.ofPattern("dd MMM YYYY")),"08:00-10:00"));
+        data.add(new RepSarchDTO("R004" ,"Ruang Meeting 2", LocalDate.now().plusDays(1).format(DateTimeFormatter.ofPattern("dd MMM YYYY")),"10:00-12:00"));
+        data.add(new RepSarchDTO("R004" ,"Ruang Meeting 2", LocalDate.now().plusDays(1).format(DateTimeFormatter.ofPattern("dd MMM YYYY")),"13:00-15:00"));
+        data.add(new RepSarchDTO("R004" ,"Ruang Meeting 2", LocalDate.now().plusDays(1).format(DateTimeFormatter.ofPattern("dd MMM YYYY")),"15:00-17:00"));
     }
 }

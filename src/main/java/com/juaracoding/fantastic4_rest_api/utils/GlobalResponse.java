@@ -31,6 +31,7 @@ public class GlobalResponse {
         return new ResponseHandler().handleResponse("DATA GAGAL DIUBAH", HttpStatus.INTERNAL_SERVER_ERROR,null,errorCode,request);
     }
 
+
     public static ResponseEntity<Object> dataGagalDihapus(String errorCode , HttpServletRequest request){
         return new ResponseHandler().handleResponse("DATA GAGAL DIHAPUS", HttpStatus.INTERNAL_SERVER_ERROR,null,errorCode,request);
     }
