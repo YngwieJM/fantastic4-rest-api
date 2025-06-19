@@ -242,7 +242,7 @@ public class PesanService implements IService<Pesan>, IReport<Pesan> {
             if (id == null || status == null) {
                 return new ResponseHandler().handleResponse("ID or status is null!", HttpStatus.BAD_REQUEST, null, "PES91", request);
             }
-            Optional<Pesan> opPesan = pesanRepo.findById(Long.valueOf(id));
+            Optional<Pesan> opPesan = pesanRepo.cariUser(id);
             if (!opPesan.isPresent()) {
                 return GlobalResponse.dataTidakDitemukan("PES92", request);
             }
