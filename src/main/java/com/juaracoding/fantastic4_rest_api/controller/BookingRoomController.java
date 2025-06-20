@@ -100,17 +100,22 @@ public class BookingRoomController {
 @GetMapping("/search")
 @PreAuthorize("hasAuthority('Booking Room')")
 public ResponseEntity<Object> searchAvailableRooms(
-        @RequestParam("kapasitas") Short kapasitas,
+        @RequestParam("jumlah-peserta") Short kapasitas,
         @RequestParam("durasi") Integer durasi,
+        @RequestParam("nama-pertemuan") String namaPertemuan,
         HttpServletRequest request) {
 
-    // Default start time (jam buka kantor 08:00:00)
+    if (durasi == null || (durasi != 1 && durasi != 2 && durasi != 3)) {
+        return ResponseEntity.badRequest().body("Durasi hanya 1, 2, atau 3 jam.");
+    }
+
     LocalTime mulaiLocalTime = LocalTime.of(8, 0, 0);
-    LocalTime berakhirLocalTime = mulaiLocalTime.plusMinutes(durasi);
+    LocalTime berakhirLocalTime = mulaiLocalTime.plusHours(durasi);
     Time mulaiTime = Time.valueOf(mulaiLocalTime);
     Time berakhirTime = Time.valueOf(berakhirLocalTime);
 
-    return pesanService.searchAvailableRooms(kapasitas, mulaiTime, berakhirTime, request);
+
+    return pesanService.searchAvailableRooms(kapasitas, mulaiTime, berakhirTime, namaPertemuan, request);
 }
 
     @GetMapping("/search-manual")
@@ -171,7 +176,7 @@ public ResponseEntity<Object> searchAvailableRooms(
                 tanggalPertemuan,
                 mulai,
                 berakhir,
-                "Pending",
+                "Booked",
                 username,
                 namaPertemuan,
                 request

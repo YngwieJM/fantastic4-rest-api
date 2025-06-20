@@ -132,7 +132,7 @@ public class AuthService implements UserDetailsService {
         User userNext = null;
         try{
             String username = user.getUsername();
-            Optional<User> opUser = userRepo.findByUsernameOrEmailOrNoTelp(username,username,username);
+            Optional<User> opUser = userRepo.findByIdOrUsernameOrEmailOrNoTelp(username, username, username, username);
             if(!opUser.isPresent()) {
                 return new ResponseHandler().handleResponse("User Tidak Ditemukan",HttpStatus.BAD_REQUEST,null,"AUT00FV021",request);
             }
@@ -171,7 +171,7 @@ public class AuthService implements UserDetailsService {
         User userNext = null;
         try{
             String username = user.getUsername();
-            Optional<User> opUser = userRepo.findByUsernameOrEmailOrNoTelpAndIsRegistered(username,username,username,true);
+            Optional<User> opUser = userRepo.findByIdOrUsernameOrEmailOrNoTelpAndIsRegistered(username, username, username, username, true);
             if(!opUser.isPresent()) {
                 return new ResponseHandler().handleResponse("User Tidak Ditemukan",HttpStatus.BAD_REQUEST,null,"AUT00FV021",request);
             }

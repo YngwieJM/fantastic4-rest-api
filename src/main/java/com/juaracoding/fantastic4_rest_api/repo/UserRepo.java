@@ -13,12 +13,12 @@ public interface UserRepo extends JpaRepository<User, String> {
 
     Optional<User> findByEmail(String email);
     Optional<User> findByNoTelp(String noTelp);
-    Optional<User> findByUsernameOrEmailOrNoTelp(String username, String email, String noTelp);
+    Optional<User> findByIdOrUsernameOrEmailOrNoTelp(String id, String username, String email, String noTelp);
     Optional<User> findByUsernameAndIsRegistered(String username, Boolean valid);
     @Query("SELECT p FROM User p WHERE p.akses.id = ?1")
     Optional<User> cariAkses(String id);
     Optional<User> findByUsername(String username);
-    Optional<User> findByUsernameOrEmailOrNoTelpAndIsRegistered(String username, String email, String noTelp, Boolean valid);
+    Optional<User> findByIdOrUsernameOrEmailOrNoTelpAndIsRegistered(String id, String username, String email, String noTelp, Boolean valid);
 
     public Page<User> findByNamaContainsIgnoreCase(String nama, Pageable pageable);
     public Page<User> findByEmailContainsIgnoreCase(String email, Pageable pageable);

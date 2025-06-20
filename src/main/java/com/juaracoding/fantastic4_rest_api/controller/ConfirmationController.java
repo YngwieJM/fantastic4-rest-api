@@ -36,16 +36,16 @@ public class ConfirmationController {
         return pesanService.findById(id, request);
     }
 
-    @GetMapping("/{id}/user")
+    @GetMapping("/user")
     @PreAuthorize("hasAuthority('List Booking Room')")
     public ResponseEntity<Object> findByUserId(
-            @PathVariable String id,
+            @RequestParam("user-id") String id,
             HttpServletRequest request) {
         Pageable pageable = PageRequest.of(0, OtherConfig.getDefaultPaginationSize(), Sort.by("id"));
         return pesanService.findByUserId(id, pageable, request);
     }
 
-    @PutMapping("/{id}/status")
+    @PutMapping("/status/{id}")
     @PreAuthorize("hasAuthority('List Booking Room')")
     public ResponseEntity<Object> updateStatus(
             @PathVariable String id,

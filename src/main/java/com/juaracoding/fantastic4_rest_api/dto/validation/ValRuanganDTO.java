@@ -8,8 +8,8 @@ import jakarta.validation.constraints.Pattern;
 public class ValRuanganDTO {
 
     @NotNull
-    @Pattern(regexp = "^([A-Z0-9]{5,50})$",
-            message = "Masukan ID ruangan, ex: R1001")
+    @Pattern(regexp = "^([A-Z0-9]{4,50})$",
+            message = "Masukan ID ruangan, ex: R001")
     private String id;
 
     @NotNull

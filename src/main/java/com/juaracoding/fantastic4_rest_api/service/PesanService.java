@@ -9,6 +9,7 @@ import com.juaracoding.fantastic4_rest_api.dto.report.RepPesanDTO;
 import com.juaracoding.fantastic4_rest_api.dto.report.RepSarchDTO;
 import com.juaracoding.fantastic4_rest_api.dto.response.ResFasilitasDTO;
 import com.juaracoding.fantastic4_rest_api.dto.response.ResPesanDTO;
+import com.juaracoding.fantastic4_rest_api.dto.response.ResRuanganDTO;
 import com.juaracoding.fantastic4_rest_api.dto.validation.ValFasilitasDTO;
 import com.juaracoding.fantastic4_rest_api.dto.validation.ValPesanDTO;
 import com.juaracoding.fantastic4_rest_api.handler.ResponseHandler;
@@ -290,9 +291,8 @@ public class PesanService implements IService<Pesan>, IReport<Pesan> {
         return save(pesan, request);
     }
 
-    public ResponseEntity<Object> searchAvailableRooms(Short kapasitas, Time mulai, Time berakhir, HttpServletRequest request) {
+    public ResponseEntity<Object> searchAvailableRooms(Short kapasitas, Time mulai, Time berakhir, String namaPertemuan, HttpServletRequest request) {
         try {
-            // Step 1: Get all rooms matching capacity
             List<Ruangan> rooms = ruanganRepo.findAll().stream()
                     .filter(r -> r.getMinKapasitas() <= kapasitas && r.getMaxKapasitas() >= kapasitas)
                     .toList();
@@ -300,14 +300,10 @@ public class PesanService implements IService<Pesan>, IReport<Pesan> {
             List<Ruangan> availableRooms = new ArrayList<>();
 
             for (Ruangan room : rooms) {
-                // Step 2: Get all bookings for this room
                 List<Pesan> bookings = pesanRepo.findByRuangan(room);
-
-                // Step 3: Check for time overlap
                 boolean isAvailable = bookings.stream().noneMatch(pesan ->
                         mulai.before(pesan.getBerakhir()) && berakhir.after(pesan.getMulai())
                 );
-
                 if (isAvailable) {
                     availableRooms.add(room);
                 }
@@ -316,7 +312,19 @@ public class PesanService implements IService<Pesan>, IReport<Pesan> {
             if (availableRooms.isEmpty()) {
                 return GlobalResponse.dataTidakDitemukan("PES_SEARCH01", request);
             }
-            return GlobalResponse.dataDitemukan(availableRooms, request);
+
+            // Map to ResRuanganDTO
+            List<ResRuanganDTO> result = availableRooms.stream().map(room -> {
+                ResRuanganDTO dto = new ResRuanganDTO();
+                dto.setId(room.getId());
+                dto.setNamaRuangan(room.getNamaRuangan());
+                dto.setMinKapasitas(room.getMinKapasitas());
+                dto.setMaxKapasitas(room.getMaxKapasitas());
+                dto.setLokasi(room.getLokasi());
+                return dto;
+            }).toList();
+
+            return GlobalResponse.dataDitemukan(result, request);
         } catch (Exception e) {
             return GlobalResponse.terjadiKesalahan("PES_SEARCH02", request);
         }
