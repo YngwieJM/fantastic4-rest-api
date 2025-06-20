@@ -138,6 +138,10 @@ public class AuthService implements UserDetailsService {
             }
             userNext = opUser.get();//diambil dari DB
 
+            if (userNext.getRegistered() == null || !userNext.getRegistered()) {
+                return new ResponseHandler().handleResponse("User belum registrasi, registrasi lebih dahulu", HttpStatus.BAD_REQUEST, null, "AUT00FV023", request);
+            }
+
             String pwdDB = userNext.getUsername()+user.getPassword();
             if(!BcryptImpl.verifyHash(pwdDB,userNext.getPassword())) {
                 return new ResponseHandler().handleResponse("Username atau Password Salah !!",HttpStatus.BAD_REQUEST,null,"AUT00FV022",request);

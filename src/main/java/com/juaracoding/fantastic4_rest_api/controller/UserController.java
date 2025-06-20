@@ -30,6 +30,7 @@ public class UserController {
 
 
     @PostMapping
+    @PreAuthorize("hasAuthority('User')")
     public ResponseEntity<Object> save(@Valid @RequestBody ValUserDTO valUserDTO,
                                        HttpServletRequest request) {
         return userService.save(userService.mapToUser(valUserDTO), request);
@@ -51,18 +52,21 @@ public class UserController {
     }
 
     @GetMapping
+    @PreAuthorize("hasAuthority('User')")
     public ResponseEntity<Object> findAll(HttpServletRequest request) {
         Pageable pageable = PageRequest.of(0, OtherConfig.getDefaultPaginationSize(), Sort.by("id"));
         return userService.findAll(pageable, request);
     }
 
     @GetMapping("/{id}")
+    @PreAuthorize("hasAuthority('User')")
     public ResponseEntity<Object> findById(@PathVariable String id,
                                            HttpServletRequest request) {
         return userService.findById(id, request);
     }
 
     @GetMapping("/search/{sort}/{sort-by}/{page}")
+    @PreAuthorize("hasAuthority('User')")
     public ResponseEntity<Object> findByParam(@PathVariable String sort,
                                               @PathVariable("sort-by") String sortBy,
                                               @PathVariable Integer page,
