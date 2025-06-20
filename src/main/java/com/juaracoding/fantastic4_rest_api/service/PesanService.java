@@ -65,7 +65,7 @@ public class PesanService implements IService<Pesan>, IReport<Pesan> {
             }
 //            pesan.setCreatedBy(1L); // Assuming 1L is the ID of the user creating the record
             if(OtherConfig.getEnableAutomationTesting().isEmpty()) pesan.setTanggalPemesanan(LocalDate.now());
-            pesan.setStatus("pending");
+            pesan.setStatus("Booked");
             pesanRepo.save(pesan);// Assuming 1L is the ID of the user creating the record
         } catch (Exception e) {
             return GlobalResponse.dataGagalDisimpan("PES002", request);

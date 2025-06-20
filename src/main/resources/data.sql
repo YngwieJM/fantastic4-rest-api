@@ -110,6 +110,9 @@ INSERT INTO [corez].[MapAksesMenu] ([IDAkses], [IDMenu]) VALUES (N'2', N'6')
 INSERT INTO [corez].[MapAksesMenu] ([IDAkses], [IDMenu]) VALUES (N'2', N'7')
 ;
 
+INSERT INTO [corez].[MstUser] ([IsRegistered], [CreatedDate], [IDAkses], [ModifiedDate], [Username], [Email], [Nama], [NoTelp], [UserID], [OTP], [Password], [TokenEstafet], [Departemen], [Jabatan], [CreatedBy], [ModifiedBy]) VALUES (N'1', N'2025-05-27 01:16:04.000000', N'1', NULL, N'Admin', N'admin@gmail.com', N'Admin', N'+62812345678', N'Admin123', N'', N'$2a$11$sCbuyD61iIe/PrP0Rs4AkuyzLmJfcGaq4lNMOm8rCZD2SeCqb1cP.', NULL, N'Admin', N'Admin', N'Admin', NULL)
+;
+
 INSERT INTO [corez].[MstUser] ([IsRegistered], [CreatedBy], [CreatedDate], [IDAkses], [ModifiedBy], [ModifiedDate], [Email], [Nama], [Username], [NoTelp], [UserID], [OTP], [Password], [TokenEstafet], [Departemen], [Jabatan]) VALUES (N'1', N'1', N'2025-05-27 01:15:37.000000', N'1', NULL, NULL, N'cumi@gmail.com', N'cumi', N'Paul123', N'628239283', N'paul.cumi', NULL, N'Paul@321', NULL, N'CumiCumi', N'User')
 ;
 
