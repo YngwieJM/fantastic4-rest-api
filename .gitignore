@@ -31,3 +31,12 @@ build/
 
 ### VS Code ###
 .vscode/
+
+# local secret overrides
+src/main/resources/application-local.properties
+src/main/resources/jwt-local.properties
+src/main/resources/secrets.properties
+
+# optional local env files
+.env
+.env.*
